@@ -4,76 +4,76 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Swiss Poll International brand colors - Navy Blue primary, crisp whites, silver accents */
+  /* Opinary brand colors - Vibrant blues, teals, and purples */
   --background: oklch(0.99 0 0);
-  --foreground: oklch(0.2 0.02 250);
+  --foreground: oklch(0.15 0.02 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 250);
+  --card-foreground: oklch(0.15 0.02 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 250);
-  --primary: oklch(0.25 0.05 250); /* Navy Blue #003366 */
+  --popover-foreground: oklch(0.15 0.02 260);
+  --primary: oklch(0.55 0.18 250); /* Vibrant Blue #0066FF */
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.2 0.02 250);
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.55 0.01 250);
-  --accent: oklch(0.75 0.01 250); /* Silver/Gray accent */
-  --accent-foreground: oklch(0.2 0.02 250);
-  --destructive: oklch(0.55 0.18 25); /* Muted Red #D64541 */
+  --secondary: oklch(0.97 0.01 250);
+  --secondary-foreground: oklch(0.15 0.02 260);
+  --muted: oklch(0.97 0.01 250);
+  --muted-foreground: oklch(0.55 0.02 260);
+  --accent: oklch(0.6 0.15 200); /* Teal accent */
+  --accent-foreground: oklch(0.15 0.02 260);
+  --destructive: oklch(0.6 0.2 25); /* Coral Red #FF4757 */
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0 0);
-  --input: oklch(0.9 0 0);
-  --ring: oklch(0.25 0.05 250);
-  --chart-1: oklch(0.25 0.05 250);
-  --chart-2: oklch(0.55 0.18 25);
-  --chart-3: oklch(0.75 0.01 250);
-  --chart-4: oklch(0.45 0.08 220);
-  --chart-5: oklch(0.65 0.12 200);
-  --radius: 0.375rem;
+  --border: oklch(0.92 0.01 260);
+  --input: oklch(0.92 0.01 260);
+  --ring: oklch(0.55 0.18 250);
+  --chart-1: oklch(0.55 0.18 250); /* Primary Blue */
+  --chart-2: oklch(0.6 0.15 200); /* Teal */
+  --chart-3: oklch(0.65 0.16 300); /* Purple */
+  --chart-4: oklch(0.7 0.14 180); /* Green */
+  --chart-5: oklch(0.6 0.2 25); /* Coral */
+  --radius: 0.5rem;
   --sidebar: oklch(0.99 0 0);
-  --sidebar-foreground: oklch(0.2 0.02 250);
-  --sidebar-primary: oklch(0.25 0.05 250);
+  --sidebar-foreground: oklch(0.15 0.02 260);
+  --sidebar-primary: oklch(0.55 0.18 250);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: oklch(0.2 0.02 250);
-  --sidebar-border: oklch(0.9 0 0);
-  --sidebar-ring: oklch(0.25 0.05 250);
+  --sidebar-accent: oklch(0.97 0.01 250);
+  --sidebar-accent-foreground: oklch(0.15 0.02 260);
+  --sidebar-border: oklch(0.92 0.01 260);
+  --sidebar-ring: oklch(0.55 0.18 250);
   --font-suisse: "Suisse International", sans-serif;
 }
 
 .dark {
-  --background: oklch(0.15 0.01 250);
+  --background: oklch(0.12 0.02 260);
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.18 0.01 250);
+  --card: oklch(0.15 0.02 260);
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.18 0.01 250);
+  --popover: oklch(0.15 0.02 260);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.25 0.05 250);
-  --secondary: oklch(0.25 0.02 250);
+  --primary: oklch(0.65 0.18 250); /* Brighter blue for dark mode */
+  --primary-foreground: oklch(0.12 0.02 260);
+  --secondary: oklch(0.2 0.03 260);
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.25 0.02 250);
-  --muted-foreground: oklch(0.65 0.01 250);
-  --accent: oklch(0.35 0.02 250);
+  --muted: oklch(0.2 0.03 260);
+  --muted-foreground: oklch(0.7 0.02 260);
+  --accent: oklch(0.65 0.15 200); /* Teal */
   --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.45 0.15 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.25 0.02 250);
-  --input: oklch(0.25 0.02 250);
-  --ring: oklch(0.65 0.01 250);
-  --chart-1: oklch(0.55 0.15 250);
-  --chart-2: oklch(0.65 0.18 25);
-  --chart-3: oklch(0.75 0.01 250);
-  --chart-4: oklch(0.55 0.12 220);
-  --chart-5: oklch(0.65 0.12 200);
-  --sidebar: oklch(0.2 0.01 250);
+  --destructive: oklch(0.7 0.2 25);
+  --destructive-foreground: oklch(0.12 0.02 260);
+  --border: oklch(0.25 0.03 260);
+  --input: oklch(0.25 0.03 260);
+  --ring: oklch(0.65 0.18 250);
+  --chart-1: oklch(0.65 0.18 250);
+  --chart-2: oklch(0.65 0.15 200);
+  --chart-3: oklch(0.7 0.16 300);
+  --chart-4: oklch(0.75 0.14 180);
+  --chart-5: oklch(0.7 0.2 25);
+  --sidebar: oklch(0.15 0.02 260);
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.55 0.15 250);
+  --sidebar-primary: oklch(0.65 0.18 250);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.02 250);
+  --sidebar-accent: oklch(0.2 0.03 260);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.25 0.02 250);
-  --sidebar-ring: oklch(0.65 0.01 250);
+  --sidebar-border: oklch(0.25 0.03 260);
+  --sidebar-ring: oklch(0.65 0.18 250);
 }
 
 @theme inline {
