@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Download,
   Star,
+  X,
 } from "react-feather";
 import Image from "next/image";
 import React from "react";
@@ -135,6 +136,49 @@ const INSIGHTS = [
   },
 ] as const;
 
+// PDF Modal Component
+const PdfModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+      <div className="relative w-full h-full max-w-6xl max-h-[90vh] mx-4 bg-white rounded-lg shadow-2xl">
+        <Button
+          onClick={onClose}
+          className="absolute -top-12 right-0 z-10 text-white hover:text-gray-300 transition-colors"
+          variant="ghost"
+          size="icon"
+        >
+          <X size={24} />
+        </Button>
+
+        <div className="w-full h-full rounded-lg overflow-hidden">
+          <iframe
+            src="/assets/THE 2025 PERFORMANCE INDEX.pdf"
+            className="w-full h-full border-0"
+            title="Sample Report PDF"
+          />
+        </div>
+
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <Button
+            onClick={onClose}
+            className="bg-primary hover:bg-primary/90 text-white"
+          >
+            Close Report
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Reusable components
 const TrustMetric = ({ value, label }: { value: string; label: string }) => (
   <div className="text-center">
@@ -225,6 +269,7 @@ const PieChartGraphic = () => (
     </text>
   </svg>
 );
+
 const getFlagEmoji = (countryCode: string) => {
   // Special cases for organizations
   const specialFlags: { [key: string]: string } = {
@@ -244,6 +289,7 @@ const getFlagEmoji = (countryCode: string) => {
     .map((char) => String.fromCodePoint(127397 + char.charCodeAt(0)))
     .join("");
 };
+
 const RadarChartGraphic = () => (
   <svg
     viewBox="0 0 400 300"
@@ -288,6 +334,7 @@ const RadarChartGraphic = () => (
 
 export default function HomePage() {
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -297,9 +344,20 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleOpenPdfModal = () => {
+    setIsPdfModalOpen(true);
+  };
+
+  const handleClosePdfModal = () => {
+    setIsPdfModalOpen(false);
+  };
+
   return (
     <div className="min-h-screen">
       <Header />
+
+      {/* PDF Modal */}
+      <PdfModal isOpen={isPdfModalOpen} onClose={handleClosePdfModal} />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20">
@@ -467,6 +525,7 @@ export default function HomePage() {
                   <Button
                     variant="outline"
                     className="transition-all duration-300 hover:scale-105"
+                    onClick={handleOpenPdfModal}
                   >
                     See Sample Report <ArrowRight size={16} className="ml-2" />
                   </Button>
@@ -634,48 +693,6 @@ export default function HomePage() {
                 </div>
               </CardContent>
             </Card>
-
-            {/* <div className="mt-16">
-              <div className="text-center mb-8">
-                <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                  Trusted by organizations worldwide
-                </p>
-              </div>
-
-              <Marquee
-                gradient={true}
-                gradientColor="#f8fafc"
-                gradientWidth={80}
-                speed={40}
-                pauseOnHover={true}
-                className="py-4"
-              >
-                {[
-                  { name: "Switzerland", code: "CH" },
-                  { name: "European Union", code: "EU" },
-                  { name: "Germany", code: "DE" },
-                  { name: "France", code: "FR" },
-                  { name: "United Kingdom", code: "GB" },
-                  { name: "United States", code: "US" },
-                  { name: "Japan", code: "JP" },
-                  { name: "Singapore", code: "SG" },
-                  { name: "United Nations", code: "UN" },
-                  { name: "World Health Organization", code: "WHO" },
-                ].map((country, index) => (
-                  <div
-                    key={country.code}
-                    className="flex flex-col items-center mx-8 transition-all duration-300 hover:scale-110"
-                  >
-                    <div className="w-16 h-12 lg:w-20 lg:h-14 bg-white rounded-lg shadow-md border flex items-center justify-center text-2xl">
-                      {getFlagEmoji(country.code)}
-                    </div>
-                    <span className="text-xs text-muted-foreground mt-2 whitespace-nowrap">
-                      {country.name}
-                    </span>
-                  </div>
-                ))}
-              </Marquee>
-            </div> */}
           </div>
         </div>
       </section>
