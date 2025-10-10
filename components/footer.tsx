@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin, Shield, FileText, Globe } from "react-feather";
 
 // Static data for better maintainability
@@ -7,17 +8,22 @@ const FOOTER_DATA = {
     name: "SWISS POLL INTERNATIONAL",
     description:
       "Precision Opinion Research and Consumer Insight to Guide Your Most Critical Decisions.",
+    logo: "/assets/swiss_poll_logo.png",
   },
   contact: {
-    locations: ["Zürich", "Geneva", "Lausanne"],
-    phone: "+41 44 123 45 67",
-    email: "research@swisspollinternational.ch",
+    locations: [
+      { city: "Zürich", country: "Switzerland" },
+      // { city: "Geneva", country: "Switzerland" },
+      // { city: "Lausanne", country: "Switzerland" },
+      { city: "Nairobi", country: "Kenya" },
+    ],
+    phones: ["+41 44 123 45 67", "+254 732 333 133"],
+    emails: ["research@swisspoll.com", "info@swisspoll.com"],
   },
   quickLinks: [
-    { href: "/about", label: "About Us" },
+    // { href: "/about", label: "About Us" },
     { href: "/services", label: "Services" },
     { href: "/methodology", label: "Methodology" },
-    // { href: "/insights", label: "Insights" },
     { href: "/contact", label: "Contact" },
   ],
   memberships: [
@@ -87,101 +93,138 @@ export function Footer() {
 
   return (
     <footer className="bg-primary text-primary-foreground" role="contentinfo">
-      <div className="container mx-auto px-4 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Company Info */}
-          <div className="lg:col-span-1">
-            <h3 className="font-bold text-xl mb-4 tracking-tight">
-              {FOOTER_DATA.company.name}
-            </h3>
-            <p className="text-sm text-primary-foreground/80 leading-relaxed max-w-xs">
+      <div className="container mx-auto px-4 lg:px-8 py-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12">
+          {/* Logo and Company Info - Left aligned like Opinary */}
+          <div className="lg:col-span-4">
+            <div className="mb-6">
+              <Image
+                src={FOOTER_DATA.company.logo}
+                alt="Swiss Poll International"
+                width={200}
+                height={60}
+                className="h-12 w-auto object-contain"
+              />
+            </div>
+            <p className="text-sm text-primary-foreground/80 leading-relaxed max-w-md mb-6">
               {FOOTER_DATA.company.description}
             </p>
-          </div>
 
-          {/* Contact Information */}
-          <div>
-            <h4 className="font-semibold text-lg mb-4 tracking-tight">
-              Contact
-            </h4>
-            <div className="space-y-4">
-              <ContactItem icon={MapPin}>
-                <div className="space-y-1">
-                  {FOOTER_DATA.contact.locations.map((location) => (
-                    <div key={location}>{location}</div>
-                  ))}
-                </div>
-              </ContactItem>
-
-              <ContactItem icon={Phone}>
-                <a
-                  href={`tel:${FOOTER_DATA.contact.phone.replace(/\s/g, "")}`}
-                  className="hover:underline underline-offset-4"
-                >
-                  {FOOTER_DATA.contact.phone}
-                </a>
-              </ContactItem>
-
-              <ContactItem icon={Mail}>
-                <a
-                  href={`mailto:${FOOTER_DATA.contact.email}`}
-                  className="hover:underline underline-offset-4 break-all"
-                >
-                  {FOOTER_DATA.contact.email}
-                </a>
-              </ContactItem>
+            {/* Trust badges - similar to Opinary */}
+            <div className="flex flex-wrap gap-4 text-xs text-primary-foreground/60">
+              <span className="bg-primary-foreground/10 px-3 py-1 rounded-full">
+                ISO 20252 Certified
+              </span>
+              <span className="bg-primary-foreground/10 px-3 py-1 rounded-full">
+                GDPR Compliant
+              </span>
+              <span className="bg-primary-foreground/10 px-3 py-1 rounded-full">
+                Data Secure
+              </span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-semibold text-lg mb-4 tracking-tight">
-              Quick Links
-            </h4>
-            <ul className="space-y-2">
-              {FOOTER_DATA.quickLinks.map((link) => (
-                <LinkItem key={link.href} {...link} />
-              ))}
-            </ul>
-          </div>
-
-          {/* Memberships & Legal */}
-          <div>
-            <div className="mb-6">
-              <h4 className="font-semibold text-lg mb-3 tracking-tight">
-                Memberships
+          {/* Links and Contact - Right aligned like Opinary */}
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Quick Links */}
+            <div>
+              <h4 className="font-semibold text-lg mb-4 tracking-tight">
+                Company
               </h4>
-              <div className="space-y-2">
-                {FOOTER_DATA.memberships.map((membership) => (
-                  <MembershipItem key={membership.name} {...membership} />
+              <ul className="space-y-3">
+                {FOOTER_DATA.quickLinks.map((link) => (
+                  <LinkItem key={link.href} {...link} />
                 ))}
+              </ul>
+            </div>
+
+            {/* Contact Information */}
+            <div>
+              <h4 className="font-semibold text-lg mb-4 tracking-tight">
+                Contact
+              </h4>
+              <div className="space-y-4">
+                <ContactItem icon={MapPin}>
+                  <div className="space-y-2">
+                    {FOOTER_DATA.contact.locations.map((location, index) => (
+                      <div key={index} className="leading-tight">
+                        <div className="font-medium">{location.city}</div>
+                        <div className="text-primary-foreground/60 text-xs">
+                          {location.country}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ContactItem>
+
+                <ContactItem icon={Phone}>
+                  <div className="space-y-1">
+                    {FOOTER_DATA.contact.phones.map((phone, index) => (
+                      <a
+                        key={index}
+                        href={`tel:${phone.replace(/\s/g, "")}`}
+                        className="block hover:underline underline-offset-4"
+                      >
+                        {phone}
+                      </a>
+                    ))}
+                  </div>
+                </ContactItem>
+
+                <ContactItem icon={Mail}>
+                  <div className="space-y-1">
+                    {FOOTER_DATA.contact.emails.map((email, index) => (
+                      <a
+                        key={index}
+                        href={`mailto:${email}`}
+                        className="block hover:underline underline-offset-4"
+                      >
+                        {email}
+                      </a>
+                    ))}
+                  </div>
+                </ContactItem>
               </div>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-lg mb-3 tracking-tight">
-                Legal
-              </h4>
-              <ul className="space-y-2">
-                {FOOTER_DATA.legal.map((item) => (
-                  <LinkItem key={item.href} {...item} />
-                ))}
-              </ul>
+            {/* Memberships & Legal */}
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-semibold text-lg mb-3 tracking-tight">
+                  Memberships
+                </h4>
+                <div className="space-y-3">
+                  {FOOTER_DATA.memberships.map((membership) => (
+                    <MembershipItem key={membership.name} {...membership} />
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-lg mb-3 tracking-tight">
+                  Legal
+                </h4>
+                <ul className="space-y-3">
+                  {FOOTER_DATA.legal.map((item) => (
+                    <LinkItem key={item.href} {...item} />
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* Bottom Bar - Clean like Opinary */}
+        <div className="border-t border-primary-foreground/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-primary-foreground/60 text-center md:text-left">
             © {currentYear} {FOOTER_DATA.company.name}. All Rights Reserved.
           </div>
 
-          {/* Additional trust indicators */}
+          {/* Social proof indicators */}
           <div className="flex items-center gap-6 text-xs text-primary-foreground/60">
-            <span>ISO 20252 Certified</span>
-            <span>GDPR Compliant</span>
-            <span>Data Secure</span>
+            <span>Trusted Research Partner</span>
+            <span>Global Insights</span>
           </div>
         </div>
       </div>

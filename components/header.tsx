@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "react-feather";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface NavItem {
   label: string;
@@ -60,7 +61,7 @@ export function Header() {
   const navItems: NavItem[] = useMemo(
     () => [
       { label: "Home", href: "/" },
-      { label: "About Us", href: "/about" },
+      // { label: "About Us", href: "/about" },
       { label: "Services", href: "/services" },
       { label: "Methodology", href: "/methodology" },
       // { label: "Insights", href: "/insights" },
@@ -98,11 +99,24 @@ export function Header() {
             className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
             aria-label="SWISS POLL INTERNATIONAL - Home"
           >
-            <div
-              className="text-lg font-bold tracking-wide"
-              style={{ color: isScrolled ? "#000" : "#fff" }}
-            >
-              SWISS POLL INTERNATIONAL
+            <div className="flex items-center">
+              {isScrolled ? (
+                <Image
+                  src={"/assets/swiss_poll_logo.png"}
+                  alt="Swiss Poll International"
+                  width={200}
+                  height={60}
+                  className="h-12 w-auto object-contain"
+                />
+              ) : (
+                <Image
+                  src={"/assets/swiss_poll_logo_alt.jpg"}
+                  alt="Swiss Poll International"
+                  width={60}
+                  height={60}
+                  className="h-12 w-auto rounded object-contain"
+                />
+              )}
             </div>
           </Link>
 
