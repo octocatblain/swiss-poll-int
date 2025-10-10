@@ -118,9 +118,9 @@ const SERVICES = [
 
 const INSIGHTS = [
   {
-    title: "Swiss Consumer Confidence Index: Q3 2024 Report",
+    title: "The 2025 Performance Index",
     description:
-      "An in-depth analysis of shifting economic sentiments and their impact on market dynamics.",
+      "A comprehensive national survey by Swiss Poll International and Politrack Africa, provides a data-driven assessment of Kenya's public officials based on citizen perception. The report aims to cut through political rhetoric by evaluating leaders on key metrics like service delivery, transparency, and economic development.",
     image: "/professional-report-cover-with-charts.jpg",
     action: "download",
     buttonText: "Download the Full Report (PDF)",
@@ -640,6 +640,17 @@ export default function HomePage() {
                     variant={
                       insight.action === "download" ? "default" : "outline"
                     }
+                    onClick={() => {
+                      if (insight.action === "download") {
+                        // Create a temporary anchor element to trigger download
+                        const link = document.createElement("a");
+                        link.href = "/assets/THE 2025 PERFORMANCE INDEX.pdf";
+                        link.download = "THE 2025 PERFORMANCE INDEX.pdf";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }
+                    }}
                   >
                     {insight.action === "download" && (
                       <Download size={16} className="mr-2" />
