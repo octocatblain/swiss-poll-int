@@ -15,7 +15,7 @@ import { Facebook, GitHub, Twitter } from "react-feather";
 // Static data for better maintainability
 const FOOTER_DATA = {
   company: {
-    name: "SWISS POLL INTERNATIONAL",
+    name: "Swiss Poll International",
     description:
       "Precision Opinion Research and Consumer Insight to Guide Your Most Critical Decisions.",
     logo: "/assets/swiss_poll_logo.png",

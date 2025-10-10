@@ -9,12 +9,12 @@ const PAGE_DATA = {
   hero: {
     title: "About Us",
     description:
-      "Founded on Swiss principles of precision, integrity, and excellence, SWISS POLL INTERNATIONAL has been delivering world-class research insights for over two decades.",
+      "Founded on Swiss principles of precision, integrity, and excellence, Swiss Poll International has been delivering world-class research insights for over two decades.",
   },
   story: {
     title: "Our Story",
     content: [
-      "SWISS POLL INTERNATIONAL was established in 2002 with a singular mission: to bring Swiss precision and methodological rigor to the field of market research and opinion polling.",
+      "Swiss Poll International was established in 2002 with a singular mission: to bring Swiss precision and methodological rigor to the field of market research and opinion polling.",
       "From our headquarters in Zürich, with offices in Geneva and Lausanne, we have grown to become one of Europe's most trusted research partners, serving clients across government, finance, healthcare, and consumer goods sectors.",
       "Our commitment to uncompromising quality, strict confidentiality, and actionable insights has made us the preferred choice for organizations facing their most critical strategic decisions.",
     ],

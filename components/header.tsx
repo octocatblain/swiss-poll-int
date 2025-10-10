@@ -105,7 +105,7 @@ export function Header() {
           <Link
             href="/"
             className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f9a524] focus-visible:ring-offset-2 rounded-sm transition-transform hover:scale-105"
-            aria-label="SWISS POLL INTERNATIONAL - Home"
+            aria-label="Swiss Poll International - Home"
             onMouseEnter={() => setIsHovering("logo")}
             onMouseLeave={() => setIsHovering(null)}
           >
