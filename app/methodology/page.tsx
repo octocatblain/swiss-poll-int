@@ -455,13 +455,13 @@ export default function MethodologyPage() {
         </section>
 
         {/* 5-Step Process */}
-        <section className="container px-4 lg:px-8 mb-16 lg:mb-24 bg-gradient-to-br from-[#f9a524]/5 to-[#f9a524]/10 -mx-4 py-20 relative overflow-hidden">
+        <section className="container px-4 lg:px-8 mb-16 lg:mb-24 bg-gradient-to-br from-[#f9a524]/5 to-[#f9a524]/10  py-20 relative overflow-hidden">
           {/* Animated background pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#f9a524_2px,transparent_2px)] bg-[length:50px_50px] animate-pulse-slower" />
           </div>
 
-          <div className="max-w-6xl mx-auto px-4 relative z-10">
+          <div className="max-w-full mx-auto px-4 relative z-10">
             <h2 className="text-3xl md:text-4xl font-bold text-[#f9a524] text-center mb-12 lg:mb-16 group hover:text-[#f9a524]/90 transition-colors duration-300">
               Our Research Process
               <span className="block h-0.5 w-0 group-hover:w-64 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-500 mx-auto mt-2" />
