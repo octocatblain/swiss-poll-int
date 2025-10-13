@@ -959,6 +959,7 @@ export default function HomePage() {
                 size="lg"
                 className="text-white text-lg px-10 py-6 transition-all duration-300 hover:scale-105 hover:bg-accent/90"
                 style={{ backgroundColor: ACCENT_COLOR }}
+                onClick={() => router.push("/contact")}
               >
                 Contact Our Research Team
               </Button>
@@ -966,6 +967,12 @@ export default function HomePage() {
                 size="lg"
                 variant="outline"
                 className="text-lg px-10 py-6 bg-transparent border-white text-white hover:bg-white/10 transition-all duration-300"
+                onClick={() =>
+                  toast({
+                    title: "Feature unavailable",
+                    description: "Demo feature is not available yet.",
+                  })
+                }
               >
                 Schedule a Demo
               </Button>

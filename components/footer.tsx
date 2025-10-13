@@ -41,7 +41,7 @@ const FOOTER_DATA = {
     { href: "/privacy-policy", label: "Privacy Policy", icon: Shield },
     { href: "/cookie-policy", label: "Cookie Policy", icon: FileText },
     { href: "/terms-of-service", label: "Terms of Service", icon: FileText },
-    { href: "/impressum", label: "Impressum", icon: Globe },
+    // { href: "/impressum", label: "Impressum", icon: Globe },
   ],
   social: [
     {
