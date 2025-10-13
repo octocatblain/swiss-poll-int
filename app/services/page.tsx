@@ -17,6 +17,7 @@ import {
   Calendar,
 } from "react-feather";
 import Image from "next/image";
+import { toast } from "@/hooks/use-toast";
 import { BarChart3 } from "lucide-react";
 import { useState } from "react";
 
@@ -218,7 +219,15 @@ const ServiceCard = ({ service }: any) => {
             ))}
           </ul>
 
-          <Button className="w-fit group-hover:scale-105 transition-all duration-300 bg-[#f9a524] hover:bg-[#f9a524]/90 border-2 border-transparent hover:border-[#f9a524] hover:shadow-lg group/btn">
+          <Button
+            className="w-fit group-hover:scale-105 transition-all duration-300 bg-[#f9a524] hover:bg-[#f9a524]/90 border-2 border-transparent hover:border-[#f9a524] hover:shadow-lg group/btn"
+            onClick={() =>
+              toast({
+                title: "Feature unavailable",
+                description: "Request Information is not available yet.",
+              })
+            }
+          >
             Request Information{" "}
             <ArrowRight
               size={16}
@@ -296,13 +305,19 @@ export default function ServicesPage() {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleDownloadCatalog = () => {
-    // Simulate download action
-    console.log("Downloading service catalog...");
+    // Show toast that this feature isn't available yet
+    toast({
+      title: "Feature unavailable",
+      description: "Downloading the service catalog is not available yet.",
+    });
   };
 
   const handleScheduleConsultation = () => {
-    // Simulate scheduling action
-    console.log("Scheduling consultation...");
+    // Show toast that this feature isn't available yet
+    toast({
+      title: "Feature unavailable",
+      description: "Scheduling a consultation is not available yet.",
+    });
   };
 
   return (
