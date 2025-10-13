@@ -107,9 +107,9 @@ export default function TermsOfServicePage() {
               <p className="text-foreground/80 leading-relaxed">
                 For questions about these Terms of Service, please contact:
                 <br />
-                Email: legal@swisspollinternational.ch
+                Email: legal@swisspollint.com
                 <br />
-                Phone: +41 44 123 45 67
+                Phone: +41 44 123 45 67 / +254 732 333 133
               </p>
             </section>
           </div>

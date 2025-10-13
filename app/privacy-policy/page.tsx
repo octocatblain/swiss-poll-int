@@ -104,9 +104,9 @@ export default function PrivacyPolicyPage() {
                 If you have questions about this Privacy Policy, please contact
                 us at:
                 <br />
-                Email: privacy@swisspollinternational.ch
+                Email: privacy@swisspollint.com
                 <br />
-                Phone: +41 44 123 45 67
+                Phone: +41 44 123 45 67 / +254 732 333 133
               </p>
             </section>
           </div>

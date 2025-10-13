@@ -102,7 +102,7 @@ export default function CookiePolicyPage() {
                 If you have questions about our use of cookies, please contact
                 us at:
                 <br />
-                Email: privacy@swisspollinternational.ch
+                Email: privacy@swisspollint.com
               </p>
             </section>
           </div>

@@ -56,19 +56,19 @@ export default function ImpressumPage() {
                   <p>
                     <strong>Email:</strong>{" "}
                     <a
-                      href="mailto:info@swisspollinternational.ch"
+                      href="mailto:info@swisspollint.com"
                       className="text-primary hover:underline"
                     >
-                      info@swisspollinternational.ch
+                      info@swisspollint.com
                     </a>
                   </p>
                   <p>
                     <strong>Website:</strong>{" "}
                     <a
-                      href="https://www.swisspollinternational.ch"
+                      href="https://www.swisspollint.com"
                       className="text-primary hover:underline"
                     >
-                      www.swisspollinternational.ch
+                      www.swisspollint.com
                     </a>
                   </p>
                 </div>
