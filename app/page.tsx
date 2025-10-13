@@ -75,7 +75,7 @@ const brandData = [
 
 const TRUST_METRICS = [
   { value: "99.7%", label: "Completion Rate" },
-  { value: "25+", label: "Years Experience" },
+  { value: "5", label: "Years Experience" },
   { value: "500+", label: "Projects Delivered" },
 ];
 

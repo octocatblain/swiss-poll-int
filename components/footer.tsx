@@ -26,7 +26,11 @@ const FOOTER_DATA = {
       { city: "Nairobi", country: "Kenya", flag: "🇰🇪" },
     ],
     phones: ["+41 44 123 45 67", "+254 732 333 133"],
-    emails: ["research@swisspoll.com", "info@swisspoll.com"],
+    emails: [
+      "research@swisspollint.com",
+      "info@swisspollint.com",
+      "proposals@swisspollint.com",
+    ],
   },
   quickLinks: [
     { href: "/services", label: "Services" },

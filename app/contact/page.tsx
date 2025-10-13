@@ -66,18 +66,18 @@ const PAGE_DATA = {
       items: [
         {
           label: "General Inquiries",
-          value: "info@swisspoll.com",
-          href: "mailto:info@swisspoll.com",
+          value: "info@swisspollint.com",
+          href: "mailto:info@swisspollint.com",
         },
         {
           label: "Research Department",
-          value: "research@swisspoll.com",
-          href: "mailto:research@swisspoll.com",
+          value: "research@swisspollint.com",
+          href: "mailto:research@swisspollint.com",
         },
         {
           label: "Client Services",
-          value: "clients@swisspoll.com",
-          href: "mailto:clients@swisspoll.com",
+          value: "clients@swisspollint.com",
+          href: "mailto:clients@swisspollint.com",
         },
       ],
     },
@@ -98,7 +98,7 @@ const PAGE_DATA = {
       description:
         "Get a detailed project proposal tailored to your research objectives and budget.",
       action: "Request Proposal",
-      href: "mailto:proposals@swisspoll.com?subject=Project Proposal Request",
+      href: "mailto:proposals@swisspollint.com?subject=Project Proposal Request",
     },
   ],
 } as const;
