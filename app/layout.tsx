@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 const suisseIntl = Inter({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
       </head>
       <body className={`font-sans ${suisseIntl.variable} antialiased`}>
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <Toaster />
       </body>
     </html>
   );

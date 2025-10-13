@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import { toast } from "@/hooks/use-toast";
 
 // Color constants
 const ACCENT_COLOR = "#f9a524";
@@ -177,6 +179,7 @@ const INSIGHTS = [
       "How values-based consumption is reshaping brand loyalties and creating new opportunities.",
     image: "/sustainable-shopping-concept.jpg",
     action: "read",
+    slug: "rise-of-the-conscious-consumer",
     buttonText: "Read More",
   },
 ];
@@ -190,7 +193,8 @@ const TESTIMONIALS = [
     content:
       "SWISS POLL INTERNATIONAL provided the clarity we needed to enter a new market. Their data was not just accurate; it was profoundly insightful.",
     rating: 5,
-    avatar: "/placeholder-avatar1.jpg",
+    // use existing placeholder in public/
+    avatar: "/placeholder-user.jpg",
   },
   {
     id: 2,
@@ -199,7 +203,7 @@ const TESTIMONIALS = [
     content:
       "The depth of analysis from Swiss Poll helped us identify a completely new customer segment we hadn't considered. Our product positioning is now 40% more effective.",
     rating: 5,
-    avatar: "/placeholder-avatar2.jpg",
+    avatar: "/placeholder-user.jpg",
   },
   {
     id: 3,
@@ -208,7 +212,7 @@ const TESTIMONIALS = [
     content:
       "In political polling, accuracy is everything. Swiss Poll's methodology delivered results within a 1% margin of error in our last election cycle.",
     rating: 5,
-    avatar: "/placeholder-avatar3.jpg",
+    avatar: "/placeholder-user.jpg",
   },
   {
     id: 4,
@@ -217,7 +221,7 @@ const TESTIMONIALS = [
     content:
       "Their customer satisfaction research transformed our service delivery. We've seen a 25% increase in customer retention since implementing their recommendations.",
     rating: 5,
-    avatar: "/placeholder-avatar4.jpg",
+    avatar: "/placeholder-user.jpg",
   },
   {
     id: 5,
@@ -226,7 +230,7 @@ const TESTIMONIALS = [
     content:
       "The brand tracking study revealed insights about our messaging that we'd completely missed. Our campaign ROI improved by 60% after the adjustments.",
     rating: 5,
-    avatar: "/placeholder-avatar5.jpg",
+    avatar: "/placeholder-user.jpg",
   },
 ];
 
@@ -253,7 +257,7 @@ const PdfModal = ({
 
         <div className="w-full h-full rounded-lg overflow-hidden">
           <iframe
-            src="/assets/THE 2025 PERFORMANCE INDEX.pdf"
+            src={encodeURI("/assets/THE 2025 PERFORMANCE INDEX.pdf")}
             className="w-full h-full border-0"
             title="Sample Report PDF"
           />
@@ -274,6 +278,7 @@ const PdfModal = ({
 };
 
 export default function HomePage() {
+  const router = useRouter();
   const [activeService, setActiveService] = useState(0);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -308,7 +313,8 @@ export default function HomePage() {
 
   const handleDownloadPdf = () => {
     const link = document.createElement("a");
-    link.href = "/assets/THE 2025 PERFORMANCE INDEX.pdf";
+    const pdfPath = encodeURI("/assets/THE 2025 PERFORMANCE INDEX.pdf");
+    link.href = pdfPath;
     link.download = "THE 2025 PERFORMANCE INDEX.pdf";
     document.body.appendChild(link);
     link.click();
@@ -338,13 +344,15 @@ export default function HomePage() {
       {/* Hero Section with Background Image and Gradient */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/professional-business-team-analyzing-data.jpg"
-            alt="Professional research team analyzing data"
-            fill
-            className="object-cover"
-            priority
-          />
+          <div className="absolute inset-0">
+            <Image
+              src="/professional-business-team-analyzing-data.jpg"
+              alt="Professional research team analyzing data"
+              width={1600}
+              height={900}
+              className="w-full h-full object-cover"
+            />
+          </div>
           {/* Enhanced gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/40" />
           {/* Additional gradient for depth */}
@@ -369,8 +377,15 @@ export default function HomePage() {
               Critical Decisions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
+              {/* give an alert that the function is not available using Toast */}
               <Button
                 size="lg"
+                onClick={() =>
+                  toast({
+                    title: "Feature unavailable",
+                    description: "This feature is not available yet.",
+                  })
+                }
                 className="text-white text-lg px-8 py-6 h-auto shadow-2xl transition-all duration-300 hover:scale-105"
                 style={{ backgroundColor: ACCENT_COLOR }}
               >
@@ -380,6 +395,12 @@ export default function HomePage() {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={() =>
+                  toast({
+                    title: "Feature unavailable",
+                    description: "This feature is not available yet.",
+                  })
+                }
                 className="text-lg px-8 py-6 h-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 hover:text-white shadow-xl transition-all duration-300"
               >
                 View Our Research
@@ -588,7 +609,7 @@ export default function HomePage() {
                       {service.chartType === "image" && (
                         <div className="relative w-full h-[300px]">
                           <Image
-                            src="/customer-satisfaction-dashboard.png"
+                            src="/customer-satisfaction-dashboard.jpg"
                             alt="Customer Experience"
                             fill
                             className="object-cover rounded-lg"
@@ -610,66 +631,73 @@ export default function HomePage() {
         style={{ backgroundColor: SECTION_BG_DARK }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <div className="text-center mb-16 lg:mb-20">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 lg:mb-6">
               The Science of Certainty.
             </h2>
-            <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto px-4">
               Our process is engineered for one outcome: delivering unshakeable
               truth.
             </p>
           </div>
 
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6 lg:gap-8 mb-16">
-              {METHODOLOGY_STEPS.map((step, index) => (
-                <div key={index} className="relative group">
-                  <div className="flex flex-col items-center text-center">
-                    <div
-                      className="w-16 h-16 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg cursor-pointer"
-                      style={{ backgroundColor: ACCENT_COLOR }}
-                    >
-                      {step.number}
+            <div className="relative mb-16 lg:mb-20">
+              {/* Continuous connector line behind steps (visible on md+) */}
+              <div
+                className="hidden md:block absolute left-8 right-8 top-8 h-0.5"
+                style={{ backgroundColor: ACCENT_COLOR_LIGHT }}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-10">
+                {METHODOLOGY_STEPS.map((step, index) => (
+                  <div key={index} className="relative group">
+                    <div className="flex flex-col items-center text-center">
+                      {/* Step number circle */}
+                      <div
+                        className="w-16 h-16 lg:w-20 lg:h-20 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 lg:mb-6 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg cursor-pointer relative z-10"
+                        style={{ backgroundColor: ACCENT_COLOR }}
+                      >
+                        {step.number}
+                      </div>
+
+                      {/* Content */}
+                      <div className="px-2">
+                        <h3 className="font-bold text-lg lg:text-xl mb-3 text-white">
+                          {step.title}
+                        </h3>
+                        <p className="text-sm lg:text-base text-gray-300 leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
                     </div>
-                    <h3 className="font-bold text-lg mb-2 text-white">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-gray-300 leading-relaxed">
-                      {step.description}
-                    </p>
                   </div>
-                  {index < 4 && (
-                    <div
-                      className="hidden md:block absolute top-8 left-full w-full h-0.5 transition-colors"
-                      style={{ backgroundColor: ACCENT_COLOR_LIGHT }}
-                    />
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
+            {/* Stats Card */}
             <Card
-              className="hover:shadow-xl transition-all duration-300 border-0"
+              className="hover:shadow-xl transition-all duration-300 border-0 mx-4 lg:mx-0"
               style={{
                 backgroundColor: ACCENT_COLOR_LIGHT,
                 borderColor: ACCENT_COLOR,
               }}
             >
-              <CardContent className="py-8">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                  <div className="text-center md:text-left">
-                    <div className="text-4xl lg:text-5xl font-bold mb-2 text-white">
+              <CardContent className="p-8 lg:p-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-8">
+                  <div className="text-center md:text-left flex-1">
+                    <div className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 lg:mb-4 text-white">
                       99.7%
                     </div>
-                    <p className="text-gray-300 leading-relaxed">
+                    <p className="text-gray-300 text-base lg:text-lg leading-relaxed max-w-2xl">
                       Average survey completion rate, reflecting unparalleled
                       data integrity.
                     </p>
                   </div>
                   <CheckCircle
                     style={{ color: ACCENT_COLOR }}
-                    className="flex-shrink-0"
-                    size={48}
+                    className="flex-shrink-0 w-12 h-12 lg:w-16 lg:h-16"
                   />
                 </div>
               </CardContent>
@@ -719,6 +747,8 @@ export default function HomePage() {
                     className={`w-full transition-all duration-300 hover:scale-105 ${
                       insight.action === "download"
                         ? "text-white hover:bg-accent/90"
+                        : insight.action === "read"
+                        ? "bg-white border-gray-300 text-black hover:border-accent hover:bg-accent/90 hover:text-white"
                         : "bg-white border-gray-300 text-black hover:border-accent hover:text-accent"
                     }`}
                     variant={
@@ -727,6 +757,10 @@ export default function HomePage() {
                     onClick={() => {
                       if (insight.action === "download") {
                         handleDownloadPdf();
+                        return;
+                      }
+                      if (insight.action === "read" && insight.slug) {
+                        router.push(`/insights/${insight.slug}`);
                       }
                     }}
                     style={
