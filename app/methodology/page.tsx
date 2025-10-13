@@ -413,7 +413,7 @@ export default function MethodologyPage() {
             onMouseEnter={() => setHeroHovered(true)}
             onMouseLeave={() => setHeroHovered(false)}
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#f9a524] mb-6 tracking-tight group-hover:scale-105 transition-transform duration-500">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold  mb-6 tracking-tight group-hover:scale-105 transition-transform duration-500">
               Our Methodology
               <span
                 className={`block h-1 w-0 group-hover:w-80 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-1000 mx-auto mt-4 ${
@@ -439,7 +439,7 @@ export default function MethodologyPage() {
           }
         >
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#f9a524] text-center mb-12 lg:mb-16 group hover:text-[#f9a524]/90 transition-colors duration-300 cursor-pointer">
+            <h2 className="text-3xl md:text-4xl font-bold  text-center mb-12 lg:mb-16 group hover:text-[#f9a524]/90 transition-colors duration-300 cursor-pointer">
               Research Approaches
               <span
                 className={`block h-0.5 w-0 group-hover:w-64 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-500 mx-auto mt-2 ${
@@ -495,7 +495,7 @@ export default function MethodologyPage() {
           }
         >
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#f9a524] text-center mb-12 lg:mb-16 group hover:text-[#f9a524]/90 transition-colors duration-300 cursor-pointer">
+            <h2 className="text-3xl md:text-4xl font-bold  text-center mb-12 lg:mb-16 group hover:text-[#f9a524]/90 transition-colors duration-300 cursor-pointer">
               Our Quality Standards
               <span
                 className={`block h-0.5 w-0 group-hover:w-64 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-500 mx-auto mt-2 ${
@@ -519,7 +519,7 @@ export default function MethodologyPage() {
 
               {/* Radar Chart */}
               <Card className="p-6 hover:shadow-2xl transition-all duration-500 group border-2 border-transparent hover:border-[#f9a524]/30 bg-gradient-to-br from-white to-gray-50/50 hover:from-[#f9a524]/5 hover:to-[#f9a524]/2 hover:-translate-y-2">
-                <h3 className="text-xl font-bold text-[#f9a524] mb-4 text-center group-hover:text-[#f9a524]/90 transition-colors duration-300">
+                <h3 className="text-xl font-bold  mb-4 text-center group-hover:text-[#f9a524]/90 transition-colors duration-300">
                   Performance Metrics
                 </h3>
                 <ResponsiveContainer width="100%" height={350}>
