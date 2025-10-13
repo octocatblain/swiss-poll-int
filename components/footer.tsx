@@ -72,9 +72,9 @@ const ContactItem = ({
   <div className="flex items-start gap-3 group cursor-pointer">
     <Icon
       size={16}
-      className="mt-0.5 flex-shrink-0 text-primary-foreground/60 group-hover:text-[#f9a524] transition-all duration-300 group-hover:scale-110"
+      className="mt-0.5 flex-shrink-0 text-primary-foreground/60 group-hover:text-[#059669] transition-all duration-300 group-hover:scale-110"
     />
-    <div className="text-sm text-primary-foreground/80 group-hover:text-[#f9a524] transition-colors duration-300">
+    <div className="text-sm text-primary-foreground/80 group-hover:text-[#059669] transition-colors duration-300">
       {children}
     </div>
   </div>
@@ -92,12 +92,12 @@ const LinkItem = ({
   <li>
     <Link
       href={href}
-      className="flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-[#f9a524] transition-all duration-300 group py-1 hover:translate-x-1"
+      className="flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-[#059669] transition-all duration-300 group py-1 hover:translate-x-1"
     >
       {Icon && (
         <Icon
           size={14}
-          className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:text-[#f9a524]"
+          className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:text-[#059669]"
         />
       )}
       <span className="hover:underline underline-offset-4 transition-all duration-300 group-hover:font-medium">
@@ -112,7 +112,7 @@ const MembershipItem = ({ name, url }: { name: string; url: string }) => (
     href={url}
     target="_blank"
     rel="noopener noreferrer"
-    className="block text-sm text-primary-foreground/80 hover:text-[#f9a524] transition-all duration-300 hover:underline underline-offset-4 py-1 group hover:translate-x-1"
+    className="block text-sm text-primary-foreground/80 hover:text-[#059669] transition-all duration-300 hover:underline underline-offset-4 py-1 group hover:translate-x-1"
   >
     <span className="transition-all duration-300 group-hover:font-medium">
       {name}
@@ -135,10 +135,10 @@ const LocationItem = ({
       {flag}
     </span>
     <div className="flex flex-col">
-      <div className="font-medium text-primary-foreground group-hover:text-[#f9a524] transition-colors duration-300">
+      <div className="font-medium text-primary-foreground group-hover:text-[#059669] transition-colors duration-300">
         {city}
       </div>
-      <div className="text-primary-foreground/60 text-xs group-hover:text-[#f9a524]/80 transition-colors duration-300">
+      <div className="text-primary-foreground/60 text-xs group-hover:text-[#059669]/80 transition-colors duration-300">
         {country}
       </div>
     </div>
@@ -159,7 +159,7 @@ const SocialLink = ({
     href={url}
     target="_blank"
     rel="noopener noreferrer"
-    className="flex items-center gap-2 text-primary-foreground/80 hover:text-[#f9a524] transition-all duration-300 hover:scale-110 group p-3 rounded-full hover:bg-[#f9a524]/10 border border-transparent hover:border-[#f9a524]/20"
+    className="flex items-center gap-2 text-primary-foreground/80 hover:text-[#059669] transition-all duration-300 hover:scale-110 group p-3 rounded-full hover:bg-[#059669]/10 border border-transparent hover:border-[#059669]/20"
     title={name}
   >
     <Icon
@@ -172,7 +172,7 @@ const SocialLink = ({
 
 // Enhanced Trust Badge component
 const TrustBadge = ({ text }: { text: string }) => (
-  <span className="bg-primary-foreground/10 px-3 py-1.5 rounded-full text-xs text-primary-foreground/80 border border-primary-foreground/20 hover:bg-[#f9a524]/10 hover:text-[#f9a524] hover:border-[#f9a524]/30 transition-all duration-300 hover:scale-105 cursor-pointer group">
+  <span className="bg-primary-foreground/10 px-3 py-1.5 rounded-full text-xs text-primary-foreground/80 border border-primary-foreground/20 hover:bg-[#059669]/10 hover:text-[#059669] hover:border-[#059669]/30 transition-all duration-300 hover:scale-105 cursor-pointer group">
     <span className="transition-all duration-300 group-hover:font-medium">
       {text}
     </span>
@@ -192,14 +192,14 @@ export function Footer() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle at 25px 25px, #f9a524 2%, transparent 0%), radial-gradient(circle at 75px 75px, #f9a524 2%, transparent 0%)`,
+            backgroundImage: `radial-gradient(circle at 25px 25px, #059669 2%, transparent 0%), radial-gradient(circle at 75px 75px, #059669 2%, transparent 0%)`,
             backgroundSize: "100px 100px",
           }}
         />
       </div>
 
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-[#f9a524]/5 to-transparent opacity-30 animate-pulse-slow" />
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-[#059669]/5 to-transparent opacity-30 animate-pulse-slow" />
 
       <div className="container mx-auto px-4 lg:px-8 py-12 relative z-10">
         {/* Main Footer Content */}
@@ -240,9 +240,9 @@ export function Footer() {
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Quick Links */}
             <div>
-              <h4 className="font-semibold text-lg mb-4 tracking-tight text-white group hover:text-[#f9a524] transition-colors duration-300 cursor-pointer">
+              <h4 className="font-semibold text-lg mb-4 tracking-tight text-white group hover:text-[#059669] transition-colors duration-300 cursor-pointer">
                 Company
-                <span className="block h-0.5 bg-gradient-to-r from-[#f9a524] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
+                <span className="block h-0.5 bg-gradient-to-r from-[#059669] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
               </h4>
               <ul className="space-y-3">
                 {FOOTER_DATA.quickLinks.map((link) => (
@@ -253,9 +253,9 @@ export function Footer() {
 
             {/* Contact Information */}
             <div>
-              <h4 className="font-semibold text-lg mb-4 tracking-tight text-white group hover:text-[#f9a524] transition-colors duration-300 cursor-pointer">
+              <h4 className="font-semibold text-lg mb-4 tracking-tight text-white group hover:text-[#059669] transition-colors duration-300 cursor-pointer">
                 Contact
-                <span className="block h-0.5 bg-gradient-to-r from-[#f9a524] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
+                <span className="block h-0.5 bg-gradient-to-r from-[#059669] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
               </h4>
               <div className="space-y-4">
                 {/* Locations with enhanced flags */}
@@ -272,7 +272,7 @@ export function Footer() {
                       <a
                         key={index}
                         href={`tel:${phone.replace(/\s/g, "")}`}
-                        className="block hover:underline underline-offset-4 transition-all duration-300 hover:translate-x-1 hover:text-[#f9a524] group"
+                        className="block hover:underline underline-offset-4 transition-all duration-300 hover:translate-x-1 hover:text-[#059669] group"
                       >
                         <span className="transition-all duration-300 group-hover:font-medium">
                           {phone}
@@ -289,7 +289,7 @@ export function Footer() {
                       <a
                         key={index}
                         href={`mailto:${email}`}
-                        className="block hover:underline underline-offset-4 transition-all duration-300 hover:translate-x-1 hover:text-[#f9a524] group break-all"
+                        className="block hover:underline underline-offset-4 transition-all duration-300 hover:translate-x-1 hover:text-[#059669] group break-all"
                       >
                         <span className="transition-all duration-300 group-hover:font-medium">
                           {email}
@@ -304,9 +304,9 @@ export function Footer() {
             {/* Memberships & Legal */}
             <div className="space-y-6">
               <div>
-                <h4 className="font-semibold text-lg mb-3 tracking-tight text-white group hover:text-[#f9a524] transition-colors duration-300 cursor-pointer">
+                <h4 className="font-semibold text-lg mb-3 tracking-tight text-white group hover:text-[#059669] transition-colors duration-300 cursor-pointer">
                   Memberships
-                  <span className="block h-0.5 bg-gradient-to-r from-[#f9a524] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
+                  <span className="block h-0.5 bg-gradient-to-r from-[#059669] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
                 </h4>
                 <div className="space-y-3">
                   {FOOTER_DATA.memberships.map((membership) => (
@@ -316,9 +316,9 @@ export function Footer() {
               </div>
 
               <div>
-                <h4 className="font-semibold text-lg mb-3 tracking-tight text-white group hover:text-[#f9a524] transition-colors duration-300 cursor-pointer">
+                <h4 className="font-semibold text-lg mb-3 tracking-tight text-white group hover:text-[#059669] transition-colors duration-300 cursor-pointer">
                   Legal
-                  <span className="block h-0.5 bg-gradient-to-r from-[#f9a524] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
+                  <span className="block h-0.5 bg-gradient-to-r from-[#059669] to-transparent w-0 group-hover:w-full transition-all duration-500 mt-1" />
                 </h4>
                 <ul className="space-y-3">
                   {FOOTER_DATA.legal.map((item) => (
@@ -338,18 +338,18 @@ export function Footer() {
 
           {/* Enhanced Social proof indicators */}
           <div className="flex items-center gap-6 text-xs text-primary-foreground/60">
-            <span className="flex items-center gap-1 transition-all duration-300 hover:text-[#f9a524] group cursor-pointer">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse group-hover:bg-[#f9a524] transition-colors duration-300"></div>
+            <span className="flex items-center gap-1 transition-all duration-300 hover:text-[#059669] group cursor-pointer">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse group-hover:bg-[#059669] transition-colors duration-300"></div>
               Trusted Research Partner
             </span>
-            <span className="flex items-center gap-1 transition-all duration-300 hover:text-[#f9a524] group cursor-pointer">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse group-hover:bg-[#f9a524] transition-colors duration-300"></div>
+            <span className="flex items-center gap-1 transition-all duration-300 hover:text-[#059669] group cursor-pointer">
+              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse group-hover:bg-[#059669] transition-colors duration-300"></div>
               Global Insights
             </span>
             <span className="opacity-0">
               <Link
                 href="https://github.com/octocatblain"
-                className="flex rounded-full p-1 items-center gap-1 border border-[#f9a524] transition-all duration-300 hover:text-[#f9a524] group cursor-pointer"
+                className="flex rounded-full p-1 items-center gap-1 border border-[#059669] transition-all duration-300 hover:text-[#059669] group cursor-pointer"
                 target="_blank"
                 rel="noopener noreferrer"
               >

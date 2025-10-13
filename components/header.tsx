@@ -104,7 +104,7 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f9a524] focus-visible:ring-offset-2 rounded-sm transition-transform hover:scale-105"
+            className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669] focus-visible:ring-offset-2 rounded-sm transition-transform hover:scale-105"
             aria-label="Swiss Poll International - Home"
             onMouseEnter={() => setIsHovering("logo")}
             onMouseLeave={() => setIsHovering(null)}
@@ -141,8 +141,8 @@ export function Header() {
                 href={item.href}
                 className={`text-sm font-medium transition-all duration-300 relative py-2 group ${
                   isActiveLink(item.href)
-                    ? "text-[#f9a524] font-semibold"
-                    : "text-foreground/80 hover:text-[#f9a524]"
+                    ? "text-[#059669] font-semibold"
+                    : "text-foreground/80 hover:text-[#059669]"
                 }`}
                 onMouseEnter={() => setIsHovering(item.href)}
                 onMouseLeave={() => setIsHovering(null)}
@@ -150,7 +150,7 @@ export function Header() {
                 <span className="relative">
                   {item.label}
                   <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-[#f9a524] transition-all duration-300 ${
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-[#059669] transition-all duration-300 ${
                       isActiveLink(item.href) || isHovering === item.href
                         ? "w-full"
                         : "w-0"
@@ -164,7 +164,7 @@ export function Header() {
             <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-200">
               <button
                 onClick={() => handleSocialClick("twitter")}
-                className="p-2 rounded-full transition-all duration-300 hover:bg-[#f9a524]/10 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f9a524]"
+                className="p-2 rounded-full transition-all duration-300 hover:bg-[#059669]/10 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]"
                 aria-label="Follow us on Twitter"
                 onMouseEnter={() => setIsHovering("twitter")}
                 onMouseLeave={() => setIsHovering(null)}
@@ -173,14 +173,14 @@ export function Header() {
                   size={18}
                   className={`transition-colors duration-300 ${
                     isHovering === "twitter"
-                      ? "text-[#f9a524]"
+                      ? "text-[#059669]"
                       : "text-gray-600"
                   }`}
                 />
               </button>
               <button
                 onClick={() => handleSocialClick("facebook")}
-                className="p-2 rounded-full transition-all duration-300 hover:bg-[#f9a524]/10 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f9a524]"
+                className="p-2 rounded-full transition-all duration-300 hover:bg-[#059669]/10 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]"
                 aria-label="Follow us on Facebook"
                 onMouseEnter={() => setIsHovering("facebook")}
                 onMouseLeave={() => setIsHovering(null)}
@@ -189,7 +189,7 @@ export function Header() {
                   size={18}
                   className={`transition-colors duration-300 ${
                     isHovering === "facebook"
-                      ? "text-[#f9a524]"
+                      ? "text-[#059669]"
                       : "text-gray-600"
                   }`}
                 />
@@ -199,8 +199,8 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`lg:hidden p-2 rounded-md transition-all duration-300 hover:bg-[#f9a524]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f9a524] ${
-              isMobileMenuOpen ? "bg-[#f9a524]/10" : ""
+            className={`lg:hidden p-2 rounded-md transition-all duration-300 hover:bg-[#059669]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669] ${
+              isMobileMenuOpen ? "bg-[#059669]/10" : ""
             }`}
             onClick={toggleMobileMenu}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -208,7 +208,7 @@ export function Header() {
             aria-controls="mobile-navigation"
           >
             {isMobileMenuOpen ? (
-              <X size={20} className="text-[#f9a524]" />
+              <X size={20} className="text-[#059669]" />
             ) : (
               <Menu size={20} />
             )}
@@ -220,7 +220,7 @@ export function Header() {
           id="mobile-navigation"
           className={`lg:hidden rounded transition-all z-50 bg-white duration-300 ease-in-out ${
             isMobileMenuOpen
-              ? "max-h-96 opacity-100 border-t border-[#f9a524]/20"
+              ? "max-h-96 opacity-100 border-t border-[#059669]/20"
               : "max-h-0 opacity-0 overflow-hidden"
           }`}
           aria-hidden={!isMobileMenuOpen}
@@ -232,8 +232,8 @@ export function Header() {
                 href={item.href}
                 className={`block py-3 text-sm font-medium transition-all duration-300 border-l-2 pl-4 my-1 rounded-r-lg ${
                   isActiveLink(item.href)
-                    ? "text-[#f9a524] border-[#f9a524] bg-[#f9a524]/10 font-semibold"
-                    : "text-foreground/80 hover:text-[#f9a524] border-transparent hover:border-[#f9a524] hover:bg-[#f9a524]/5"
+                    ? "text-[#059669] border-[#059669] bg-[#059669]/10 font-semibold"
+                    : "text-foreground/80 hover:text-[#059669] border-transparent hover:border-[#059669] hover:bg-[#059669]/5"
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -248,7 +248,7 @@ export function Header() {
                   handleSocialClick("twitter");
                   setIsMobileMenuOpen(false);
                 }}
-                className="p-3 rounded-full transition-all duration-300 hover:bg-[#f9a524]/10 active:scale-95"
+                className="p-3 rounded-full transition-all duration-300 hover:bg-[#059669]/10 active:scale-95"
                 aria-label="Follow us on Twitter"
               >
                 <Twitter size={20} className="text-gray-600" />
@@ -258,7 +258,7 @@ export function Header() {
                   handleSocialClick("facebook");
                   setIsMobileMenuOpen(false);
                 }}
-                className="p-3 rounded-full transition-all duration-300 hover:bg-[#f9a524]/10 active:scale-95"
+                className="p-3 rounded-full transition-all duration-300 hover:bg-[#059669]/10 active:scale-95"
                 aria-label="Follow us on Facebook"
               >
                 <Facebook size={20} className="text-gray-600" />

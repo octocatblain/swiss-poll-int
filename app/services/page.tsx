@@ -155,7 +155,7 @@ const ServiceCard = ({ service }: any) => {
 
   return (
     <Card
-      className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#f9a524]/30 bg-gradient-to-br from-white to-gray-50/50 hover:from-[#f9a524]/5 hover:to-[#f9a524]/2"
+      className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 bg-gradient-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -168,16 +168,16 @@ const ServiceCard = ({ service }: any) => {
         <div className="p-8 lg:p-12 flex flex-col justify-center relative">
           {/* Animated background element */}
           <div
-            className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#f9a524] to-transparent transition-all duration-500 ${
+            className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#059669] to-transparent transition-all duration-500 ${
               isHovered ? "opacity-100" : "opacity-0"
             }`}
           />
 
-          <div className="w-16 h-16 bg-[#f9a524]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#f9a524]/20 transition-all duration-300 group-hover:shadow-lg">
-            <Icon className="text-[#f9a524]" size={32} />
+          <div className="w-16 h-16 bg-[#059669]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#059669]/20 transition-all duration-300 group-hover:shadow-lg">
+            <Icon className="text-[#059669]" size={32} />
           </div>
 
-          <h2 className="text-2xl lg:text-3xl font-bold text-primary mb-4 leading-tight group-hover:text-[#f9a524] transition-colors duration-300">
+          <h2 className="text-2xl lg:text-3xl font-bold text-primary mb-4 leading-tight group-hover:text-[#059669] transition-colors duration-300">
             {service.title}
           </h2>
 
@@ -190,9 +190,9 @@ const ServiceCard = ({ service }: any) => {
             {service.stats.map((stat: any, index: any) => (
               <div
                 key={index}
-                className="text-center group/stat hover:scale-110 transition-all duration-300 p-3 rounded-lg hover:bg-[#f9a524]/5 cursor-pointer"
+                className="text-center group/stat hover:scale-110 transition-all duration-300 p-3 rounded-lg hover:bg-[#059669]/5 cursor-pointer"
               >
-                <div className="text-xl font-bold text-[#f9a524] group-hover/stat:scale-110 transition-transform">
+                <div className="text-xl font-bold text-[#059669] group-hover/stat:scale-110 transition-transform">
                   {stat.value}
                 </div>
                 <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 group-hover/stat:text-foreground/80 transition-colors">
@@ -206,10 +206,10 @@ const ServiceCard = ({ service }: any) => {
             {service.features.map((feature: any, index: any) => (
               <li
                 key={index}
-                className="flex items-start gap-3 group-hover:translate-x-2 transition-all duration-300 hover:bg-[#f9a524]/5 p-2 rounded-lg cursor-pointer"
+                className="flex items-start gap-3 group-hover:translate-x-2 transition-all duration-300 hover:bg-[#059669]/5 p-2 rounded-lg cursor-pointer"
               >
                 <CheckCircle
-                  className="text-[#f9a524] flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300"
+                  className="text-[#059669] flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300"
                   size={20}
                 />
                 <span className="text-foreground/80 text-sm lg:text-base group-hover:text-foreground transition-colors">
@@ -220,7 +220,7 @@ const ServiceCard = ({ service }: any) => {
           </ul>
 
           <Button
-            className="w-fit group-hover:scale-105 transition-all duration-300 bg-[#f9a524] hover:bg-[#f9a524]/90 border-2 border-transparent hover:border-[#f9a524] hover:shadow-lg group/btn"
+            className="w-fit group-hover:scale-105 transition-all duration-300 bg-[#059669] hover:bg-[#059669]/90 border-2 border-transparent hover:border-[#059669] hover:shadow-lg group/btn"
             onClick={() =>
               toast({
                 title: "Feature unavailable",
@@ -238,13 +238,13 @@ const ServiceCard = ({ service }: any) => {
 
         {/* Image Section */}
         <div
-          className={`bg-gradient-to-br from-secondary/30 to-[#f9a524]/5 p-8 lg:p-12 flex items-center justify-center relative overflow-hidden group/image ${
+          className={`bg-gradient-to-br from-secondary/30 to-[#059669]/5 p-8 lg:p-12 flex items-center justify-center relative overflow-hidden group/image ${
             service.reverse ? "order-first lg:order-last" : ""
           }`}
         >
           {/* Animated background pattern */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#f9a524_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse-slow" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse-slow" />
           </div>
 
           <div className="relative w-full max-w-md aspect-[4/3] z-10">
@@ -261,7 +261,7 @@ const ServiceCard = ({ service }: any) => {
               aria-hidden="true"
             />
             {/* Hover effect border */}
-            <div className="absolute inset-0 border-2 border-transparent rounded-xl group-hover:border-[#f9a524]/30 transition-all duration-500" />
+            <div className="absolute inset-0 border-2 border-transparent rounded-xl group-hover:border-[#059669]/30 transition-all duration-500" />
           </div>
         </div>
       </div>
@@ -275,22 +275,22 @@ const AdditionalServiceCard = ({ service }: any) => {
 
   return (
     <Card
-      className="p-6 text-center group hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-[#f9a524]/20 bg-gradient-to-b from-white to-gray-50/50 hover:from-[#f9a524]/5 hover:to-[#f9a524]/2 hover:-translate-y-2 cursor-pointer relative overflow-hidden"
+      className="p-6 text-center group hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-[#059669]/20 bg-gradient-to-b from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2 hover:-translate-y-2 cursor-pointer relative overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Animated background */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br from-[#f9a524]/0 to-[#f9a524]/0 group-hover:from-[#f9a524]/5 group-hover:to-[#f9a524]/10 transition-all duration-500 ${
+        className={`absolute inset-0 bg-gradient-to-br from-[#059669]/0 to-[#059669]/0 group-hover:from-[#059669]/5 group-hover:to-[#059669]/10 transition-all duration-500 ${
           isHovered ? "scale-100" : "scale-0"
         }`}
       />
 
       <div className="relative z-10">
-        <div className="w-12 h-12 bg-[#f9a524]/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-[#f9a524]/20 transition-all duration-300 group-hover:shadow-lg">
-          <Icon className="text-[#f9a524]" size={24} />
+        <div className="w-12 h-12 bg-[#059669]/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-[#059669]/20 transition-all duration-300 group-hover:shadow-lg">
+          <Icon className="text-[#059669]" size={24} />
         </div>
-        <h3 className="font-bold text-lg text-primary mb-3 group-hover:text-[#f9a524] transition-colors duration-300">
+        <h3 className="font-bold text-lg text-primary mb-3 group-hover:text-[#059669] transition-colors duration-300">
           {service.title}
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
@@ -330,7 +330,7 @@ export default function ServicesPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 tracking-tight group">
               {PAGE_DATA.hero.title}
-              <span className="block h-1 w-0 group-hover:w-48 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-1000 mx-auto mt-4" />
+              <span className="block h-1 w-0 group-hover:w-48 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-1000 mx-auto mt-4" />
             </h1>
             <p className="text-lg md:text-xl text-foreground/80 leading-relaxed max-w-3xl mx-auto group-hover:text-foreground/90 transition-colors duration-300">
               {PAGE_DATA.hero.description}
@@ -350,9 +350,9 @@ export default function ServicesPage() {
         {/* Additional Services */}
         <section className="container mx-auto px-4 lg:px-8 mb-20 lg:mb-24">
           <div className="max-w-4xl mx-auto text-center mb-12 lg:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 group hover:text-[#f9a524] transition-colors duration-300 cursor-pointer">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 group hover:text-[#059669] transition-colors duration-300 cursor-pointer">
               Specialized Research Solutions
-              <span className="block h-0.5 w-0 group-hover:w-32 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-500 mx-auto mt-2" />
+              <span className="block h-0.5 w-0 group-hover:w-32 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2" />
             </h2>
             <p className="text-lg text-foreground/80 leading-relaxed group-hover:text-foreground/90 transition-colors duration-300">
               Beyond our core services, we offer specialized research
@@ -371,19 +371,19 @@ export default function ServicesPage() {
         <section className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <Card
-              className="bg-gradient-to-br from-[#f9a524]/5 to-[#f9a524]/10 border-[#f9a524]/20 p-12 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group relative overflow-hidden"
+              className="bg-gradient-to-br from-[#059669]/5 to-[#059669]/10 border-[#059669]/20 p-12 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group relative overflow-hidden"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
               {/* Animated background elements */}
               <div
-                className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#f9a524] to-transparent transition-all duration-500 ${
+                className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 ${
                   isHovered ? "opacity-100" : "opacity-0"
                 }`}
               />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#f9a524_1px,transparent_1px)] bg-[length:20px_20px] opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#059669_1px,transparent_1px)] bg-[length:20px_20px] opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
 
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 group-hover:text-[#f9a524] transition-colors duration-300">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 group-hover:text-[#059669] transition-colors duration-300">
                 Ready to Transform Your Insights?
               </h2>
               <p className="text-lg text-foreground/80 mb-8 max-w-2xl mx-auto group-hover:text-foreground/90 transition-colors duration-300">
@@ -393,7 +393,7 @@ export default function ServicesPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   size="lg"
-                  className="bg-[#f9a524] hover:bg-[#f9a524]/90 transition-all duration-300 hover:scale-105 hover:shadow-lg group/consult"
+                  className="bg-[#059669] hover:bg-[#059669]/90 transition-all duration-300 hover:scale-105 hover:shadow-lg group/consult"
                   onClick={handleScheduleConsultation}
                 >
                   <Calendar
@@ -409,7 +409,7 @@ export default function ServicesPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-[#f9a524] text-[#f9a524] hover:bg-[#f9a524] hover:text-white transition-all duration-300 hover:scale-105 group/download"
+                  className="border-[#059669] text-[#059669] hover:bg-[#059669] hover:text-white transition-all duration-300 hover:scale-105 group/download"
                   onClick={handleDownloadCatalog}
                 >
                   <Download
