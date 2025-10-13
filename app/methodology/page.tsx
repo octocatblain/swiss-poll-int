@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -192,19 +191,19 @@ const ProcessStep = ({ step, index, isExpanded, onToggle }: any) => {
       </div>
 
       <CardContent className="p-0 relative z-10">
-        <div className="grid md:grid-cols-12 gap-0">
+        <div className="grid md:grid-cols-12 gap-4 sm:gap-6">
           {/* Number Badge */}
-          <div className="md:col-span-2 bg-gradient-to-br from-[#f9a524] to-[#f9a524]/90 text-white flex flex-col items-center justify-center p-6 relative group-hover:scale-105 transition-transform duration-300 group-hover:shadow-lg">
-            <div className="text-4xl lg:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
+          <div className="md:col-span-2 bg-gradient-to-br from-[#f9a524] to-[#f9a524]/90 text-white flex flex-col items-center justify-center p-4 sm:p-6 relative group-hover:scale-105 transition-transform duration-300 group-hover:shadow-lg">
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
               {step.number}
             </div>
-            <div className="text-xs text-white/80 text-center group-hover:text-white transition-colors">
+            <div className="text-xs sm:text-sm text-white/80 text-center group-hover:text-white transition-colors">
               {step.duration}
             </div>
           </div>
 
           {/* Content */}
-          <div className="md:col-span-10 p-6 lg:p-8">
+          <div className="md:col-span-10 p-4 sm:p-6 lg:p-8">
             <div className="flex items-start gap-6">
               <div className="w-14 h-14 bg-[#f9a524]/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#f9a524]/20 transition-all duration-300 group-hover:shadow-lg">
                 <Icon className="text-[#f9a524]" size={28} />
@@ -213,10 +212,10 @@ const ProcessStep = ({ step, index, isExpanded, onToggle }: any) => {
               <div className="flex-1">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-[#f9a524] mb-3 group-hover:text-[#f9a524]/90 transition-colors">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#f9a524] mb-3 group-hover:text-[#f9a524]/90 transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-foreground/80 leading-relaxed mb-4 text-base lg:text-lg group-hover:text-foreground/90 transition-colors">
+                    <p className="text-foreground/80 leading-relaxed mb-4 text-sm sm:text-base lg:text-lg group-hover:text-foreground/90 transition-colors">
                       {step.description}
                     </p>
                   </div>
