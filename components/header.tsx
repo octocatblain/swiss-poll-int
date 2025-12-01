@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Twitter, Facebook } from "react-feather";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 interface NavItem {
@@ -18,7 +17,6 @@ export function Header() {
   const [isHovering, setIsHovering] = useState<string | null>(null);
   const pathname = usePathname();
 
-  // Throttled scroll handler for better performance
   useEffect(() => {
     let ticking = false;
 
@@ -65,6 +63,7 @@ export function Header() {
       { label: "Services", href: "/services" },
       { label: "Methodology", href: "/methodology" },
       { label: "Contact", href: "/contact" },
+      {label: "Polls", href: "/livepolls"},
     ],
     []
   );
@@ -94,7 +93,7 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-sm supports-[backdrop-filter]:bg-white/80"
+          ? "bg-white/95 backdrop-blur-sm shadow-sm supports-backdrop-filter:bg-white/80"
           : "bg-transparent"
       }`}
       role="banner"
@@ -195,6 +194,13 @@ export function Header() {
                 />
               </button>
             </div>
+
+            <Link
+              href="/Admin/Login"
+              className="p-2 rounded-md text-white cursor-pointer bg-slate-700 transition-all duration-300 hover:bg-green-600/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]"
+              aria-label="Toggle dark mode"
+              
+            >Login</Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -264,6 +270,11 @@ export function Header() {
                 <Facebook size={20} className="text-gray-600" />
               </button>
             </div>
+             <Link
+              className="p-2 rounded-md text-white bg-slate-700 transition-all duration-300 hover:bg-green-600/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]"
+              aria-label="Toggle dark mode"
+                    href="/Admin/Login"
+            >Login</Link>
           </nav>
         </div>
       </div>

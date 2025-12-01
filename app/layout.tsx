@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
+import ClientLayoutWrapper from "./ClientLayoutWrapper";
 
 const suisseIntl = Inter({
   subsets: ["latin"],
@@ -26,20 +27,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`font-sans ${suisseIntl.variable} antialiased`}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <ClientLayoutWrapper>
+          <Suspense fallback={<div>Loading...</div>}>
+            {children}
+          </Suspense>
+        </ClientLayoutWrapper>
+
         <Toaster />
       </body>
     </html>
   );
 }
+

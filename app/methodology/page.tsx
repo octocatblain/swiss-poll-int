@@ -180,20 +180,20 @@ const ProcessStep = ({ step, index, isExpanded, onToggle }: any) => {
   return (
     <Card
       key={index}
-      className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 cursor-pointer bg-gradient-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2"
+      className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 cursor-pointer bg-linear-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2"
       onClick={onToggle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse-slow" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_1px,transparent_1px)] bg-size-[20px_20px] animate-pulse-slow" />
       </div>
 
       <CardContent className="p-0 relative z-10">
         <div className="grid md:grid-cols-12 gap-4 sm:gap-6">
           {/* Number Badge */}
-          <div className="md:col-span-2 bg-gradient-to-br from-[#059669] to-[#059669]/90 text-white flex flex-col items-center justify-center p-4 sm:p-6 relative group-hover:scale-105 transition-transform duration-300 group-hover:shadow-lg">
+          <div className="md:col-span-2 bg-linear-to-br from-[#059669] to-[#059669]/90 text-white flex flex-col items-center justify-center p-4 sm:p-6 relative group-hover:scale-105 transition-transform duration-300 group-hover:shadow-lg">
             <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
               {step.number}
             </div>
@@ -205,7 +205,7 @@ const ProcessStep = ({ step, index, isExpanded, onToggle }: any) => {
           {/* Content */}
           <div className="md:col-span-10 p-4 sm:p-6 lg:p-8">
             <div className="flex items-start gap-6">
-              <div className="w-14 h-14 bg-[#059669]/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#059669]/20 transition-all duration-300 group-hover:shadow-lg">
+              <div className="w-14 h-14 bg-[#059669]/10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#059669]/20 transition-all duration-300 group-hover:shadow-lg">
                 <Icon className="text-[#059669]" size={28} />
               </div>
 
@@ -242,7 +242,7 @@ const ProcessStep = ({ step, index, isExpanded, onToggle }: any) => {
                         className="flex items-start gap-3 group-hover:translate-x-2 transition-all duration-300 p-2 rounded-lg hover:bg-[#059669]/5 cursor-pointer border border-transparent hover:border-[#059669]/20"
                       >
                         <CheckCircle
-                          className="text-[#059669] flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300"
+                          className="text-[#059669] shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300"
                           size={18}
                         />
                         <span className="text-sm lg:text-base text-foreground/80 group-hover:text-foreground transition-colors">
@@ -268,20 +268,20 @@ const MethodologyCard = ({ method, index }: any) => {
   return (
     <Card
       key={index}
-      className="p-6 group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 hover:-translate-y-3 cursor-pointer relative overflow-hidden bg-gradient-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2"
+      className="p-6 group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 hover:-translate-y-3 cursor-pointer relative overflow-hidden bg-linear-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Animated background effect */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br from-[#059669]/5 to-[#059669]/10 transition-all duration-500 ${
+        className={`absolute inset-0 bg-linear-to-br from-[#059669]/5 to-[#059669]/10 transition-all duration-500 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`}
       />
 
       {/* Animated border */}
       <div
-        className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 ${
+        className={`absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -320,13 +320,13 @@ const QualityMetricCard = ({ metric, index, animatedValue }: any) => {
   return (
     <Card
       key={index}
-      className="text-center group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 hover:-translate-y-3 cursor-pointer bg-gradient-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2 relative overflow-hidden"
+      className="text-center group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-[#059669]/30 hover:-translate-y-3 cursor-pointer bg-linear-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2 relative overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_1px,transparent_1px)] bg-[length:15px_15px] animate-pulse-slow" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_1px,transparent_1px)] bg-size-[15px_15px] animate-pulse-slow" />
       </div>
 
       <CardContent className="pt-8 pb-6 relative z-10">
@@ -415,7 +415,7 @@ export default function MethodologyPage() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold  mb-6 tracking-tight group-hover:scale-105 transition-transform duration-500">
               Our Methodology
               <span
-                className={`block h-1 w-0 group-hover:w-80 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-1000 mx-auto mt-4 ${
+                className={`block h-1 w-0 group-hover:w-80 bg-linear-to-r from-[#059669] to-transparent transition-all duration-1000 mx-auto mt-4 ${
                   heroHovered ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -441,7 +441,7 @@ export default function MethodologyPage() {
             <h2 className="text-3xl md:text-4xl font-bold  text-center mb-12 lg:mb-16 group hover:text-[#059669]/90 transition-colors duration-300 cursor-pointer">
               Research Approaches
               <span
-                className={`block h-0.5 w-0 group-hover:w-64 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2 ${
+                className={`block h-0.5 w-0 group-hover:w-64 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2 ${
                   sectionHovered.methodologies ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -455,16 +455,16 @@ export default function MethodologyPage() {
         </section>
 
         {/* 5-Step Process */}
-        <section className="container px-4 lg:px-8 mb-16 lg:mb-24 bg-gradient-to-br from-[#059669]/5 to-[#059669]/10  py-20 relative overflow-hidden">
+        <section className="container px-4 lg:px-8 mb-16 lg:mb-24 bg-linear-to-br from-[#059669]/5 to-[#059669]/10  py-20 relative overflow-hidden">
           {/* Animated background pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_2px,transparent_2px)] bg-[length:50px_50px] animate-pulse-slower" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#059669_2px,transparent_2px)] bg-length:50px_50px animate-pulse-slower" />
           </div>
 
           <div className="max-w-full mx-auto px-4 relative z-10">
             <h2 className="text-3xl md:text-4xl font-bold text-[#059669] text-center mb-12 lg:mb-16 group hover:text-[#059669]/90 transition-colors duration-300">
               Our Research Process
-              <span className="block h-0.5 w-0 group-hover:w-64 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2" />
+              <span className="block h-0.5 w-0 group-hover:w-64 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2" />
             </h2>
             <div className="space-y-6 lg:space-y-8">
               {PROCESS.map((step, index) => (
@@ -497,7 +497,7 @@ export default function MethodologyPage() {
             <h2 className="text-3xl md:text-4xl font-bold  text-center mb-12 lg:mb-16 group hover:text-[#059669]/90 transition-colors duration-300 cursor-pointer">
               Our Quality Standards
               <span
-                className={`block h-0.5 w-0 group-hover:w-64 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2 ${
+                className={`block h-0.5 w-0 group-hover:w-64 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2 ${
                   sectionHovered.quality ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -517,7 +517,7 @@ export default function MethodologyPage() {
               </div>
 
               {/* Radar Chart */}
-              <Card className="p-6 hover:shadow-2xl transition-all duration-500 group border-2 border-transparent hover:border-[#059669]/30 bg-gradient-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2 hover:-translate-y-2">
+              <Card className="p-6 hover:shadow-2xl transition-all duration-500 group border-2 border-transparent hover:border-[#059669]/30 bg-linear-to-br from-white to-gray-50/50 hover:from-[#059669]/5 hover:to-[#059669]/2 hover:-translate-y-2">
                 <h3 className="text-xl font-bold  mb-4 text-center group-hover:text-[#059669]/90 transition-colors duration-300">
                   Performance Metrics
                 </h3>
@@ -564,17 +564,17 @@ export default function MethodologyPage() {
           }
         >
           <div className="max-w-5xl mx-auto">
-            <Card className="bg-gradient-to-br from-[#059669]/5 to-[#059669]/10 border-[#059669]/20 group hover:shadow-2xl transition-all duration-500 hover:border-[#059669]/30 cursor-pointer hover:-translate-y-2 relative overflow-hidden">
+            <Card className="bg-linear-to-br from-[#059669]/5 to-[#059669]/10 border-[#059669]/20 group hover:shadow-2xl transition-all duration-500 hover:border-[#059669]/30 cursor-pointer hover:-translate-y-2 relative overflow-hidden">
               {/* Animated top border */}
               <div
-                className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 ${
+                className={`absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 ${
                   sectionHovered.certifications ? "opacity-100" : "opacity-0"
                 }`}
               />
 
               <CardContent className="p-8 lg:p-12">
                 <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
-                  <div className="w-16 h-16 bg-[#059669]/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#059669]/20 transition-all duration-300 group-hover:shadow-lg">
+                  <div className="w-16 h-16 bg-[#059669]/10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#059669]/20 transition-all duration-300 group-hover:shadow-lg">
                     <Shield className="text-[#059669]" size={32} />
                   </div>
 
@@ -594,7 +594,7 @@ export default function MethodologyPage() {
                           className="flex items-start gap-3 group-hover:translate-x-2 transition-all duration-300 p-3 rounded-lg hover:bg-[#059669]/5 cursor-pointer border border-transparent hover:border-[#059669]/20"
                         >
                           <CheckCircle
-                            className="text-[#059669] flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300"
+                            className="text-[#059669] shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300"
                             size={20}
                           />
                           <span className="text-foreground/80 text-sm lg:text-base hover:text-[#059669] transition-colors duration-300">

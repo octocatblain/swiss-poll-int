@@ -383,9 +383,9 @@ export default function HomePage() {
             />
           </div>
           {/* Enhanced gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/40" />
+          <div className="absolute inset-0 bg-linear-to-br from-black/80 via-black/60 to-black/40" />
           {/* Additional gradient for depth */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/70" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/70" />
         </div>
 
         <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-20">
@@ -749,7 +749,7 @@ export default function HomePage() {
                   </div>
                   <CheckCircle
                     style={{ color: SUCCESS_GREEN }}
-                    className="flex-shrink-0 w-12 h-12 lg:w-16 lg:h-16"
+                    className="shrink-0 w-12 h-12 lg:w-16 lg:h-16"
                   />
                 </div>
               </CardContent>
@@ -896,7 +896,7 @@ export default function HomePage() {
                 <CardContent className="p-8 lg:p-12">
                   <div className="flex flex-col lg:flex-row gap-8 items-center">
                     {/* Avatar */}
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <div
                         className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold"
                         style={{ backgroundColor: getCurrentColor() }}
