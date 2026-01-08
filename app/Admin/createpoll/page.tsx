@@ -13,6 +13,7 @@ import { Plus, X, Upload, Send, Megaphone } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
 
 interface Competitor {
+  id?: number;
   name: string;
   party: string;
   profileFile: File | null;
@@ -33,6 +34,7 @@ export default function CreatePoll() {
   const [competitors, setCompetitors] = useState<Competitor[]>([
     { name: "", party: "", profileFile: null, profileUrl: null },
   ]);
+const [expiryHours, setExpiryHours] = useState<string>("")
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const counties = region ? regionCountyMap[region] : [];
@@ -50,20 +52,25 @@ export default function CreatePoll() {
         const res = await fetch(`${baseURL}/api/polls/${pollId}`);
         if (!res.ok) throw new Error("Failed to fetch poll");
         const data = await res.json();
-
         setTitle(data.title || "");
         setCategory(data.category || "");
         setRegion(data.region || "");
         setCounty(data.county || "");
         setConstituency(data.constituency || "");
         setWard(data.ward || "");
+ if (data.voting_expires_at) {
+        const expires = new Date(data.voting_expires_at);
+        const hoursLeft = Math.round((expires.getTime() - Date.now()) / (1000 * 60 * 60));
+        setExpiryHours(hoursLeft > 0 ? String(hoursLeft) : "");
+      }
 setCompetitors(
   data.competitors?.length
     ? data.competitors.map((c: any) => ({
+        id: c.id,
         name: c.name,
-        party: c.party,
+        party: c.party ?? "",
         profileFile: null,
-        profileUrl: c.profile || null, // ✅ include image
+        profileUrl: c.profile || null,
       }))
     : [{ name: "", party: "", profileFile: null, profileUrl: null }]
 );
@@ -108,9 +115,16 @@ setCompetitors(
     formData.append("county", county);
     formData.append("constituency", constituency);
     formData.append("ward", ward);
+    if (expiryHours && parseInt(expiryHours) > 0) {
+  const hours = parseInt(expiryHours);
+  const expiryDate = new Date(Date.now() + hours * 60 * 60 * 1000);
+  formData.append("voting_expires_at", expiryDate.toISOString());
+} else {
+  formData.append("voting_expires_at", ""); // no expiry
+}
     formData.append(
       "competitors",
-      JSON.stringify(competitors.map(({ name, party }) => ({ name, party })))
+      JSON.stringify(competitors.map(({id, name, party }) => ({id, name, party: party || "" })))
     );
 
     competitors.forEach((competitor, index) => {
@@ -150,15 +164,23 @@ setCompetitors(
     setMessage("");
   };
 
-  const updateCompetitor = (index: number, field: keyof Competitor, value: string | File | null) => {
-    const updated = [...competitors];
-    if (field === 'profileFile') {
-      updated[index][field] = value as File | null;
-    } else {
-      updated[index][field] = value as string;
+const updateCompetitor = (
+  index: number,
+  field: "name" | "party" | "profileFile",
+  value: string | File | null
+) => {
+  setCompetitors((prev) => {
+    const updated = [...prev];
+    if (field === "profileFile") {
+      updated[index].profileFile = value as File | null;
+    } else if (field === "name") {
+      updated[index].name = value as string;
+    } else if (field === "party") {
+      updated[index].party = value as string;
     }
-    setCompetitors(updated);
-  };
+    return updated;
+  });
+};
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
@@ -300,6 +322,21 @@ setCompetitors(
                 ))}
               </select>
             </div>
+<div className="md:col-span-2">
+  <label htmlFor="expiryHours" className="block text-sm font-medium text-gray-700 mb-2">
+    Voting Duration in Hours (optional)
+  </label>
+  <input
+    type="number"
+    id="expiryHours"
+    min="1"
+    placeholder="e.g. 24, 48, 168 (7 days)"
+    value={expiryHours}
+    onChange={(e) => setExpiryHours(e.target.value)}
+    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 bg-white"
+  />
+  <p className="text-xs text-gray-500 mt-1">Leave blank for no expiry</p>
+</div> 
           </div>
 
           {/* Competitors Section */}
@@ -336,7 +373,7 @@ setCompetitors(
                     <input
                       type="text"
                       id={`comp-party-${index}`}
-                      value={comp.party}
+                      value={comp.party || ''}
                       onChange={(e) => updateCompetitor(index, 'party', e.target.value)}
                       placeholder="Party Affiliation/If Independent leave blank"
                       className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-gray-800"
@@ -382,9 +419,9 @@ setCompetitors(
             onClick={() =>
               setCompetitors([...competitors, { name: "", party: "", profileFile: null, profileUrl: null }])
             }
-            className="bg-blue-500 text-white p  rounded-lg px-4 py-2"
+className="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg px-4 py-2 transition-colors flex items-center gap-2"
           >
-             Add Competitor
+           <Plus className="w-5 h-5" /> Add Competitor
           </button>
    
        <button

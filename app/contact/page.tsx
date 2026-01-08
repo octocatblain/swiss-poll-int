@@ -273,8 +273,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
-
       <main className="pt-28 pb-20">
         {/* Hero Section */}
         <section className="container mx-auto px-4 lg:px-8 mb-16 lg:mb-20">

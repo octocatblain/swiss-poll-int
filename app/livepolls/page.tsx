@@ -8,6 +8,8 @@ import {
   MapPin,
   Rows4,
   Tag,
+  Calendar,
+  Radio,
 } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
 import CountyPolls from "./poll/page";
@@ -19,6 +21,7 @@ export interface PollData {
   region?: string;
   county?: string;
   constituency?: string;
+  voting_expires_at: string;
   ward?: string;
   created_at: Date | string;
 }
@@ -46,7 +49,6 @@ const LivePollsPage = () => {
     };
     fetchAllPolls();
   }, []);
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
@@ -55,7 +57,13 @@ const LivePollsPage = () => {
       </div>
     );
   }
-
+  const isPollActive = (expiresAt: string) => {
+    try {
+      return new Date(expiresAt) > new Date();
+    } catch {
+      return false;
+    }
+  };
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
@@ -89,13 +97,27 @@ const LivePollsPage = () => {
               className="border border-gray-200 rounded-2xl shadow-md bg-white hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col"
             >
               {/* Header */}
-              <div className="bg-linear-to-r from-blue-500 to-indigo-500 p-4 rounded-t-2xl">
+              <div className="flex items-center justify-between bg-linear-to-r from-blue-500 to-indigo-500 p-4 rounded-t-2xl">
+
                 <h2 className="text-xl font-bold text-white">
                   {poll.title}
-                </h2>
+                </h2> 
+                          <div className="flex items-center space-x-2">
+                          <Radio className="w-5 h-5 animate-pulse" />
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              isPollActive(poll.voting_expires_at)
+                                ? "bg-green-500 text-white"
+                                : "bg-gray-500 text-white"
+                            }`}
+                          >
+                            {isPollActive(poll.voting_expires_at)
+                              ? "LIVE"
+                              : "ENDED"}
+                          </span>
+                        </div>
               </div>
-
-              {/* Body */}
+                {/* Body */}
               <div className="p-5 flex flex-col grow">
 
                 {/* Category */}

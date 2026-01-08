@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import KenyaMap from "../../../components/maps";
 import PollResults from "../../Admin/components/pollResults";
@@ -16,6 +15,7 @@ export default function CountyPolls() {
         `${baseURL}/api/county/${encodeURIComponent(county)}`
       );
       const data = await res.json();
+      console.log("data" + data)
       setPollId(data.pollId || null);
     } catch (error) {
       console.error("Error fetching county poll:", error);
@@ -39,7 +39,7 @@ export default function CountyPolls() {
           <h2 className="text-lg font-semibold text-gray-700 mb-4">
             Kenya Counties Map
           </h2>
-          <KenyaMap onSelectCounty={handleCountySelect} />
+          <KenyaMap onSelectCounty={handleCountySelect}  />
         </div>
 
         {/* Poll Results Card */}

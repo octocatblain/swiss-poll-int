@@ -27,6 +27,7 @@ import {
   Printer,
   UserCircle2,
   ListChecks,
+  Calendar,
 } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
 
@@ -49,6 +50,8 @@ export interface PollData {
   ward?: string;
   party?: string;
   spoiled_votes?: number;
+    voting_expires_at: string;
+   published: boolean;
   totalVotes: number;
   results: Candidate[];
   created_at: Date | string;
@@ -87,6 +90,7 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
   const [error, setError] = useState<string | null>(null);
  const [isAdmin, setIsAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
+    const [countdown, setCountdown] = useState<string>("");
   useEffect(() => {
     const adminStatus = localStorage.getItem("isAdmin");
     setIsAdmin(adminStatus === "true");
@@ -127,6 +131,40 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
     fetchData();
   }, [category, id]);
 
+    useEffect(() => {
+    if (!data?.voting_expires_at) return;
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const expires = new Date(data.voting_expires_at);
+      const diff = expires.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setCountdown("Voting closed");
+        clearInterval(interval);
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        setCountdown(`${hours}h ${minutes}m ${seconds}s`);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [data?.voting_expires_at]);
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleDateString("en-KE", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch {
+      return "Invalid date";
+    }
+  };
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
@@ -179,7 +217,6 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
     data.totalVotes > 0
       ? ((totalAllVotes / data.totalVotes) * 100).toFixed(2)
       : "0.00";
-
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
       <div className="max-w-8xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-8 border border-gray-200">
@@ -189,6 +226,16 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
             <BarChart2 className="mr-3 text-blue-600 w-8 h-8 sm:w-10 sm:h-10" />{" "}
             {data.title || "Poll Details"}
           </h1>
+         <span
+            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+              countdown !== "Voting closed"
+                ? "bg-green-100 text-green-800 border border-green-200"
+                : "bg-gray-100 text-gray-800 border border-gray-200"
+            }`}
+          >
+            {countdown || "Loading..."}
+          </span>
+
           <p className="text-gray-600 text-base sm:text-lg font-medium mb-1 flex items-center justify-center">
             <Info className="w-4 h-4 mr-2 text-gray-500" /> Category:{" "}
             <span className="font-semibold ml-1">{data.category || "N/A"}</span>
@@ -378,7 +425,7 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
                   strokeLinecap="round"
                 />
               </svg>
-              {candidate.profile ? (
+              {candidate.profile && candidate.profile !== "" ? (
                 <img
                   src={candidate.profile}
                   alt={candidate.name}

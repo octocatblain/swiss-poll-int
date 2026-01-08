@@ -43,11 +43,8 @@ export default function Home() {
 
   return (
     <div className="max-w-full mx-auto">
-      <div className="flex flex-col lg:flex-row gap-2">
- 
-        <div className=" w-full">
           <div className="bg-white shadow-lg rounded-lg p-4 space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
               <h2 className="text-2xl font-bold">Active Polls</h2>
               {mounted && isAdmin && (
                 <div className="flex gap-2">
@@ -80,10 +77,8 @@ export default function Home() {
               )}
             </div>
             <AllApirantPollPage />
-            <CountyPolls />
+            {/* <CountyPolls /> */}
          </div>
         </div>
-      </div>
-    </div>
   );
 }

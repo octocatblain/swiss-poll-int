@@ -9,7 +9,7 @@ export default function KenyaMap({
   onSelectCounty: (county: string) => void;
 }) {
   return (
-    <div className="h-[500px] rounded-xl shadow-md">
+    <div className="h-125 rounded-xl shadow-md">
       <ComposableMap
         projection="geoAzimuthalEqualArea"
         projectionConfig={{
@@ -25,7 +25,7 @@ export default function KenyaMap({
                 key={geo.rsmKey}
                 geography={geo}
                 onClick={() =>
-                  onSelectCounty(geo.properties?.COUNTY || "Unknown") // use COUNTY
+                  onSelectCounty(geo.properties?.COUNTY || "Unknown") 
                 }
                 style={{
                   default: {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Twitter, Facebook } from "react-feather";
 import Image from "next/image";
+import { Radiation } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -63,7 +64,7 @@ export function Header() {
       { label: "Services", href: "/services" },
       { label: "Methodology", href: "/methodology" },
       { label: "Contact", href: "/contact" },
-      {label: "Polls", href: "/livepolls"},
+      { label: "Polls", href: "/livepolls"},
     ],
     []
   );
@@ -91,12 +92,11 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-sm shadow-sm supports-backdrop-filter:bg-white/80"
           : "bg-transparent"
       }`}
-      role="banner"
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20 lg:h-24">
@@ -109,23 +109,13 @@ export function Header() {
             onMouseLeave={() => setIsHovering(null)}
           >
             <div className="flex items-center">
-              {isScrolled ? (
                 <Image
-                  src={"/assets/swiss_poll_logo.png"}
+                  src={"/logo.jpeg"}
                   alt="Swiss Poll International"
                   width={500}
                   height={500}
                   className="h-20 w-auto object-contain"
                 />
-              ) : (
-                <Image
-                  src={"/assets/swiss_poll_logo_alt.jpg"}
-                  alt="Swiss Poll International"
-                  width={500}
-                  height={500}
-                  className="h-20 w-auto rounded-full object-contain"
-                />
-              )}
             </div>
           </Link>
 
@@ -138,6 +128,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+
                 className={`text-sm font-medium transition-all duration-300 relative py-2 group ${
                   isActiveLink(item.href)
                     ? "text-[#059669] font-semibold"
@@ -147,7 +138,7 @@ export function Header() {
                 onMouseLeave={() => setIsHovering(null)}
               >
                 <span className="relative">
-                  {item.label}
+                     {item.label}
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-[#059669] transition-all duration-300 ${
                       isActiveLink(item.href) || isHovering === item.href

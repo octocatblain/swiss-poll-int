@@ -322,15 +322,13 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
-
       <main className="pt-28 pb-20">
         {/* Hero Section */}
         <section className="container mx-auto px-4 lg:px-8 mb-16 lg:mb-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 tracking-tight group">
               {PAGE_DATA.hero.title}
-              <span className="block h-1 w-0 group-hover:w-48 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-1000 mx-auto mt-4" />
+              <span className="block h-1 w-0 group-hover:w-48 bg-linear-to-r from-[#059669] to-transparent transition-all duration-1000 mx-auto mt-4" />
             </h1>
             <p className="text-lg md:text-xl text-foreground/80 leading-relaxed max-w-3xl mx-auto group-hover:text-foreground/90 transition-colors duration-300">
               {PAGE_DATA.hero.description}
@@ -352,7 +350,7 @@ export default function ServicesPage() {
           <div className="max-w-4xl mx-auto text-center mb-12 lg:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 group hover:text-[#059669] transition-colors duration-300 cursor-pointer">
               Specialized Research Solutions
-              <span className="block h-0.5 w-0 group-hover:w-32 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2" />
+              <span className="block h-0.5 w-0 group-hover:w-32 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 mx-auto mt-2" />
             </h2>
             <p className="text-lg text-foreground/80 leading-relaxed group-hover:text-foreground/90 transition-colors duration-300">
               Beyond our core services, we offer specialized research
@@ -371,13 +369,13 @@ export default function ServicesPage() {
         <section className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <Card
-              className="bg-gradient-to-br from-[#059669]/5 to-[#059669]/10 border-[#059669]/20 p-12 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group relative overflow-hidden"
+              className="bg-linear-to-br from-[#059669]/5 to-[#059669]/10 border-[#059669]/20 p-12 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group relative overflow-hidden"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
               {/* Animated background elements */}
               <div
-                className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#059669] to-transparent transition-all duration-500 ${
+                className={`absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[#059669] to-transparent transition-all duration-500 ${
                   isHovered ? "opacity-100" : "opacity-0"
                 }`}
               />

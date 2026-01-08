@@ -19,6 +19,7 @@ import {
   Clock,
   Users,
   X,
+  Calendar,
 } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
 
@@ -78,7 +79,13 @@ const PollResults = ({ pollId }: { pollId?: number }) => {
       </div>
     );
   }
-
+  const isPollActive = (expiresAt: string) => {
+    try {
+      return new Date(expiresAt) > new Date();
+    } catch {
+      return false;
+    }
+  };
   if (error || !data) {
     return (
       <div className=" flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
@@ -108,6 +115,7 @@ const PollResults = ({ pollId }: { pollId?: number }) => {
             <BarChart2 className="mr-3 text-blue-600 w-8 h-8 sm:w-10 sm:h-10" />
             {data.title || "Poll Results"}
           </h1>
+             
           <p className="text-gray-600 text-base sm:text-lg font-medium mb-1 flex items-center justify-center">
             <Info className="w-4 h-4 mr-2 text-gray-500" /> Region:
             <span className="font-semibold ml-1">{data.region}</span>

@@ -2,6 +2,7 @@
 
 
 import { baseURL } from "@/app/config/baseUrl";
+import {EditIcon, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface EditDeleteProps {
@@ -35,7 +36,7 @@ export default function EditDelete({ pollId }: EditDeleteProps) {
 
   // ✅ EDIT handler
   const handleEdit = async () => {
-   router.push(`/createpoll?pollId=${pollId}`);
+   router.push(`/Admin/createpoll?pollId=${pollId}`);
 
   };
 
@@ -45,14 +46,14 @@ export default function EditDelete({ pollId }: EditDeleteProps) {
         onClick={handleEdit}
         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
       >
-        Edit
+     <EditIcon className="w-5 h-5" />
       </button>
 
       <button
         onClick={handleDelete}
         className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
       >
-        Delete
+<Trash className="w-5 h-5" />
       </button>
     </div>
   );

@@ -5,6 +5,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import ClientLayoutWrapper from "./ClientLayoutWrapper";
+import LiveMovingPolls from "@/components/RenderingPolls";
 
 const suisseIntl = Inter({
   subsets: ["latin"],
@@ -37,9 +38,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClientLayoutWrapper>
           <Suspense fallback={<div>Loading...</div>}>
             {children}
-          </Suspense>
+              </Suspense>
         </ClientLayoutWrapper>
-
         <Toaster />
       </body>
     </html>

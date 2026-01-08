@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Navbar from "@/app/Admin/components/Navbar";
 import { Header } from "@/components/header";
+import LiveMovingPolls from "@/components/RenderingPolls";
 
 
 export default function ClientLayoutWrapper({
@@ -36,15 +37,17 @@ export default function ClientLayoutWrapper({
   const hideNavbarOnLogin = pathname === "/Admin/Login";
 
   return (
-    <>
+<main>
       {isAdmin && !hideNavbarOnLogin && pathname.startsWith("/Admin") ? (
         <Navbar />
       ) : (
   !pathname.startsWith("/Admin") && <Header />
       )}
 
-      <main>{children}</main>
+      {children}
+      <LiveMovingPolls />
+      </main>
 
-    </>
+
   );
 }

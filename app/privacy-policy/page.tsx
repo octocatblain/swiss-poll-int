@@ -4,9 +4,7 @@ import { Footer } from "@/components/footer";
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen">
-      <Header />
-
-      <main className="pt-32 pb-24">
+         <main className="pt-32 pb-24">
         <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
           <h1 className="text-5xl font-bold text-primary mb-8">
             Privacy Policy

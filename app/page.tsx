@@ -366,8 +366,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
-
       <PdfModal isOpen={isPdfModalOpen} onClose={handleClosePdfModal} />
 
       {/* Hero Section with Background Image and Gradient */}
@@ -375,7 +373,7 @@ export default function HomePage() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0">
             <Image
-              src="/professional-business-team-analyzing-data.jpg"
+              src="/logo.jpeg"
               alt="Professional research team analyzing data"
               width={1600}
               height={900}
@@ -383,9 +381,8 @@ export default function HomePage() {
             />
           </div>
           {/* Enhanced gradient overlay */}
-          <div className="absolute inset-0 bg-linear-to-br from-black/80 via-black/60 to-black/40" />
-          {/* Additional gradient for depth */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/70" />
+           <div className="absolute inset-0 bg-linear-to-br from-black/50 via-black/30 to-black/10" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/70" /> 
         </div>
 
         <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-20">
@@ -659,7 +656,7 @@ export default function HomePage() {
                       )}
 
                       {service.chartType === "image" && (
-                        <div className="relative w-full h-[300px]">
+                        <div className="relative w-full h-75">
                           <Image
                             src="/customer-satisfaction-dashboard.jpg"
                             alt="Customer Experience"
