@@ -40,6 +40,8 @@ import {
   Cell,
 } from "recharts";
 import { toast } from "@/hooks/use-toast";
+import RegionContent from "@/components/RegionContent";
+import CountyPolls from "./livepolls/poll/page";
 
 // New RGB-inspired color scheme
 const PRIMARY_RED = "#DC2626"; // Rich red for primary accents
@@ -368,103 +370,102 @@ export default function HomePage() {
     <div className="min-h-screen">
       <PdfModal isOpen={isPdfModalOpen} onClose={handleClosePdfModal} />
 
-      {/* Hero Section with Background Image and Gradient */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0">
-            <Image
-              src="/logo.jpeg"
-              alt="Professional research team analyzing data"
-              width={1600}
-              height={900}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          {/* Enhanced gradient overlay */}
-           <div className="absolute inset-0 bg-linear-to-br from-black/50 via-black/30 to-black/10" />
-              <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/70" /> 
-        </div>
+   <section className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between min-h-screen">
+  <div className="absolute inset-0 z-0">
+    <Image
+      src="/logo.jpeg"
+      alt="Professional research team analyzing data"
+      width={1600}
+      height={900}
+      className="w-full h-full object-cover"
+    />
+    {/* Gradient overlays for better readability */}
+    <div className="absolute inset-0 bg-linear-to-br from-black/60 via-black/30 to-black/10" />
+    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/70" />
+  </div>
+  <div className="relative z-10 w-full">
+    <RegionContent />
+  </div>
+<div className="relative z-10 w-full ">
+<CountyPolls />
+</div>
+  {/* <div className="relative backdrop-blur-sm z-10 w-full lg:w-2/3 px-4 lg:px-12 pt-12 lg:pt-20 text-center lg:text-left flex flex-col items-center lg:items-start">
+    <div className="mb-6 inline-block animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div
+        className="text-sm font-semibold tracking-wider text-black uppercase px-4 py-2 rounded-full border  backdrop-blur-sm"
+        style={{ backgroundColor: PRIMARY_RED }}
+      >
+        Swiss Precision in Market Research
+      </div>
+    </div>
 
-        <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-20">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="mb-6 inline-block animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div
-                className="text-sm font-semibold tracking-wider text-white/90 uppercase px-4 py-2 rounded-full border border-white/30 backdrop-blur-sm"
-                style={{ backgroundColor: PRIMARY_RED }}
-              >
-                Swiss Precision in Market Research
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 tracking-tight leading-tight animate-in fade-in slide-in-from-bottom-6 duration-1000">
-              The Signal in the Noise.
-            </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-12 leading-relaxed max-w-4xl mx-auto font-light animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-              Precision Opinion Research and Consumer Insight to Guide Your Most
-              Critical Decisions.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
-              <Button
-                size="lg"
-                onClick={() =>
-                  toast({
-                    title: "Feature unavailable",
-                    description: "This feature is not available yet.",
-                  })
-                }
-                className="text-white text-lg px-8 py-6 h-auto shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-red-700"
-                style={{ backgroundColor: PRIMARY_RED }}
-              >
-                Request a Proposal
-                <ArrowRight size={20} className="ml-2" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() =>
-                  toast({
-                    title: "Feature unavailable",
-                    description: "This feature is not available yet.",
-                  })
-                }
-                className="text-lg px-8 py-6 h-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 hover:text-white shadow-xl transition-all duration-300"
-              >
-                View Our Research
-              </Button>
-            </div>
+    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-tight animate-in fade-in slide-in-from-bottom-6 duration-1000">
+      The Signal in the Noise.
+    </h1>
 
-            {/* Trust Indicators */}
-            <div className="mt-16 pt-12 border-t border-white/20 animate-in fade-in duration-1000 delay-500">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-                {TRUST_METRICS.map((metric, index) => (
-                  <div
-                    key={index}
-                    className="text-center group hover:scale-105 transition-transform"
-                  >
-                    <div
-                      className="text-3xl md:text-4xl font-bold mb-2"
-                      style={{
-                        color:
-                          index === 0
-                            ? PRIMARY_RED
-                            : index === 1
-                            ? SUCCESS_GREEN
-                            : TRUST_BLUE,
-                      }}
-                    >
-                      {metric.value}
-                    </div>
-                    <div className="text-sm opacity-80 uppercase tracking-wide">
-                      {metric.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+    <p className="text-lg md:text-xl lg:text-2xl text-gray-400 mb-8 leading-relaxed max-w-xl font-light animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+      Precision Opinion Research and Consumer Insight to Guide Your Most Critical Decisions.
+    </p>
+
+    <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
+      <Button
+        size="lg"
+        onClick={() =>
+          toast({
+            title: "Feature unavailable",
+            description: "This feature is not available yet.",
+          })
+        }
+        className="text-white text-lg px-8 py-6 h-auto shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-red-700"
+        style={{ backgroundColor: PRIMARY_RED }}
+      >
+        Request a Proposal
+        <ArrowRight size={20} className="ml-2" />
+      </Button>
+      <Button
+        size="lg"
+        variant="outline"
+        onClick={() =>
+          toast({
+            title: "Feature unavailable",
+            description: "This feature is not available yet.",
+          })
+        }
+        className="text-lg px-8 py-6 h-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 hover:text-white shadow-xl transition-all duration-300"
+      >
+        View Our Research
+      </Button>
+    </div>
+    <div className="mt-12 pt-8 border-t border-white/20 animate-in fade-in duration-1000 delay-500 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white text-center lg:text-left">
+        {TRUST_METRICS.map((metric, index) => (
+          <div
+            key={index}
+            className="group hover:scale-105 transition-transform"
+          >
+            <div
+              className="text-3xl md:text-4xl font-bold mb-2"
+              style={{
+                color:
+                  index === 0
+                    ? PRIMARY_RED
+                    : index === 1
+                    ? SUCCESS_GREEN
+                    : TRUST_BLUE,
+              }}
+            >
+              {metric.value}
+            </div>
+            <div className="text-sm opacity-80 uppercase tracking-wide">
+              {metric.label}
             </div>
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+  </div> */}
+</section>
 
-      {/* Our Promise Section with Light Background */}
       <section
         className="py-20 lg:py-32"
         style={{ backgroundColor: SECTION_BG_LIGHT }}

@@ -24,22 +24,27 @@ export default function Home() {
     localStorage.removeItem("isAdmin");
     window.location.href = "/";
   };
-  useEffect(() => {
-    const fetchLatestPoll = async () => {
-      try {
-        console.log("Fetching from:", `${baseURL}/api/polls`);
-        const res = await fetch(`${baseURL}/api/polls`);
-        const polls: PollSummary[] = await res.json();
-        if (polls.length > 0) {
-          setLatestPollId(polls[0].id);
-        }
-      } catch (err) {
-        console.error("Failed to load polls:", err);
-      }
-    };
+const fetched = React.useRef(false);
 
-    fetchLatestPoll();
-  }, []);
+useEffect(() => {
+  if (fetched.current) return;
+  fetched.current = true;
+
+  const fetchLatestPoll = async () => {
+    try {
+      const res = await fetch(`${baseURL}/api/polls`);
+      const polls: PollSummary[] = await res.json();
+      if (polls.length > 0) {
+        setLatestPollId(polls[0].id);
+      }
+    } catch (err) {
+      console.error("Failed to load polls:", err);
+    }
+  };
+
+  fetchLatestPoll();
+}, []);
+
 
   return (
     <div className="max-w-full mx-auto">
@@ -77,7 +82,6 @@ export default function Home() {
               )}
             </div>
             <AllApirantPollPage />
-            {/* <CountyPolls /> */}
          </div>
         </div>
   );

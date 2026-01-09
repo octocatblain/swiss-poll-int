@@ -37,9 +37,10 @@ export default function CreatePoll() {
 const [expiryHours, setExpiryHours] = useState<string>("")
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const counties = region ? regionCountyMap[region] : [];
-  const constituencies = county ? countyConstituencyMap[county] : [];
-  const wards = constituency ? countyAssemblyWardMap[constituency] : [];
+const counties = regionCountyMap[region] ?? [];
+const constituencies = countyConstituencyMap[county] ?? [];
+const wards = countyAssemblyWardMap[constituency] ?? [];
+
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
     useEffect(() => {
@@ -63,11 +64,12 @@ const [expiryHours, setExpiryHours] = useState<string>("")
         const hoursLeft = Math.round((expires.getTime() - Date.now()) / (1000 * 60 * 60));
         setExpiryHours(hoursLeft > 0 ? String(hoursLeft) : "");
       }
+
 setCompetitors(
   data.competitors?.length
     ? data.competitors.map((c: any) => ({
         id: c.id,
-        name: c.name,
+         name: c.name,
         party: c.party ?? "",
         profileFile: null,
         profileUrl: c.profile || null,
@@ -120,7 +122,7 @@ setCompetitors(
   const expiryDate = new Date(Date.now() + hours * 60 * 60 * 1000);
   formData.append("voting_expires_at", expiryDate.toISOString());
 } else {
-  formData.append("voting_expires_at", ""); // no expiry
+  formData.append("voting_expires_at", ""); 
 }
     formData.append(
       "competitors",
@@ -309,7 +311,7 @@ const updateCompetitor = (
               </label>
               <select
                 id="ward"
-                value={ward}
+                value={ward || ""}
                 onChange={(e) => setWard(e.target.value)}
                 disabled={!constituency}
                 className={`w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 bg-white ${!constituency ? 'opacity-60 cursor-not-allowed' : ''}`}
