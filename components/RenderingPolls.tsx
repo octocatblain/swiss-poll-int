@@ -25,9 +25,7 @@ export default function LiveMovingPolls() {
   const [index, setIndex] = useState(0);
   const fetching = useRef(false);
   const [isVisible, setIsVisible] = useState(true);
-
-  // Position state for drag
-  const [position, setPosition] = useState({ x: 20, y: window.innerHeight - 150 });
+  const [position, setPosition] = useState({ x: 10, y: window.innerHeight -200 });
   const dragRef = useRef<HTMLDivElement | null>(null);
   const dragging = useRef(false);
   const offset = useRef({ x: 0, y: 0 });
@@ -103,7 +101,7 @@ export default function LiveMovingPolls() {
     <div
       ref={dragRef}
       onMouseDown={handleMouseDown}
-      className="fixed z-50 cursor-grab"
+      className="fixed z-50 cursor-grab "
       style={{
         left: position.x,
         top: position.y,
@@ -120,9 +118,9 @@ export default function LiveMovingPolls() {
         </button>
 
         {/* Header */}
-        <div className="flex gap-3 items-start">
+        <div className="flex gap-3 items-start ">
           <Radio className="w-5 h-5 text-red-600 animate-pulse mt-1" />
-          <div>
+          <div >
             <a href={`/livepolls/FullvotesInterface?id=${poll.id}`}>
               <h3 className="font-bold text-lg text-gray-900 hover:text-blue-600 cursor-pointer underline truncate">
                 {poll.title}

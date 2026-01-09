@@ -51,7 +51,7 @@ export default function CountyPolls() {
           </h2>
           <KenyaMap
             onSelectCounty={handleCountySelect}
-            liveCounties={liveCounties} // Pass live counties
+            liveCounties={liveCounties} 
           />
         </div>
       </div>

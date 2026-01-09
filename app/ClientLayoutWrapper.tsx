@@ -43,9 +43,9 @@ export default function ClientLayoutWrapper({
       ) : (
   !pathname.startsWith("/Admin") && <Header />
       )}
-
+     
       {children}
-      <LiveMovingPolls />
+ <LiveMovingPolls />
       </main>
 
 

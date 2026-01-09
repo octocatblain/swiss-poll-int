@@ -87,7 +87,7 @@ export default function RegionContent() {
     return <div className="text-center text-destructive mt-6">Failed to load data</div>;
 
   return (
-    <section className="py-6 px-4 sm:px-6 lg:px-8">
+    <section className="py-6 px-4 sm:px-6 lg:px-5">
       <Card className="p-3 bg-card/80 backdrop-blur-sm shadow-xl rounded-2xl">
         <h3 className="text-lg font-bold mb-4">Polls By Regionals</h3>
         {isLoading ? (
@@ -100,12 +100,12 @@ export default function RegionContent() {
   <BarChart
     data={regionData}
     layout="vertical"
-    margin={{ top: 5, left: 20, bottom: 5 }}
+    margin={{ top: 5,  bottom: 5 }}
   >
     <XAxis type="number" />
-    <YAxis type="category" dataKey="name" width={120} />
+    <YAxis type="category" angle={-45} dataKey="name" width={120} />
     <Tooltip
-      formatter={(value: number) => `${value ?? 0} polls`}
+      formatter={(value) => `${value ?? 0} polls`}
     />
     <Bar dataKey="value">
       {regionData.map((entry, index) => (

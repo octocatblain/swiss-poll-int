@@ -389,89 +389,14 @@ export default function HomePage() {
 <div className="relative z-10 w-full ">
 <CountyPolls />
 </div>
-  {/* <div className="relative backdrop-blur-sm z-10 w-full lg:w-2/3 px-4 lg:px-12 pt-12 lg:pt-20 text-center lg:text-left flex flex-col items-center lg:items-start">
-    <div className="mb-6 inline-block animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div
-        className="text-sm font-semibold tracking-wider text-black uppercase px-4 py-2 rounded-full border  backdrop-blur-sm"
-        style={{ backgroundColor: PRIMARY_RED }}
-      >
-        Swiss Precision in Market Research
-      </div>
-    </div>
-
-    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-tight animate-in fade-in slide-in-from-bottom-6 duration-1000">
-      The Signal in the Noise.
-    </h1>
-
-    <p className="text-lg md:text-xl lg:text-2xl text-gray-400 mb-8 leading-relaxed max-w-xl font-light animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-      Precision Opinion Research and Consumer Insight to Guide Your Most Critical Decisions.
-    </p>
-
-    <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
-      <Button
-        size="lg"
-        onClick={() =>
-          toast({
-            title: "Feature unavailable",
-            description: "This feature is not available yet.",
-          })
-        }
-        className="text-white text-lg px-8 py-6 h-auto shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-red-700"
-        style={{ backgroundColor: PRIMARY_RED }}
-      >
-        Request a Proposal
-        <ArrowRight size={20} className="ml-2" />
-      </Button>
-      <Button
-        size="lg"
-        variant="outline"
-        onClick={() =>
-          toast({
-            title: "Feature unavailable",
-            description: "This feature is not available yet.",
-          })
-        }
-        className="text-lg px-8 py-6 h-auto bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 hover:text-white shadow-xl transition-all duration-300"
-      >
-        View Our Research
-      </Button>
-    </div>
-    <div className="mt-12 pt-8 border-t border-white/20 animate-in fade-in duration-1000 delay-500 w-full">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white text-center lg:text-left">
-        {TRUST_METRICS.map((metric, index) => (
-          <div
-            key={index}
-            className="group hover:scale-105 transition-transform"
-          >
-            <div
-              className="text-3xl md:text-4xl font-bold mb-2"
-              style={{
-                color:
-                  index === 0
-                    ? PRIMARY_RED
-                    : index === 1
-                    ? SUCCESS_GREEN
-                    : TRUST_BLUE,
-              }}
-            >
-              {metric.value}
-            </div>
-            <div className="text-sm opacity-80 uppercase tracking-wide">
-              {metric.label}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div> */}
 </section>
 
       <section
-        className="py-20 lg:py-32"
+        className="py-5 lg:py-5"
         style={{ backgroundColor: SECTION_BG_LIGHT }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center mb-16">
+          <div className="max-w-4xl mx-auto text-center mb-4">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               Methodological Rigor, Uncompromising Integrity.
             </h2>
@@ -519,7 +444,7 @@ export default function HomePage() {
 
       {/* Services Section with Neutral Background */}
       <section
-        className="py-20 lg:py-32"
+        className="py-5 lg:py-5"
         style={{ backgroundColor: SECTION_BG_NEUTRAL }}
       >
         <div className="container mx-auto px-4 lg:px-8">
@@ -677,7 +602,7 @@ export default function HomePage() {
 
       {/* Methodology Section with Dark Background - Using Blue Theme */}
       <section
-        className="py-20 lg:py-32 text-white"
+        className="py-5 lg:py-5 text-white"
         style={{ backgroundColor: SECTION_BG_DARK }}
       >
         <div className="container mx-auto px-4 lg:px-8">
@@ -758,7 +683,7 @@ export default function HomePage() {
 
       {/* Insights Section with Light Background */}
       <section
-        className="py-20 lg:py-32"
+        className="py-5 lg:py-5"
         style={{ backgroundColor: SECTION_BG_LIGHT }}
       >
         <div className="container mx-auto px-4 lg:px-8">
@@ -840,7 +765,7 @@ export default function HomePage() {
 
       {/* Enhanced Testimonials Section with Neutral Background */}
       <section
-        className="py-20 lg:py-32"
+        className="py-5 lg:py-5"
         style={{ backgroundColor: SECTION_BG_NEUTRAL }}
       >
         <div className="container mx-auto px-4 lg:px-8">

@@ -309,12 +309,13 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
                     />
                   ))}
                 </Pie>
-                <Tooltip
-                  formatter={(value: number, name: string, props: any) => [
-                    `${value.toLocaleString()} votes`,
-                  props.payload.name,
-                  ]}
-                />
+<Tooltip
+  formatter={(value, name, props) => {
+    if (typeof value !== "number") return ["0 votes", name];
+    return [`${value.toLocaleString()} votes`, name];
+  }}
+/>
+
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -340,9 +341,13 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
       tickFormatter={(value) => value.toLocaleString()}
       tick={{ fill: "#374151", fontSize: 12 }}
     />
-    <Tooltip
-      formatter={(value: number) => `${value.toLocaleString()} votes`}
-    />
+<Tooltip
+  formatter={(value) => {
+    if (typeof value !== "number") return "0 votes";
+    return `${value.toLocaleString()} votes`;
+  }}
+/>
+
 
     {/* Bar series */}
     <Bar dataKey="votes" barSize={24} radius={[10, 10, 0, 0]}>
