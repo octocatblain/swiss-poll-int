@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -50,7 +49,7 @@ export interface PollData {
   ward?: string;
   party?: string;
   spoiled_votes?: number;
-    voting_expires_at: string;
+  voting_expires_at: string;
    published: boolean;
   totalVotes: number;
   results: Candidate[];
@@ -133,7 +132,6 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
 
     useEffect(() => {
     if (!data?.voting_expires_at) return;
-
     const interval = setInterval(() => {
       const now = new Date();
       const expires = new Date(data.voting_expires_at);
@@ -152,19 +150,7 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
 
     return () => clearInterval(interval);
   }, [data?.voting_expires_at]);
-  const formatDate = (dateString: string) => {
-    try {
-      return new Date(dateString).toLocaleDateString("en-KE", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch {
-      return "Invalid date";
-    }
-  };
+ 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
