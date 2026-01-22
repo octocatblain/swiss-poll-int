@@ -361,7 +361,6 @@ export default function HomePage() {
   const goToTestimonial = (index: number) => {
     setCurrentTestimonial(index);
   };
-
   const getCurrentColor = () => {
     return TESTIMONIALS[currentTestimonial]?.color || PRIMARY_RED;
   };

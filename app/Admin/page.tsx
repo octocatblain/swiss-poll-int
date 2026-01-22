@@ -45,7 +45,6 @@ useEffect(() => {
   fetchLatestPoll();
 }, []);
 
-
   return (
     <div className="max-w-full mx-auto">
           <div className="bg-white shadow-lg rounded-lg p-4 space-y-6">
