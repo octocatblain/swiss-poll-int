@@ -147,7 +147,8 @@ const router = useRouter();
           setMessage("You've already voted in this poll.");
         }
         setTimeout(() => {
-          router.replace("/");
+          if(!isAdmin){        
+          router.replace("/");}
         }, 1500);
       }
     } catch (error: any) {
