@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import AllApirantPollPage from "./components/AllAspirantPoll";
 import { PlusCircle } from "lucide-react";
 import { baseURL } from "../config/baseUrl";
-import CountyPolls from "../livepolls/poll/page";
 
 export interface PollSummary {
   id: number;

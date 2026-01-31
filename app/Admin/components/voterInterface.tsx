@@ -122,6 +122,15 @@ const router = useRouter();
     const interval = setInterval(fetchData, 6000);
     return () => clearInterval(interval);
   }, [pollId, voterId, data?.allow_multiple_votes, localAllowMultipleVotes]);
+const addBulkVotes = async () => {
+  await axios.post(`${baseURL}/api/votes/bulk`, {
+    pollId,
+    competitorId: selectedCandidateId,
+    count: 1000,
+  });
+
+  alert("Bulk votes added");
+};
 
   const handleVote = async () => {
     if (!selectedCandidateId || !data || !voterId) {
@@ -248,35 +257,50 @@ const router = useRouter();
       ) : (
         /* Voting Form */
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
-          <div className="space-y-4 mb-8">
-            {data.results.map((candidate) => (
-              <label
-                key={candidate.id}
-                htmlFor={`candidate-${candidate.id}`}
-                className={`
-                  flex items-center p-4 rounded-xl cursor-pointer transition-all duration-200
-                  border-2
-                  ${selectedCandidateId === candidate.id 
-                    ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40" 
-                    : "border-transparent hover:bg-gray-50 dark:hover:bg-gray-700/40"}
-                `}
-              >
-                <input
-                  type="radio"
-                  id={`candidate-${candidate.id}`}
-                  name="candidate"
-                  value={candidate.id}
-                  checked={selectedCandidateId === candidate.id}
-                  onChange={() => setSelectedCandidateId(candidate.id)}
-                  className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                  disabled={isVoting}
-                />
-                <span className="ml-4 text-lg font-medium text-gray-900 dark:text-gray-100">
-                  {candidate.name}
-                </span>
-              </label>
-            ))}
-          </div>
+ <div className="space-y-3 mb-8">
+  {data.results.map((candidate) => (
+    <label
+      key={candidate.id}
+      className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition
+        ${selectedCandidateId === candidate.id
+          ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40"
+          : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/40"}
+      `}
+    >
+      <input
+        type="radio"
+        name="candidate"
+        checked={selectedCandidateId === candidate.id}
+        onChange={() => setSelectedCandidateId(candidate.id)}
+        className="h-5 w-5 text-indigo-600"
+      />
+      <span className="text-lg font-medium text-gray-900 dark:text-white">
+        {candidate.name}
+      </span>
+    </label>
+  ))}
+</div>
+{isAdmin && selectedCandidateId && (
+  <div className="mt-6 rounded-xl border border-red-200 dark:border-red-800 
+                  bg-red-50 dark:bg-red-950/30 p-5">
+    <h3 className="text-sm font-semibold text-red-700 dark:text-red-400 mb-2">
+      Admin Bulk Actions
+    </h3>
+
+    <p className="text-sm text-red-600 dark:text-red-300 mb-4">
+      This will instantly add votes to the selected candidate.
+    </p>
+
+    <button
+      onClick={addBulkVotes}
+      className="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 
+                 text-white font-semibold transition"
+    >
+      Add 1000 Votes to Selected Candidate
+    </button>
+  </div>
+)}
+
 
           <button
             onClick={handleVote}
