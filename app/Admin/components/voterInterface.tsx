@@ -29,6 +29,8 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
   const [countdown, setCountdown] = useState<string>("");
   const [isExpired, setIsExpired] = useState(false);
   const [localAllowMultipleVotes, setLocalAllowMultipleVotes] = useState<boolean | null>(null);
+  const [count, setCount] = useState<number>(0);
+
 const router = useRouter();
   // Generate / load voter ID
   useEffect(() => {
@@ -123,13 +125,23 @@ const router = useRouter();
     return () => clearInterval(interval);
   }, [pollId, voterId, data?.allow_multiple_votes, localAllowMultipleVotes]);
 const addBulkVotes = async () => {
+    if (!selectedCandidateId || count <= 0) {
+    alert("Enter a valid vote count");
+    return;
+  }
+  try{
   await axios.post(`${baseURL}/api/votes/bulk`, {
     pollId,
     competitorId: selectedCandidateId,
-    count: 1000,
+    count,
   });
-
-  alert("Bulk votes added");
+ alert(`${count} votes added successfully`);
+    setCount(0);
+}catch(err){
+   console.error(err);
+    alert("Failed to add bulk votes");
+  
+}
 };
 
   const handleVote = async () => {
@@ -290,13 +302,22 @@ const addBulkVotes = async () => {
     <p className="text-sm text-red-600 dark:text-red-300 mb-4">
       This will instantly add votes to the selected candidate.
     </p>
+<input
+  type="number"
+  min={1}
+  value={count}
+  onChange={(e) => setCount(Number(e.target.value))}
+  className="w-full mb-4 px-4 py-2 rounded-lg border 
+             border-red-300 dark:border-red-700
+             bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+/>
 
     <button
       onClick={addBulkVotes}
       className="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 
                  text-white font-semibold transition"
     >
-      Add 1000 Votes to Selected Candidate
+      Add Votes
     </button>
   </div>
 )}
