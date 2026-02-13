@@ -122,7 +122,7 @@ export default function LiveMovingPolls() {
           <Radio className="w-5 h-5 text-red-600 animate-pulse mt-1" />
           <div >
             <a href={`/livepolls/FullvotesInterface?id=${poll.id}`}>
-              <h3 className="font-bold text-lg text-gray-900 hover:text-blue-600 cursor-pointer underline truncate">
+              <h3 className="font-bold text-lg text-gray-900 hover:text-blue-600 cursor-pointer underline text-wrap">
                 {poll.title}
               </h3>
             </a>

@@ -7,6 +7,7 @@ export const CATEGORY_OPTIONS = [
 ];
 
 export const regionCountyMap: Record<string, string[]> = {
+  National:[],
   Coast: ["Mombasa", "Kwale", "Kilifi", "Tana_River", "Lamu", "Taita_Taveta"],
   Nairobi: ["Nairobi"],
   Central: ["Nyandarua", "Nyeri", "Kirinyaga", "Muranga", "Kiambu"],

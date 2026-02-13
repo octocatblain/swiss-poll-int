@@ -31,6 +31,7 @@ export default function CreatePoll() {
   const [county, setCounty] = useState("");
   const [constituency, setConstituency] = useState("");
   const [ward, setWard] = useState("");
+  const [question, setQuestion] = useState("");
   const [competitors, setCompetitors] = useState<Competitor[]>([
     { name: "", party: "", profileFile: null, profileUrl: null },
   ]);
@@ -59,6 +60,7 @@ const wards = countyAssemblyWardMap[constituency] ?? [];
         setCounty(data.county || "");
         setConstituency(data.constituency || "");
         setWard(data.ward || "");
+        setQuestion(data.question || "");
  if (data.voting_expires_at) {
         const expires = new Date(data.voting_expires_at);
         const hoursLeft = Math.round((expires.getTime() - Date.now()) / (1000 * 60 * 60));
@@ -99,7 +101,7 @@ setCompetitors(
     setSubmitting(true);
     setMessage("");
 
-    if (!title || !category || !region || !county ){
+    if (!title || !category || !region ){
       setMessage("❌ Please fill in all required poll details.");
       setSubmitting(false);
       return;
@@ -117,6 +119,7 @@ setCompetitors(
     formData.append("county", county);
     formData.append("constituency", constituency);
     formData.append("ward", ward);
+    formData.append("question", question);
     if (expiryHours && parseInt(expiryHours) > 0) {
   const hours = parseInt(expiryHours);
   const expiryDate = new Date(Date.now() + hours * 60 * 60 * 1000);
@@ -183,7 +186,7 @@ const updateCompetitor = (
     return updated;
   });
 };
-
+const isNational= region === "National";
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
       <div className="max-w-8xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-8 border border-gray-200">
@@ -259,7 +262,7 @@ const updateCompetitor = (
                 ))}
               </select>
             </div>
-
+{!isNational &&( <>
             <div>
               <label htmlFor="county" className="block text-sm font-medium text-gray-700 mb-2">
                 County <span className="text-red-500">*</span>
@@ -284,7 +287,6 @@ const updateCompetitor = (
                 ))}
               </select>
             </div>
-
             <div>
               <label htmlFor="constituency" className="block text-sm font-medium text-gray-700 mb-2">
                 Constituency 
@@ -323,7 +325,8 @@ const updateCompetitor = (
                   </option>
                 ))}
               </select>
-            </div>
+            </div> </>
+          )}
 <div className="md:col-span-2">
   <label htmlFor="expiryHours" className="block text-sm font-medium text-gray-700 mb-2">
     Voting Duration in Hours (optional)
@@ -344,6 +347,20 @@ const updateCompetitor = (
           {/* Competitors Section */}
           <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Aspirant</h3>
           <div className="space-y-4">
+               <div>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              Question <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="question"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800"
+                placeholder="e.g., Presidential Election Poll"
+                required
+              />
+            </div>
             {competitors.map((comp, index) => (
               <div key={index} className="relative p-5 border border-gray-200 rounded-xl shadow-sm bg-gray-50">
                 {competitors.length > 1 && (
