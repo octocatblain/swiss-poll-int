@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Loader2, Frown, CalendarDays, MapPin, Rows4, Hand, Info } from "lucide-react";
 import EditDelete from "../createpoll/EditDelete";
 import { baseURL } from "@/app/config/baseUrl";
-import Opinions from "@/app/livepolls/opinions/page";
 
 export interface PollData {
   id: number;
@@ -172,9 +171,10 @@ const AllApirantPollPage = () => {
               </div>
             </div>
           ))}
-          {/* <Opinions /> */}
+       
         </div>
       </div>
+
     </div>
   );
 };

@@ -4,6 +4,7 @@ import AllApirantPollPage from "./components/AllAspirantPoll";
 import { PlusCircle } from "lucide-react";
 import { baseURL } from "../config/baseUrl";
 
+
 export interface PollSummary {
   id: number;
   title: string;
@@ -71,7 +72,7 @@ useEffect(() => {
                     Post Blog
                   </a>
                      <a
-                    href="Admin/National/opinion"
+                    href="Admin/National/CreateOpinion"
                     className="flex items-center p-2 bg-violet-600 text-white text-sm font-medium rounded-md hover:bg-violet-700 transition"
                   >
                     <PlusCircle className="w-4 h-4 mr-2" />
@@ -87,7 +88,6 @@ useEffect(() => {
               )}
             </div>
             <AllApirantPollPage />
-            
          </div>
         </div>
   );
