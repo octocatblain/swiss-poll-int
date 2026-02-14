@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Loader2, Frown, CalendarDays, MapPin, Rows4, Hand, Info } from "lucide-react";
 import EditDelete from "../createpoll/EditDelete";
 import { baseURL } from "@/app/config/baseUrl";
+import Opinions from "@/app/livepolls/opinions/page";
 
 export interface PollData {
   id: number;
@@ -95,7 +96,7 @@ const AllApirantPollPage = () => {
       <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
         <Info className="w-16 h-16 text-gray-400 mb-4" />
         <p className="text-xl text-gray-600">No polls available yet.</p>
-        <Link href="/create-poll" className="mt-6 text-blue-600 hover:underline">
+        <Link href="/Admin/createpoll" className="mt-6 text-blue-600 hover:underline">
           Create the first poll →
         </Link>
       </div>
@@ -171,6 +172,7 @@ const AllApirantPollPage = () => {
               </div>
             </div>
           ))}
+          {/* <Opinions /> */}
         </div>
       </div>
     </div>

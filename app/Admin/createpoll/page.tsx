@@ -31,7 +31,6 @@ export default function CreatePoll() {
   const [county, setCounty] = useState("");
   const [constituency, setConstituency] = useState("");
   const [ward, setWard] = useState("");
-  const [question, setQuestion] = useState("");
   const [competitors, setCompetitors] = useState<Competitor[]>([
     { name: "", party: "", profileFile: null, profileUrl: null },
   ]);
@@ -60,7 +59,6 @@ const wards = countyAssemblyWardMap[constituency] ?? [];
         setCounty(data.county || "");
         setConstituency(data.constituency || "");
         setWard(data.ward || "");
-        setQuestion(data.question || "");
  if (data.voting_expires_at) {
         const expires = new Date(data.voting_expires_at);
         const hoursLeft = Math.round((expires.getTime() - Date.now()) / (1000 * 60 * 60));
@@ -119,7 +117,6 @@ setCompetitors(
     formData.append("county", county);
     formData.append("constituency", constituency);
     formData.append("ward", ward);
-    formData.append("question", question);
     if (expiryHours && parseInt(expiryHours) > 0) {
   const hours = parseInt(expiryHours);
   const expiryDate = new Date(Date.now() + hours * 60 * 60 * 1000);
@@ -347,20 +344,7 @@ const isNational= region === "National";
           {/* Competitors Section */}
           <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Aspirant</h3>
           <div className="space-y-4">
-               <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-              Question <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="question"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800"
-                placeholder="e.g., Presidential Election Poll"
-                required
-              />
-            </div>
+
             {competitors.map((comp, index) => (
               <div key={index} className="relative p-5 border border-gray-200 rounded-xl shadow-sm bg-gray-50">
                 {competitors.length > 1 && (

@@ -70,6 +70,13 @@ useEffect(() => {
                     <PlusCircle className="w-4 h-4 mr-2" />
                     Post Blog
                   </a>
+                     <a
+                    href="Admin/National/opinion"
+                    className="flex items-center p-2 bg-violet-600 text-white text-sm font-medium rounded-md hover:bg-violet-700 transition"
+                  >
+                    <PlusCircle className="w-4 h-4 mr-2" />
+                    Post Opinion
+                  </a>
                   <a
                     href="Admin/createpoll"
                     className="px-4 py-2 bg-green-400 text-white rounded hover:bg-green-700 transition"
@@ -80,6 +87,7 @@ useEffect(() => {
               )}
             </div>
             <AllApirantPollPage />
+            
          </div>
         </div>
   );
