@@ -3,7 +3,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { baseURL } from "@/app/config/baseUrl";
-import { set } from "react-hook-form";
 
 interface Option {
   id: number;
@@ -58,7 +57,7 @@ export default function OpinionResponse() {
     const fetchOpinion = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${baseURL}/api/opinion/${opinionId}`);
+        const res = await fetch(`${baseURL}/api/responses/${opinionId}`);
         if (!res.ok) throw new Error("Failed to load opinion");
         const data: Opinion = await res.json();
         setOpinion(data);
@@ -126,7 +125,7 @@ export default function OpinionResponse() {
     };
 
     try {
-const res = await fetch(`${baseURL}/api/opinion/response`, {
+const res = await fetch(`${baseURL}/api/response/response`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(votePayload),

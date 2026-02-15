@@ -42,7 +42,6 @@ const route=useRouter();
     fetchOpinions();
   }, []);
 
-  // Client-side filtering (cleaner + faster)
   const filteredOpinions = useMemo(() => {
     return opinions.filter((opinion) => {
       const matchesCategory = !categoryFilter || opinion.category === categoryFilter;
@@ -233,7 +232,7 @@ const route=useRouter();
                 </div>
            {/* Footer action */}
                 <div className="border-t border-zinc-100 bg-zinc-50 px-8 py-5 flex items-center justify-between text-xs font-medium">
-                  <div className="text-zinc-400">View results →</div>
+                  <div className="text-zinc-400"> <a href={`/livepolls/OpinionResults/${opinion.id}`}>View results →</a></div>
                   <div><a onClick={()=>route.push(`/livepolls/VoteOpinion/${opinion.id}`)} className="bg-blue-300 rounded-2xl p-2 cursor-pointer">Join the conversation</a></div>
                 </div>
               </div>
