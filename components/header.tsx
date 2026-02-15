@@ -2,10 +2,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Twitter, Facebook } from "react-feather";
 import Image from "next/image";
-import { Radiation } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -17,7 +16,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState<string | null>(null);
   const pathname = usePathname();
-
+const route=useRouter();
   useEffect(() => {
     let ticking = false;
 
@@ -65,6 +64,7 @@ export function Header() {
       { label: "Methodology", href: "/methodology" },
       { label: "Contact", href: "/contact" },
       { label: "Polls", href: "/livepolls"},
+      { label: "Opinion Poll", href: "/livepolls/Opinions" },
     ],
     []
   );
@@ -149,8 +149,7 @@ export function Header() {
                 </span>
               </Link>
             ))}
-
-            {/* Social Media Icons */}
+  {/* Social Media Icons */}
             <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-200">
               <button
                 onClick={() => handleSocialClick("twitter")}
@@ -237,8 +236,7 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-
-            {/* Mobile Social Media Icons */}
+  {/* Mobile Social Media Icons */}
             <div className="pt-4 mt-4 border-t border-gray-200 flex justify-center space-x-6">
               <button
                 onClick={() => {

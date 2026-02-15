@@ -14,7 +14,7 @@ interface Poll {
 export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navItems = [
-    { label: "Home", href: "/" },
+    { label: "Home", href: "/Admin" },
     { label: "Presidential Results", href: "/Admin/results?category=Presidential" },
     { label: "Governor Results",     href: "/Admin/results?category=Governorship" },
     { label: "Senator Results",      href: "/Admin/results?category=Senatorial" },
@@ -50,7 +50,7 @@ const route=useRouter();
             
             </li>
           ))}
-<button onClick={()=>route.push("/Admin/National/Opinions")} className="flex text-green-600 dark:text-white justify-center items-center animate-pulse">Opinion Polls</button>
+<button onClick={()=>route.push("/livepolls/Opinions")} className="flex text-green-600 dark:text-white justify-center cursor-pointer items-center animate-pulse">Opinion Polls</button>
         </ul>
       </div>
 
@@ -65,7 +65,7 @@ const route=useRouter();
     </Link>
   </li>
 ))}
-<button onClick={()=>route.push("/Admin/National/Opinions")} className="flex text-green-600 dark:text-white justify-center items-center animate-pulse">Opinion Polls</button>
+<button onClick={()=>route.push("/livepolls/Opinions")} className="flex text-green-600 dark:text-white justify-center items-center cursor-pointer animate-pulse">Opinion Polls</button>
           </ul>
         </div>
       )}

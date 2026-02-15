@@ -4,6 +4,7 @@
 import { baseURL } from "@/app/config/baseUrl";
 import {EditIcon, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../AuthContext";
 
 interface EditDeleteProps {
   pollId: number;
@@ -11,14 +12,16 @@ interface EditDeleteProps {
 
 export default function EditDelete({ pollId }: EditDeleteProps) {
   const router = useRouter();
+  const { token} = useAuth();
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this poll? This action cannot be undone.")) {
       return;
     }
-
     try {
       const res = await fetch(`${baseURL}/api/polls/${pollId}`, {
-        method: "DELETE",
+        method: "DELETE", headers: {
+              Authorization: `Bearer ${token}`,
+            },
       });
 
       if (!res.ok) {

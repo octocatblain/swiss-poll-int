@@ -7,7 +7,6 @@ interface Option {
   id: string;
   text: string;
   name: string;
-  party?: string | null;
   votes: number;
   percentage: number;
 }
@@ -95,9 +94,7 @@ export default function OpinionResultsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {q.options.map((opt) => (
                 <div key={opt.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-                  <div className="text-xl font-medium">
-                    {opt.text} {opt.party && <span className="text-sm text-gray-500">({opt.party})</span>}
-                  </div>
+
                   <div className="text-6xl font-bold text-emerald-600 my-3">{opt.percentage}%</div>
                   <div className="text-gray-500 text-sm">({opt.votes} votes)</div>
                   <div className="mt-4 h-3 bg-gray-100 rounded-full overflow-hidden">
@@ -122,7 +119,7 @@ export default function OpinionResultsPage() {
                     {q.options.map((opt) => (
                       <th key={opt.id} className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
                         {opt.text}
-                        {opt.party && <div className="text-[10px] text-gray-500 mt-0.5 font-normal">{opt.party}</div>}
+                     
                       </th>
                     ))}
                   </tr>

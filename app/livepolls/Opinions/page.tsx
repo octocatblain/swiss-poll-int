@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/app/Admin/AuthContext";
 import { baseURL } from "@/app/config/baseUrl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
@@ -10,9 +11,7 @@ interface Opinion {
   category: string;
   region: string;
   county: string;
-  constituency: string;
-  ward: string;
-  total_votes: number;
+   total_responses: number;
   voting_expires_at: string | null;
   status: "LIVE" | "EXPIRED" | "NO_EXPIRY";
   created_at: string;
@@ -21,8 +20,10 @@ interface Opinion {
 export default function Opinions() {
   const [opinions, setOpinions] = useState<Opinion[]>([]);
   const [loading, setLoading] = useState(true);
-  const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+const { token,isAdmin} = useAuth();
+      const [countdown, setCountdown] = useState<string>("");
+
 const route=useRouter();
   // Fetch all opinions once
   useEffect(() => {
@@ -44,13 +45,11 @@ const route=useRouter();
 
   const filteredOpinions = useMemo(() => {
     return opinions.filter((opinion) => {
-      const matchesCategory = !categoryFilter || opinion.category === categoryFilter;
       const matchesSearch = !searchTerm || 
-        opinion.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        opinion.category.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
+        opinion.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesSearch;
     });
-  }, [opinions, categoryFilter, searchTerm]);
+  }, [opinions, searchTerm]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -76,9 +75,9 @@ const route=useRouter();
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="p-6 lg:p-12 ">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 mb-4">
           <div>
             <div className="uppercase text-xs tracking-[3px] text-zinc-500 font-medium mb-1">KENYA</div>
             <h1 className="text-5xl font-bold text-zinc-900 tracking-tighter">Public Opinions</h1>
@@ -96,25 +95,7 @@ const route=useRouter();
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-white border border-zinc-200 rounded-2xl px-5 py-3.5 pl-12 text-sm focus:outline-none focus:border-zinc-400 transition-colors"
               />
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
             </div>
-
-            {/* Category Filter */}
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-white border border-zinc-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:border-zinc-400 transition-colors min-w-50"
-            >
-              <option value="">All Categories</option>
-              <option value="Politics">Politics</option>
-              <option value="Education">Education</option>
-              <option value="Development">Development</option>
-              <option value="Presidential">Presidential</option>
-            </select>
           </div>
         </div>
 
@@ -126,13 +107,8 @@ const route=useRouter();
               <span className="text-zinc-500">Active polls</span>
               <span className="font-semibold text-zinc-900">{opinions.filter(o => o.status === "LIVE" || o.status === "NO_EXPIRY").length}</span>
             </div>
-            <div className="h-4 w-px bg-zinc-200"></div>
-            <div>
-              <span className="text-zinc-500">Total votes cast</span>
-              <span className="font-semibold text-zinc-900 ml-2">
-                {opinions.reduce((sum, o) => sum + o.total_votes, 0).toLocaleString()}
-              </span>
-            </div>
+    
+
           </div>
         )}
 
@@ -150,7 +126,7 @@ const route=useRouter();
             <p className="text-zinc-500">Try changing your filters</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredOpinions.map((opinion) => (
               <div
                 key={opinion.id}
@@ -190,32 +166,25 @@ const route=useRouter();
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 text-xs">
                       <div>
                         <p className="text-zinc-500">County</p>
                         <p className="font-medium text-zinc-900">{opinion.county}</p>
                       </div>
-                      <div>
-                        <p className="text-zinc-500">Constituency</p>
-                        <p className="font-medium text-zinc-900">{opinion.constituency}</p>
-                      </div>
-                      <div>
-                        <p className="text-zinc-500">Ward</p>
-                        <p className="font-medium text-zinc-900">{opinion.ward}</p>
-                      </div>
-                    </div>
-                  </div>
+                                    </div>
 
                   {/* Votes */}
                   <div className="mt-auto pt-8 border-t border-zinc-100 flex items-end gap-3">
-                    <div className="text-5xl font-bold text-zinc-900 tabular-nums tracking-tighter">
-                      {opinion.total_votes.toLocaleString()}
-                    </div>
-                    <div className="text-xs uppercase leading-none pb-1.5">
-                      <span className="text-emerald-600 font-semibold">votes</span>
-                      <br />
-                      <span className="text-zinc-400">cast</span>
-                    </div>
+              <div className="flex items-end gap-3">
+  <div className="flex justify-center items-center gap-3">
+    <div className="text-3xl font-bold text-emerald-600">
+      {opinion.total_responses?.toLocaleString() || 0}
+    </div>
+    <div className="text-xs uppercase text-zinc-400 tracking-wide">
+      Votes Cast
+    </div>
+  </div>
+</div>
+
 
                     {opinion.voting_expires_at && (
                       <div className="ml-auto text-right text-xs text-zinc-500">
@@ -231,10 +200,32 @@ const route=useRouter();
                   </div>
                 </div>
            {/* Footer action */}
-                <div className="border-t border-zinc-100 bg-zinc-50 px-8 py-5 flex items-center justify-between text-xs font-medium">
-                  <div className="text-zinc-400"> <a href={`/livepolls/OpinionResults/${opinion.id}`}>View results →</a></div>
-                  <div><a onClick={()=>route.push(`/livepolls/VoteOpinion/${opinion.id}`)} className="bg-blue-300 rounded-2xl p-2 cursor-pointer">Join the conversation</a></div>
-                </div>
+ <div className="border-t border-zinc-100 bg-zinc-50 p-3 flex items-center justify-between">
+
+  {/* View Results Button */}
+  {isAdmin && (
+  <button
+    onClick={() => route.push(`/livepolls/OpinionResults/${opinion.id}`)}
+    className="p-3 rounded-full border border-zinc-300 text-zinc-700 text-sm font-medium 
+               hover:bg-zinc-900 hover:text-white hover:border-zinc-900 
+               transition-all duration-200"
+  >
+    View Results →
+  </button>)}
+
+  {/* Join Conversation Button */}
+  <button
+    onClick={() => route.push(`/livepolls/VoteOpinion/${opinion.id}`)}
+    className="p-3 rounded-full bg-emerald-600 text-white text-sm font-semibold 
+               hover:bg-emerald-700 
+               shadow-sm hover:shadow-md 
+               transition-all duration-200"
+  >
+   share Opinion
+  </button>
+
+</div>
+
               </div>
             ))}
           </div>

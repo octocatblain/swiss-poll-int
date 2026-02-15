@@ -5,6 +5,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { baseURL } from "@/app/config/baseUrl";
+import { useAuth } from "../../AuthContext";
 
 const UpdateAdminForm = () => {
   const [currentEmail, setCurrentEmail] = useState("");
@@ -12,23 +13,25 @@ const UpdateAdminForm = () => {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { token} = useAuth();
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
   const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
 
     try {
-      const res = await axios.put(`${baseURL}/update-admin`, {
-        currentEmail,
-        currentPassword,
+      const res = await axios.put(`${baseURL}/api/update-admin`, {
         newEmail,
         newPassword,
-      });
+      }, { headers: {
+      Authorization: `Bearer ${token}`,
+    },});
 
       setMessage({ type: "success", text: res.data.message });
       router.push("/Reports");

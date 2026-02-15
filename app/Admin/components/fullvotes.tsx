@@ -29,6 +29,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
+import { useAuth } from "../AuthContext";
 
 export interface Candidate {
   id: number;
@@ -87,14 +88,9 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
   const [polls, setPolls] = useState<PollSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
- const [isAdmin, setIsAdmin] = useState(false);
-  const [mounted, setMounted] = useState(false);
+const { isAdmin} = useAuth();
     const [countdown, setCountdown] = useState<string>("");
-  useEffect(() => {
-    const adminStatus = localStorage.getItem("isAdmin");
-    setIsAdmin(adminStatus === "true");
-    setMounted(true);
-  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -467,7 +463,7 @@ const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
             <span className="font-semibold ml-1">
               {new Date(data.created_at).toLocaleString("en-KE")}
             </span>
-          </p> {mounted && isAdmin && (
+          </p> {isAdmin && (
           <button
             onClick={() => window.print()}
             className="flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"

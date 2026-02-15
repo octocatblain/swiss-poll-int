@@ -35,10 +35,7 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
   >(null);
 
   const [count, setCount] = useState<number>(0);
-  const [name, setName] = useState("");
-  const [gender, setGender] = useState("");
-  const [region, setRegion] = useState("");
-  const [county, setCounty] = useState("");
+
   const router = useRouter();
   // Generate / load voter ID
   useEffect(() => {
@@ -156,10 +153,6 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
       setMessage("Please select a candidate");
       return;
     }
-    if (!name || !gender || !region) {
-      setMessage("❌ Please fill in your voter details before voting.");
-      return;
-    }
     setIsVoting(true);
     setMessage(null);
 
@@ -168,20 +161,13 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
         id: pollId,
         competitorId: selectedCandidateId,
         voter_id: voterId,
-        name,
-        gender,
-        region,
-        county,
       });
 
       if (response.status === 200) {
         setMessage("Thank you! Your vote has been recorded.");
         setSelectedCandidateId(null);
         setSelectedCandidateId(null);
-        setName("");
-        setGender("");
-        setCounty("");
-
+ 
         if (!data.allow_multiple_votes) {
           setMessage("You've already voted in this poll.");
         }
@@ -302,48 +288,6 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
         /* Voting Form */
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
            <h1 className="text-lg font-semibold mb-4">Enter Voter Details</h1>
-<div className="space-y-4 mb-6">
-  <input
-    type="text"
-    placeholder="Full Name"
-    value={name}
-    onChange={(e) => setName(e.target.value)}
-    className="w-full p-3 border border-gray-300 rounded-lg"
-    required
-  />
-  <select
-    value={gender}
-    onChange={(e) => setGender(e.target.value)}
-    className="w-full p-3 border border-gray-300 rounded-lg"
-  required>
-    <option value="">Select Gender</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other / Prefer not to say</option>
-  </select>
-
-  {region && region !== "National" && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Region</label>
-          <select
-            value={region}
-            onChange={(e) => {
-              setRegion(e.target.value);
-              setCounty("");       
-                   }}
-            className="w-full p-3 border border-gray-300 rounded-lg"
-            required
-          >
-            <option value="">Select Region</option>
-            {Object.keys(regionCountyMap).map((reg) => (
-              <option key={reg} value={reg}>
-                {reg === "National" ? "National" : reg}
-              </option>
-            ))}
-          </select>
-        </div>
-  )}
-</div>
          
           <div className="space-y-3 mb-8">
             {data.results.map((candidate) => (

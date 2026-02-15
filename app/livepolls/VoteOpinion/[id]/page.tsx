@@ -7,7 +7,6 @@ import { baseURL } from "@/app/config/baseUrl";
 interface Option {
   id: number;
   name: string;
-  party?: string | null;
   profile?: string | null;
 }
 
@@ -23,10 +22,6 @@ interface Opinion {
   category: string;
   region: string;
   county: string;
-  constituency: string;
-  ward: string;
-  total_votes: number;
-  spoiled_votes?: number;
   voting_expires_at: string | null;
   status: "LIVE" | "EXPIRED" | "NO_EXPIRY";
   created_at: string;
@@ -57,7 +52,7 @@ export default function OpinionResponse() {
     const fetchOpinion = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${baseURL}/api/responses/${opinionId}`);
+        const res = await fetch(`${baseURL}/api/opinion/${opinionId}`);
         if (!res.ok) throw new Error("Failed to load opinion");
         const data: Opinion = await res.json();
         setOpinion(data);
@@ -125,7 +120,7 @@ export default function OpinionResponse() {
     };
 
     try {
-const res = await fetch(`${baseURL}/api/response/response`, {
+const res = await fetch(`${baseURL}/api/responses/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(votePayload),
@@ -215,12 +210,7 @@ setUserName("");
                 <span className="font-mono text-zinc-400">COUNTY</span>
                 <p className="font-semibold text-zinc-900 mt-1">{opinion.county}</p>
               </div>
-              <div>
-                <span className="font-mono text-zinc-400">VOTES</span>
-                <p className="font-semibold text-emerald-600 mt-1">
-                  {opinion.total_votes.toLocaleString()}
-                </p>
-              </div>
+
             </div>
           </div>
         </div>
@@ -351,9 +341,7 @@ setUserName("");
 
                           <div className="flex-1 min-w-0 pt-1">
                             <p className="font-semibold text-lg text-zinc-900">{option.name}</p>
-                            {option.party && (
-                              <p className="text-xs text-zinc-500 mt-1 font-mono">{option.party}</p>
-                            )}
+                        
                           </div>
                         </div>
                       </div>

@@ -8,14 +8,12 @@ import { Megaphone } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
 import {
   CATEGORY_OPTIONS,
-  countyAssemblyWardMap,
-  countyConstituencyMap,
   regionCountyMap,
 } from "../../createpoll/Places";
+import { useAuth } from "../../AuthContext";
 
 interface Option {
   name?: string;
-  party?: string;
   profileFile?: File | null;
   profileUrl?: string | null;
 }
@@ -29,17 +27,15 @@ export default function NationalPoll() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pollId = searchParams.get("pollId");
-
+  const { token} = useAuth();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [region, setRegion] = useState("");
   const [county, setCounty] = useState("");
-  const [constituency, setConstituency] = useState("");
-  const [ward, setWard] = useState("");
   const [questions, setQuestions] = useState<Question[]>([
     {
       question_text: "",
-      options: [{ name: "", party: "", profileFile: null }],
+      options: [{ name: "", profileFile: null }],
     },
   ]);
 
@@ -47,8 +43,6 @@ export default function NationalPoll() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const counties = regionCountyMap[region] ?? [];
-  const constituencies = countyConstituencyMap[county] ?? [];
-  const wards = countyAssemblyWardMap[constituency] ?? [];
 
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -66,7 +60,7 @@ export default function NationalPoll() {
       ...prev,
       {
         question_text: "",
-        options: [{ name: "", party: "", profileFile: null, profileUrl: null }],
+        options: [{ name: "", profileFile: null, profileUrl: null }],
       },
     ]);
   };
@@ -85,7 +79,6 @@ export default function NationalPoll() {
                 ...q.options,
                 {
                   name: "",
-                  party: "",
                   profileFile: null,
                   profileUrl: null,
                 },
@@ -99,7 +92,7 @@ export default function NationalPoll() {
   const updateOption = (
     qIndex: number,
     oIndex: number,
-    field: "name" | "party" | "profileFile",
+    field: "name" | "profileFile",
     value: string | File | null,
   ) => {
     setQuestions((prev) => {
@@ -127,16 +120,23 @@ export default function NationalPoll() {
     setLoading(true);
 
     const fetchPoll = async () => {
+       const token = localStorage.getItem("token"); 
+
+  if (!token) {
+    setMessage("❌ You are not logged in.");
+    setSubmitting(false);
+    return;
+  }
       try {
-        const res = await fetch(`${baseURL}/api/opinion/${pollId}`);
+        const res = await fetch(`${baseURL}/api/opinion/${pollId}`,{ headers: {
+              Authorization: `Bearer ${token}`,
+            },});
         if (!res.ok) throw new Error("Failed to fetch poll");
         const data = await res.json();
         setTitle(data.title || "");
         setCategory(data.category || "");
         setRegion(data.region || "");
         setCounty(data.county || "");
-        setConstituency(data.constituency || "");
-        setWard(data.ward || "");
         if (data.voting_expires_at) {
           const expires = new Date(data.voting_expires_at);
           const hoursLeft = Math.round(
@@ -170,8 +170,8 @@ export default function NationalPoll() {
       setSubmitting(false);
       return;
     }
-    if (questions.some((q) => q.options.some((o) => !o.name && !o.party))) {
-      setMessage("❌ All options must have name or party.");
+    if (questions.some((q) => q.options.some((o) => !o.name))) {
+      setMessage("❌ All options must have a name.");
       setSubmitting(false);
       return;
     }
@@ -181,8 +181,6 @@ export default function NationalPoll() {
     formData.append("category", category);
     formData.append("region", region);
     formData.append("county", county);
-    formData.append("constituency", constituency);
-    formData.append("ward", ward);
 
     if (expiryHours) {
       formData.append("expiryHours", expiryHours);
@@ -195,7 +193,6 @@ export default function NationalPoll() {
           question_text: q.question_text,
           options: q.options.map((o) => ({
             name: o.name,
-            party: o.party,
           })),
         })),
       ),
@@ -211,7 +208,9 @@ export default function NationalPoll() {
       const res = await fetch(
         `${baseURL}/api/opinion${isEditMode ? `/${pollId}` : ""}`,
         {
-          method: isEditMode ? "PUT" : "POST",
+          method: isEditMode ? "PUT" : "POST", headers: {
+      Authorization: `Bearer ${token}`,
+    },
           body: formData,
         },
       );
@@ -303,8 +302,7 @@ export default function NationalPoll() {
                 onChange={(e) => {
                   setRegion(e.target.value);
                   setCounty("");
-                  setConstituency("");
-                  setWard("");
+               
                 }}
                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 bg-white"
                 required
@@ -333,9 +331,7 @@ export default function NationalPoll() {
                     value={county}
                     onChange={(e) => {
                       setCounty(e.target.value);
-                      setConstituency("");
-                      setWard("");
-                    }}
+                                    }}
                     disabled={!region}
                     className={`w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 bg-white ${!region ? "opacity-60 cursor-not-allowed" : ""}`}
                     required
@@ -350,57 +346,7 @@ export default function NationalPoll() {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label
-                    htmlFor="constituency"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Constituency
-                  </label>
-                  <select
-                    id="constituency"
-                    value={constituency}
-                    onChange={(e) => {
-                      setConstituency(e.target.value);
-                      setWard("");
-                    }}
-                    disabled={!county}
-                    className={`w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 bg-white ${!county ? "opacity-60 cursor-not-allowed" : ""}`}
-                  >
-                    <option value="" disabled>
-                      Select Constituency
-                    </option>
-                    {constituencies.map((constituency) => (
-                      <option key={constituency} value={constituency}>
-                        {constituency}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="ward"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Ward
-                  </label>
-                  <select
-                    id="ward"
-                    value={ward || ""}
-                    onChange={(e) => setWard(e.target.value)}
-                    disabled={!constituency}
-                    className={`w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 bg-white ${!constituency ? "opacity-60 cursor-not-allowed" : ""}`}
-                  >
-                    <option value="" disabled>
-                      Select Ward
-                    </option>
-                    {wards.map((ward) => (
-                      <option key={ward} value={ward}>
-                        {ward}
-                      </option>
-                    ))}
-                  </select>
-                </div>{" "}
+              
               </>
             )}
             <div className="md:col-span-2">
@@ -469,17 +415,6 @@ export default function NationalPoll() {
                       }
                       className="p-2 border rounded"
                     />
-
-                    <input
-                      type="text"
-                      placeholder="Party"
-                      value={option.party || ""}
-                      onChange={(e) =>
-                        updateOption(qIndex, oIndex, "party", e.target.value)
-                      }
-                      className="p-2 border rounded"
-                    />
-
                     <input
                       type="file"
                       accept="image/*"
