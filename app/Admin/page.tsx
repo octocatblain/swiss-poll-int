@@ -20,15 +20,14 @@ export default function AdminPage() {
   const fetched = useRef(false);
 
 console.log("AdminPage rendered →", { loading, hasToken: !!token, isAdmin });
-  // 1. HANDLE REDIRECTION IN ONE PLACE
-  useEffect(() => {
-    if (!loading) {
-      if (!token || !isAdmin) {
-        console.log("Not authorized, redirecting...");
-        router.replace("/Admin/Login");
-      }
-    }
-  }, [token, isAdmin, loading, router]);
+useEffect(() => {
+  if (loading) return;
+
+  if (!token || !isAdmin) {
+    router.replace("/Admin/Login");
+  }
+}, [loading, token, isAdmin, router]);
+
 
   // 2. HANDLE DATA FETCHING
   useEffect(() => {
@@ -45,7 +44,7 @@ console.log("AdminPage rendered →", { loading, hasToken: !!token, isAdmin });
 
         if (res.status === 401) {
           logout();
-          router.replace("/Admin/Login");
+          router.replace("/");
           return;
         }
 

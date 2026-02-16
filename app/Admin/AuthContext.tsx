@@ -24,14 +24,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
 useEffect(() => {
-  console.log("🔄 AuthProvider useEffect running");
   const savedToken = localStorage.getItem("token");
   const savedAdmin = localStorage.getItem("isAdmin");
-  console.log("Saved from localStorage:", { savedToken, savedAdmin });
-  setToken(savedToken);
-  setIsAdmin(savedAdmin === "true");
+  if (savedToken) setToken(savedToken);
+  if (savedAdmin === "true") setIsAdmin(true);
+
   setLoading(false);
 }, []);
+
 
   const login = (newToken: string, adminStatus: boolean) => {
     localStorage.setItem("token", newToken);

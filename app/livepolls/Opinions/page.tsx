@@ -72,6 +72,34 @@ const route=useRouter();
         return "Ongoing";
     }
   };
+const handleDelete = async (opinionId: number) => {
+  if (!confirm("Are you sure you want to delete this opinion? This cannot be undone.")) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`${baseURL}/api/opinion/${opinionId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || `Failed to delete opinion: ${res.status}`);
+    }
+
+    alert("Opinion deleted successfully!");
+    // Remove deleted opinion from state instead of full refresh
+    setOpinions((prev) => prev.filter((o) => o.id !== opinionId));
+  } catch (err: any) {
+    console.error("Delete error:", err);
+    alert(err.message || "Error deleting opinion. Check console for details.");
+  }
+};
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -151,10 +179,22 @@ const route=useRouter();
                     </div>
                   </div>
 
-                  {/* Title */}
-                  <h2 className="text-2xl leading-7 font-semibold text-zinc-900 mb-8 line-clamp-3 group-hover:text-indigo-600 transition-colors">
+                  {/* Title */}<div className="flex items-center justify-between">
+                         <h2 className="text-2xl font-semibold text-zinc-900 mb-8 line-clamp-3 group-hover:text-indigo-600 transition-colors">
                     {opinion.title}
                   </h2>
+{isAdmin && (
+  <button
+    onClick={() => handleDelete(opinion.id)}
+    className="p-2 rounded-full border border-red-400 text-red-600 text-sm font-medium 
+               hover:bg-red-600 hover:text-white hover:border-red-600 
+               transition-all duration-200"
+  >
+    Delete
+  </button>
+)}
+                  </div>
+             
 
                   {/* Location */}
                   <div className="space-y-3 mb-10 text-sm">

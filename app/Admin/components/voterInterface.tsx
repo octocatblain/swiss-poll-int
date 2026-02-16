@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import { baseURL } from "@/app/config/baseUrl";
 import { Clock, CheckCircle, Lock } from "lucide-react";
 import { useRouter} from "next/navigation";
-import { regionCountyMap } from "../createpoll/Places";
+import { useAuth } from "../AuthContext";
 interface Candidate {
   id: number;
   name: string;
@@ -30,6 +30,7 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [countdown, setCountdown] = useState<string>("");
   const [isExpired, setIsExpired] = useState(false);
+  const { token } = useAuth();
   const [localAllowMultipleVotes, setLocalAllowMultipleVotes] = useState<
     boolean | null
   >(null);
@@ -135,11 +136,21 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
       return;
     }
     try {
-      await axios.post(`${baseURL}/api/votes/bulk`, {
-        pollId,
-        competitorId: selectedCandidateId,
-        count,
+     const res = await fetch(`${baseURL}/api/votes/bulk`, {
+        method: "POST",
+        headers: {  
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          pollId,
+          competitorId: selectedCandidateId,
+          count,
+        }),
       });
+      if (!res.ok) throw new Error("Failed to add bulk votes");
+      const data = await res.json();
+      console.log(data);
       alert(`${count} votes added successfully`);
       setCount(0);
     } catch (err) {

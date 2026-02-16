@@ -5,6 +5,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import ClientLayoutWrapper from "./ClientLayoutWrapper";
+import { AuthProvider } from "./Admin/AuthContext";
 
 const suisseIntl = Inter({
   subsets: ["latin"],
@@ -34,11 +35,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`font-sans ${suisseIntl.variable} antialiased`}>
-        <ClientLayoutWrapper>
+       <AuthProvider>  <ClientLayoutWrapper>
           <Suspense fallback={<div>Loading...</div>}>
             {children}
               </Suspense>
-        </ClientLayoutWrapper>
+        </ClientLayoutWrapper></AuthProvider> 
         <Toaster />
       </body>
     </html>

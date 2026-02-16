@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { baseURL } from "@/app/config/baseUrl";
+import { useAuth } from "../AuthContext";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -10,7 +11,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+const { login } = useAuth();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -26,11 +27,11 @@ export default function AdminLogin() {
       const data = await res.json();
       console.log(data);
 
-      if (res.ok) { localStorage.setItem("isAdmin","true")
-        router.push("/Admin"); 
-      } else {
-        setError(data.message || "Login failed");
-      }
+  if (res.ok) {
+  login(data.token, true);   
+  router.replace("/Admin");  
+}
+
     } catch (err) {
       console.error("Network error:", err);
       setError("Unable to connect to server.");

@@ -42,6 +42,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import RegionContent from "@/components/RegionContent";
 import CountyPolls from "./livepolls/poll/page";
+import { useAuth } from "./Admin/AuthContext";
 
 // New RGB-inspired color scheme
 const PRIMARY_RED = "#DC2626"; // Rich red for primary accents
@@ -306,12 +307,16 @@ const PdfModal = ({
 
 export default function HomePage() {
   const router = useRouter();
-  const [activeService, setActiveService] = useState(0);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
-
+const { token, isAdmin } = useAuth();
+ useEffect(() => {
+    if (token && isAdmin) {
+      router.replace("/Admin"); 
+    }
+  }, [token, isAdmin, router]);
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);

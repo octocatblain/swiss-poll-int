@@ -221,7 +221,7 @@ export default function NationalPoll() {
           ? "✅ Poll updated successfully!"
           : "✅ Poll created successfully!",
       );
-      setTimeout(() => router.push("/Admin/National/Opinions"), 1500);
+      setTimeout(() => router.push("/livepolls/Opinions"), 1500);
     } catch (err) {
       console.error(err);
       setMessage("❌ Failed to save poll.");

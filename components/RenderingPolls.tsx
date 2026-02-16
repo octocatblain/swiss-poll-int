@@ -25,10 +25,16 @@ export default function LiveMovingPolls() {
   const [index, setIndex] = useState(0);
   const fetching = useRef(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [position, setPosition] = useState({ x: 10, y: window.innerHeight -200 });
+const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
   const dragRef = useRef<HTMLDivElement | null>(null);
   const dragging = useRef(false);
   const offset = useRef({ x: 0, y: 0 });
+useEffect(() => {
+  setPosition({
+    x: 10,
+    y: window.innerHeight - 200,
+  });
+}, []);
 
   const fetchLivePolls = async () => {
     if (fetching.current) return;
@@ -92,7 +98,7 @@ export default function LiveMovingPolls() {
     };
   };
 
-  if (!polls.length || !isVisible) return null;
+  if (!position || !polls.length || !isVisible) return null;
 
   const poll = polls[index];
   const totalVotes = poll.total_votes || 0;

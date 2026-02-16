@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Navbar from "@/app/Admin/components/Navbar";
 import { Header } from "@/components/header";
 import LiveMovingPolls from "@/components/RenderingPolls";
+import { useAuth } from "./Admin/AuthContext";
 
 
 export default function ClientLayoutWrapper({
@@ -12,25 +13,23 @@ export default function ClientLayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+const { isAdmin, loading } = useAuth();
+
   const pathname = usePathname();
   const router = useRouter();
+
+useEffect(() => {
+  if (loading) return;
+
   const isVotePage = /^\/Admin\/vote\/\d+$/i.test(pathname);
   const isLoginPage = pathname === "/Admin/Login";
-  useEffect(() => {
-    const adminStatus = localStorage.getItem("isAdmin") === "true";
-    setIsAdmin(adminStatus);
 
-    if (adminStatus && (pathname === "/" || pathname === "/Admin")) {
-      router.replace("/Admin");
-    }
-    if (!adminStatus && pathname.startsWith("/Admin") && !isVotePage && !isLoginPage) {
-      router.replace("/Admin/Login");
-    }
- if (adminStatus && (pathname === "/" || isLoginPage)) {
-      router.replace("/Admin");
-    }
-  }, [pathname, router]);
+  if (!isAdmin && pathname.startsWith("/Admin") && !isVotePage && !isLoginPage) {
+    router.replace("/");
+  }
+
+}, [loading, isAdmin, pathname, router]);
+
 
   if (isAdmin === null) return null;
 
