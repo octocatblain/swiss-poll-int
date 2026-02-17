@@ -13,20 +13,25 @@ import {
 import { useAuth } from "../../AuthContext";
 
 interface Option {
+  id?: number;
   name?: string;
   profileFile?: File | null;
   profileUrl?: string | null;
 }
 
 interface Question {
+  id?: number;
   question_text: string;
   options: Option[];
 }
+interface NationalPollFormProps {
+  pollId?: string;
+}
 
-export default function NationalPoll() {
+export default function NationalPoll({ pollId }: NationalPollFormProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const pollId = searchParams.get("pollId");
+  // const searchParams = useSearchParams();
+  // const pollId = searchParams.get("pollId");
   const { token} = useAuth();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -118,15 +123,13 @@ export default function NationalPoll() {
     if (!pollId) return;
     setIsEditMode(true);
     setLoading(true);
-
     const fetchPoll = async () => {
        const token = localStorage.getItem("token"); 
 
-  if (!token) {
-    setMessage("❌ You are not logged in.");
-    setSubmitting(false);
-    return;
-  }
+ if (!token) {
+        setMessage("❌ You are not logged in.");
+        return;
+      }
       try {
         const res = await fetch(`${baseURL}/api/opinion/${pollId}`,{ headers: {
               Authorization: `Bearer ${token}`,
@@ -137,6 +140,9 @@ export default function NationalPoll() {
         setCategory(data.category || "");
         setRegion(data.region || "");
         setCounty(data.county || "");
+
+
+        setQuestions(data.questions || []);
         if (data.voting_expires_at) {
           const expires = new Date(data.voting_expires_at);
           const hoursLeft = Math.round(
@@ -152,6 +158,8 @@ export default function NationalPoll() {
       }
     };
     fetchPoll();
+  
+
   }, [pollId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -190,8 +198,10 @@ export default function NationalPoll() {
       "questions",
       JSON.stringify(
         questions.map((q) => ({
+          id:(q as any).id?? null,
           question_text: q.question_text,
-          options: q.options.map((o) => ({
+          options: q.options.map((o:any) => ({
+            id:o.id?? null,
             name: o.name,
           })),
         })),

@@ -80,43 +80,59 @@ useEffect(() => {
   return (
     <div className="max-w-full mx-auto">
       <div className="bg-white shadow-lg rounded-lg p-4 space-y-6">
-        <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h2 className="text-2xl font-bold">Active Polls</h2>
-          <div className="flex gap-2 flex-wrap">
-            <button
-              onClick={logout}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-            >
-              Logout
-            </button>
-            <a
-              href="/Admin/Login/update-admin"
-              className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition"
-            >
-              Update profile
-            </a>
-            <a
-              href="/Admin/BlogPostForm"
-              className="flex items-center p-2 bg-violet-600 text-white text-sm font-medium rounded-md hover:bg-violet-700 transition"
-            >
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Post Blog
-            </a>
-            <a
-              href="/Admin/National/CreateOpinion"
-              className="flex items-center p-2 bg-violet-600 text-white text-sm font-medium rounded-md hover:bg-violet-700 transition"
-            >
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Post Opinion
-            </a>
-            <a
-              href="/Admin/createpoll"
-              className="px-4 py-2 bg-green-400 text-white rounded hover:bg-green-700 transition"
-            >
-              + Create Poll
-            </a>
-          </div>
-        </div>
+  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-6">
+
+  {/* Page Title */}
+  <h2 className="text-2xl font-bold text-gray-800">
+    Active Polls
+  </h2>
+
+  {/* Action Buttons */}
+  <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+
+    {/* Primary Actions */}
+    <a
+      href="/Admin/createpoll"
+      className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold shadow-sm hover:bg-emerald-700 transition-all"
+    >
+      + Create Poll
+    </a>
+
+    <a
+      href="/Admin/National/CreateOpinion"
+      className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold shadow-sm hover:bg-indigo-700 transition-all"
+    >
+      Post Opinion
+    </a>
+
+    <a
+      href="/Admin/BlogPostForm"
+      className="px-4 py-2 rounded-lg bg-violet-600 text-white text-sm font-semibold shadow-sm hover:bg-violet-700 transition-all"
+    >
+      Post Blog
+    </a>
+
+    {/* Divider */}
+    <div className="hidden sm:block w-px bg-gray-300 mx-2" />
+
+    {/* Account Actions */}
+    <a
+      href="/Admin/Login/update-admin"
+      className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-100 transition"
+    >
+      Update Profile
+    </a>
+
+    <button
+      onClick={logout}
+      className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition shadow-sm"
+    >
+      Logout
+    </button>
+
+  </div>
+</div>
+
 
         <AllApirantPollPage />
       </div>

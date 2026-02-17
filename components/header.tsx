@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Twitter, Facebook } from "react-feather";
 import Image from "next/image";
+import { useAuth } from "@/app/Admin/AuthContext";
 
 interface NavItem {
   label: string;
@@ -16,6 +17,8 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState<string | null>(null);
   const pathname = usePathname();
+const { isAdmin, logout } = useAuth();
+
 const route=useRouter();
   useEffect(() => {
     let ticking = false;
@@ -185,12 +188,25 @@ const route=useRouter();
               </button>
             </div>
 
-            <Link
-              href="/Admin/Login"
-              className="p-2 rounded-md text-white cursor-pointer bg-slate-700 transition-all duration-300 hover:bg-green-600/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]"
-              aria-label="Toggle dark mode"
-              
-            >Login</Link>
+ {isAdmin ? (
+  <button
+    onClick={() => {
+      logout();
+      route.push("/Admin/Login");
+    }}
+    className="p-2 rounded-md text-white cursor-pointer bg-red-700 hover:bg-red-800 transition-colors duration-300"
+  >
+    Logout
+  </button>
+) : (
+  <Link
+    href="/Admin/Login"
+    className="p-2 rounded-md text-white cursor-pointer bg-slate-700 transition-colors duration-300 hover:bg-slate-800"
+  >
+    Login
+  </Link>
+)}
+
           </nav>
 
           {/* Mobile Menu Button */}
@@ -259,11 +275,25 @@ const route=useRouter();
                 <Facebook size={20} className="text-gray-600" />
               </button>
             </div>
-             <Link
-              className="p-2 rounded-md text-white bg-slate-700 transition-all duration-300 hover:bg-green-600/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669]"
-              aria-label="Toggle dark mode"
-                    href="/Admin/Login"
-            >Login</Link>
+{isAdmin ? (
+  <button
+    onClick={() => {
+      logout();
+      route.push("/Admin/Login");
+    }}
+    className="p-2 rounded-md text-white cursor-pointer bg-red-700 hover:bg-red-800 transition-colors duration-300"
+  >
+    Logout
+  </button>
+) : (
+  <Link
+    href="/Admin/Login"
+    className="p-2 rounded-md text-white cursor-pointer bg-slate-700 transition-colors duration-300 block text-center mt-4"
+  >
+    Login
+  </Link>
+)}
+
           </nav>
         </div>
       </div>

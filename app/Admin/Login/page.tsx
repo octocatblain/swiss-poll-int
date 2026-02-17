@@ -25,13 +25,14 @@ const { login } = useAuth();
       });
 
       const data = await res.json();
-      console.log(data);
 
-  if (res.ok) {
+
+  if (!res.ok) {
+    setError(data.message || "Login failed. Please try again.");
+    return;
+  }
   login(data.token, true);   
   router.replace("/Admin");  
-}
-
     } catch (err) {
       console.error("Network error:", err);
       setError("Unable to connect to server.");

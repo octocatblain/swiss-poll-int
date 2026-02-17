@@ -72,6 +72,9 @@ const route=useRouter();
         return "Ongoing";
     }
   };
+  const handleEdit =async (opinionId: number) => {
+    route.push(`/Admin/National/EditOpinion/${opinionId}`);
+  }
 const handleDelete = async (opinionId: number) => {
   if (!confirm("Are you sure you want to delete this opinion? This cannot be undone.")) {
     return;
@@ -184,7 +187,7 @@ const handleDelete = async (opinionId: number) => {
                     {opinion.title}
                   </h2>
 {isAdmin && (
-  <button
+  <div className="flex gap-2"> <button
     onClick={() => handleDelete(opinion.id)}
     className="p-2 rounded-full border border-red-400 text-red-600 text-sm font-medium 
                hover:bg-red-600 hover:text-white hover:border-red-600 
@@ -192,6 +195,17 @@ const handleDelete = async (opinionId: number) => {
   >
     Delete
   </button>
+   <button
+    onClick={() => handleEdit(opinion.id)}
+    className="p-2 rounded-full border border-green-400 text-green-600 text-sm font-medium 
+               hover:bg-green-600 hover:text-white hover:border-green-600 
+               transition-all duration-200"
+  >
+    Edit
+  </button>
+  </div>
+ 
+
 )}
                   </div>
              
