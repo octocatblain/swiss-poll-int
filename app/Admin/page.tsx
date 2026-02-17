@@ -18,8 +18,6 @@ export default function AdminPage() {
   const [latestPollId, setLatestPollId] = useState<number | null>(null);
   const router = useRouter();
   const fetched = useRef(false);
-
-console.log("AdminPage rendered →", { loading, hasToken: !!token, isAdmin });
 useEffect(() => {
   if (loading) return;
 

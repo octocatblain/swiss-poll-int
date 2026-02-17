@@ -15,7 +15,6 @@ export default function CountyPolls() {
       try {
         const res = await fetch(`${baseURL}/api/polls/live`);
         const data = await res.json();
-       console.log("Live counties data:", data);
       
       // Extract only county names
       const counties = (data || []).map((poll: any) => poll.county);

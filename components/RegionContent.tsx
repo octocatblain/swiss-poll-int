@@ -58,7 +58,6 @@ export default function RegionContent() {
     data && Array.isArray(data)
       ? data.reduce((sum, poll) => sum + (poll.total_votes || 0), 0)
       : 0;
-      console.log("Total Votes Calculated:", total);
       setTotalVotes(total);
       const now = new Date();
       const activePolls = data.filter(

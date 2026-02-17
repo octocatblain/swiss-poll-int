@@ -150,7 +150,6 @@ const VoteInterface = ({ pollId }: { pollId: number }) => {
       });
       if (!res.ok) throw new Error("Failed to add bulk votes");
       const data = await res.json();
-      console.log(data);
       alert(`${count} votes added successfully`);
       setCount(0);
     } catch (err) {

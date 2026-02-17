@@ -34,7 +34,6 @@ const { login } = useAuth();
   login(data.token, true);   
   router.replace("/Admin");  
     } catch (err) {
-      console.error("Network error:", err);
       setError("Unable to connect to server.");
     } finally {
       setLoading(false);
