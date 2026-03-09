@@ -2,8 +2,8 @@
 import { baseURL } from "@/app/config/baseUrl";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas-pro";
 
 interface Option {
   id: string;
@@ -19,8 +19,8 @@ interface QuestionResult {
   totalResponses: number;
   options: Option[];
   regionBreakdowns: Record<string, Option[]>;
-  genderBreakdowns: Record<string, Option[]>; // will only use first question
-  ageBreakdowns: Record<string, Option[]>;  
+  genderBreakdowns: Record<string, Option[]>;
+  ageBreakdowns: Record<string, Option[]>;
   employmentBreakdowns?: Record<string, Option[]>;
 }
 
@@ -46,6 +46,7 @@ export default function OpinionResultsPage() {
   const [result, setResult] = useState<PollResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false); 
 
   const params = useParams();
   const opinionId = params.id as string;
@@ -78,71 +79,78 @@ export default function OpinionResultsPage() {
   if (error) return <div className="text-center py-10 text-red-600">{error}</div>;
   if (!result) return <div className="text-center py-10 text-red-500">Poll not found</div>;
 
-  const firstQuestion = result.questions[0]; // for gender and age
-const downloadReport = async () => {
-  const element = document.getElementById("reportContent");
-  if (!element) return;
+  const firstQuestion = result.questions[0]; 
 
-  // Clone the element
-  const cloned = element.cloneNode(true) as HTMLElement;
-  cloned.style.backgroundColor = "white";
-  cloned.querySelectorAll("*").forEach((el) => {
-    const htmlEl = el as HTMLElement;
-    htmlEl.style.color = "black";
-    htmlEl.style.backgroundColor = "white";
-  });
+  const downloadReport = async () => {
+    setIsDownloading(true); 
+    try {
+      const element = document.getElementById("reportContent");
+      if (!element) return;
 
-  // Temporarily attach cloned element to body (offscreen)
-  cloned.style.position = "absolute";
-  cloned.style.left = "-9999px";
-  document.body.appendChild(cloned);
+      // Clone the element
+      const cloned = element.cloneNode(true) as HTMLElement;
+      cloned.style.backgroundColor = "white";
+      cloned.querySelectorAll("*").forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.color = "black";
+        htmlEl.style.backgroundColor = "white";
+      });
+      cloned.style.position = "absolute";
+      cloned.style.left = "-9999px";
+      document.body.appendChild(cloned);
 
-  // Generate canvas
-  const canvas = await html2canvas(cloned, {
-    scale: 2,
-    backgroundColor: "#ffffff",
-  });
+      const canvas = await html2canvas(cloned, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+      });
 
-  // Remove cloned element after rendering
-  document.body.removeChild(cloned);
+      // Remove cloned element after rendering
+      document.body.removeChild(cloned);
 
-  const imgData = canvas.toDataURL("image/png");
-  const pdf = new jsPDF("p", "mm", "a4");
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
 
-  const imgWidth = 210;
-  const pageHeight = 295;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-  let heightLeft = imgHeight;
-  let position = 0;
+      let heightLeft = imgHeight;
+      let position = 0;
 
-  pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  heightLeft -= pageHeight;
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
 
-  while (heightLeft > 0) {
-    position = heightLeft - imgHeight;
-    pdf.addPage();
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-  }
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
 
-  pdf.save("poll-results.pdf");
-};
+      pdf.save("poll-results.pdf");
+    } finally {
+      setIsDownloading(false); 
+    }
+  };
+
   return (
-    <div  id="reportContent" className="max-w-7xl mx-auto p-6">
+    <div id="reportContent" className="max-w-7xl mx-auto p-6">
       <h1 className="text-4xl font-bold mb-2">{result.title}</h1>
       <p className="text-gray-600 mb-10">
         Total Responses (all questions):
         <span className="font-bold">{result.totalResponses.toLocaleString()}</span>
       </p>
-<div className="flex justify-end mb-6">
-  {/* <button
-    onClick={downloadReport}
-    className="bg-indigo-600 text-white px-6 py-3 rounded-xl shadow hover:bg-indigo-700"
-  >
-    Download Report
-  </button> */}
-</div>
+      <div className="flex justify-end mb-6">
+        <button
+          onClick={downloadReport}
+          disabled={isDownloading || loading}
+          className={`bg-indigo-600 text-white px-6 py-3 rounded-xl shadow ${
+            isDownloading || loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-indigo-700 cursor-pointer'
+          }`}
+        >
+          {isDownloading ? "Downloading..." : "Download Report"}
+        </button>
+      </div>
       {/* Gender Results – only once */}
       {firstQuestion && firstQuestion.genderBreakdowns && (
         <div className="mt-14">
@@ -238,53 +246,53 @@ const downloadReport = async () => {
           </div>
         </div>
       )}
-{/* Employment Status Results – only once */}
-{firstQuestion && firstQuestion.employmentBreakdowns && (
-  <div className="mt-14">
-    <h3 className="text-xl font-medium mb-6">Performance by Employment Status</h3>
-    <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr className="bg-gray-50 border-b border-gray-200">
-            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 w-40">
-              Employment Status
-            </th>
-            {firstQuestion.options.map((opt) => (
-              <th key={opt.id} className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
-                {opt.text}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(firstQuestion.employmentBreakdowns).map(([status, options]) => {
-            const optMap = new Map(options.map((o) => [o.id, o]));
-            const maxPerc = Math.max(...options.map((o) => o.percentage), 0);
-
-            return (
-              <tr key={status} className="border-b border-gray-100 hover:bg-gray-50">
-                <td className="px-6 py-4 font-medium text-gray-900">{status}</td>
-                {firstQuestion.options.map((overallOpt) => {
-                  const opt = optMap.get(overallOpt.id) || { percentage: 0, votes: 0 };
-                  const isWinner = opt.percentage === maxPerc && opt.percentage > 0;
+      {/* Employment Status Results – only once */}
+      {firstQuestion && firstQuestion.employmentBreakdowns && (
+        <div className="mt-14">
+          <h3 className="text-xl font-medium mb-6">Performance by Employment Status</h3>
+          <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
+            <table className="min-w-full bg-white">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 w-40">
+                    Employment Status
+                  </th>
+                  {firstQuestion.options.map((opt) => (
+                    <th key={opt.id} className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
+                      {opt.text}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(firstQuestion.employmentBreakdowns).map(([status, options]) => {
+                  const optMap = new Map(options.map((o) => [o.id, o]));
+                  const maxPerc = Math.max(...options.map((o) => o.percentage), 0);
 
                   return (
-                    <td key={overallOpt.id} className={`px-6 py-4 text-center ${isWinner ? "bg-purple-50" : ""}`}>
-                      <div className={`text-2xl font-bold ${isWinner ? "text-purple-600" : "text-blue-600"}`}>
-                        {opt.percentage}%
-                      </div>
-                      <div className="text-xs text-gray-500">({opt.votes})</div>
-                    </td>
+                    <tr key={status} className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="px-6 py-4 font-medium text-gray-900">{status}</td>
+                      {firstQuestion.options.map((overallOpt) => {
+                        const opt = optMap.get(overallOpt.id) || { percentage: 0, votes: 0 };
+                        const isWinner = opt.percentage === maxPerc && opt.percentage > 0;
+
+                        return (
+                          <td key={overallOpt.id} className={`px-6 py-4 text-center ${isWinner ? "bg-purple-50" : ""}`}>
+                            <div className={`text-2xl font-bold ${isWinner ? "text-purple-600" : "text-blue-600"}`}>
+                              {opt.percentage}%
+                            </div>
+                            <div className="text-xs text-gray-500">({opt.votes})</div>
+                          </td>
+                        );
+                      })}
+                    </tr>
                   );
                 })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  </div>
-)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
       {/* Questions Loop */}
       {result.questions.map((q) => (
         <div key={q.id} className="mb-16 border-b pb-12 last:border-none">
