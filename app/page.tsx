@@ -315,6 +315,8 @@ const { token, isAdmin } = useAuth();
  useEffect(() => {
     if (token && isAdmin) {
       router.replace("/Admin"); 
+    }else if (!token){
+      router.replace("/");
     }
   }, [token, isAdmin, router]);
   useEffect(() => {

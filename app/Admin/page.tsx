@@ -77,9 +77,8 @@ useEffect(() => {
 
   return (
     <div className="max-w-full mx-auto">
-      <div className="bg-white shadow-lg rounded-lg p-4 space-y-6">
+      <div className="shadow-lg rounded-lg p-4 space-y-6">
   <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-6">
-
   {/* Page Title */}
   <h2 className="text-2xl font-bold text-gray-800">
     Active Polls

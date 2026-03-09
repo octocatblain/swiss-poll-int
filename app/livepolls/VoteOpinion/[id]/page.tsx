@@ -23,7 +23,7 @@ interface Opinion {
   region: string;
   county: string;
   voting_expires_at: string | null;
-  status: "LIVE" | "EXPIRED" | "NO_EXPIRY";
+   status: "ONGOING" | "ENDED" ;
   created_at: string;
   questions?: Question[];
 }
@@ -38,6 +38,7 @@ export default function OpinionResponse() {
   const [userName, setUserName] = useState("");
   const [userAge, setUserAge] = useState("");
   const [userGender, setUserGender] = useState("");
+  const [employmentStatus, setEmploymentStatus] = useState("");
   const [userRegion, setUserRegion] = useState("");
 
   // Selected answers: questionId → optionId
@@ -66,7 +67,6 @@ export default function OpinionResponse() {
     fetchOpinion();
   }, [opinionId]);
 
-  // Handle option selection (single choice per question)
   const handleSelectOption = (questionId: number, optionId: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -96,6 +96,7 @@ export default function OpinionResponse() {
     userName,
     userAge,
     userGender,
+    employmentStatus,
     userRegion,
   ]);
 
@@ -111,6 +112,7 @@ export default function OpinionResponse() {
         name: userName.trim() || "Anonymous",
         age: userAge ? parseInt(userAge) : null,
         gender: userGender || null,
+        employment_status: employmentStatus || null,
         region: userRegion || opinion.region,
       },
       answers: Object.entries(selectedAnswers).map(([qId, oId]) => ({
@@ -129,6 +131,7 @@ const res = await fetch(`${baseURL}/api/responses/vote`, {
       if (!res.ok) throw new Error("Failed to submit");
 setUserAge("");
 setUserGender("");
+setEmploymentStatus("");
 setUserRegion("");
 setSelectedAnswers({});
 setUserName("");
@@ -141,17 +144,26 @@ setUserName("");
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "LIVE":
-        return "bg-emerald-100 text-emerald-700 border border-emerald-200";
-      case "EXPIRED":
-        return "bg-rose-100 text-rose-700 border border-rose-200";
-      default:
-        return "bg-amber-100 text-amber-700 border border-amber-200";
-    }
-  };
+const getStatusBadge = (expiresAt: string | null) => {
+  const status = getOpinionStatus(expiresAt);
 
+  return status === "ONGOING"
+    ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+    : "bg-rose-100 text-rose-700 border border-rose-200";
+};
+const getOpinionStatus = (expiresAt: string | null) => {
+  if (!expiresAt) return "ONGOING";
+
+  const expiry = new Date(expiresAt).getTime();
+  const now = Date.now();
+
+  return expiry > now ? "ONGOING" : "ENDED";
+};
+const getStatusLabel = (expiresAt: string | null) => {
+  const status = getOpinionStatus(expiresAt);
+  return status === "ONGOING" ? "Ongoing" : "Ended";
+};
+const hasEnded= opinion && getOpinionStatus(opinion.voting_expires_at) === "ENDED";
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
@@ -190,14 +202,10 @@ setUserName("");
 
               <div
                 className={`text-sm font-semibold px-5 py-2 rounded-2xl ${getStatusBadge(
-                  opinion.status
+                  opinion.voting_expires_at
                 )}`}
               >
-                {opinion.status === "LIVE"
-                  ? "🟢 Live Now"
-                  : opinion.status === "EXPIRED"
-                  ? "Ended"
-                  : "Ongoing"}
+                {getStatusLabel(opinion.voting_expires_at)}
               </div>
             </div>
 
@@ -214,7 +222,12 @@ setUserName("");
             </div>
           </div>
         </div>
-
+{hasEnded ? (
+  <div className="max-w-5xl mx-auto bg-rose-50 border border-rose-200 text-rose-700 rounded-lg p-4 text-center">
+    <div className="text-2xl mb-2">⏰</div>
+    <h2 className="text-lg font-semibold">Opinion has ended</h2>
+  </div>
+):(
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-10">
           {/* Voter Information */}
           <div className="lg:col-span-4">
@@ -266,6 +279,23 @@ setUserName("");
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
                       <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                  </div>
+                     <div>
+                    <label className="block text-xs uppercase font-mono tracking-widest text-zinc-500 mb-1.5">
+                      Employment Status
+                    </label>
+                    <select
+                      value={employmentStatus}
+                      onChange={(e) => setEmploymentStatus(e.target.value)}
+                      className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl px-5 py-3 focus:outline-none focus:border-indigo-400 transition"
+                    >
+                      <option value="">Select</option>
+                      <option value="Employed">Employed</option>
+                      <option value="Unemployed">Unemployed</option>
+                      <option value="Self-employed">Self-employed</option>
+                      <option value="Student">Student</option>
+                      <option value="Retired">Retired</option>
                     </select>
                   </div>
                 </div>
@@ -374,7 +404,7 @@ setUserName("");
               )}
             </div>
           </div>
-        </div>
+        </div>)}
       </div>
     </div>
   );

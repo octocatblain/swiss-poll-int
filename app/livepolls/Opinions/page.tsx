@@ -13,7 +13,7 @@ interface Opinion {
   county: string;
    total_responses: number;
   voting_expires_at: string | null;
-  status: "LIVE" | "EXPIRED" | "NO_EXPIRY";
+  status: "ONGOING" | "ENDED" ;
   created_at: string;
 }
 
@@ -22,7 +22,6 @@ export default function Opinions() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
 const { token,isAdmin} = useAuth();
-      const [countdown, setCountdown] = useState<string>("");
 
 const route=useRouter();
   // Fetch all opinions once
@@ -51,27 +50,25 @@ const route=useRouter();
     });
   }, [opinions, searchTerm]);
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "LIVE":
-        return "bg-emerald-100 text-emerald-700 border border-emerald-200";
-      case "EXPIRED":
-        return "bg-rose-100 text-rose-700 border border-rose-200";
-      default:
-        return "bg-amber-100 text-amber-700 border border-amber-200";
-    }
-  };
+const getStatusBadge = (expiresAt: string | null) => {
+  const status = getOpinionStatus(expiresAt);
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case "LIVE":
-        return "Live Now";
-      case "EXPIRED":
-        return "Ended";
-      default:
-        return "Ongoing";
-    }
-  };
+  return status === "ONGOING"
+    ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+    : "bg-rose-100 text-rose-700 border border-rose-200";
+};
+const getOpinionStatus = (expiresAt: string | null) => {
+  if (!expiresAt) return "ONGOING";
+
+  const expiry = new Date(expiresAt).getTime();
+  const now = Date.now();
+
+  return expiry > now ? "ONGOING" : "ENDED";
+};
+const getStatusLabel = (expiresAt: string | null) => {
+  const status = getOpinionStatus(expiresAt);
+  return status === "ONGOING" ? "Ongoing" : "Ended";
+};
   const handleEdit =async (opinionId: number) => {
     route.push(`/Admin/National/EditOpinion/${opinionId}`);
   }
@@ -136,7 +133,7 @@ const handleDelete = async (opinionId: number) => {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
               <span className="text-zinc-500">Active polls</span>
-              <span className="font-semibold text-zinc-900">{opinions.filter(o => o.status === "LIVE" || o.status === "NO_EXPIRY").length}</span>
+              <span className="font-semibold text-zinc-900">{opinions.filter(o => o.status === "ONGOING" || o.status === "ENDED").length}</span>
             </div>
     
 
@@ -175,10 +172,10 @@ const handleDelete = async (opinionId: number) => {
 
                     <div
                       className={`text-xs font-semibold px-4 py-1.5 rounded-2xl border ${getStatusBadge(
-                        opinion.status
+                        opinion.voting_expires_at
                       )}`}
                     >
-                      {getStatusLabel(opinion.status)}
+                      {getStatusLabel(opinion.voting_expires_at)}
                     </div>
                   </div>
 
@@ -244,9 +241,11 @@ const handleDelete = async (opinionId: number) => {
                       <div className="ml-auto text-right text-xs text-zinc-500">
                         Ends{" "}
                         <span className="font-medium text-zinc-900">
-                          {new Date(opinion.voting_expires_at).toLocaleDateString("en-GB", {
+                          {new Date(opinion.voting_expires_at).toLocaleDateString("en-KE", {
                             day: "numeric",
                             month: "short",
+                            hour: "2-digit",
+  minute: "2-digit",   hour12: true,
                           })}
                         </span>
                       </div>

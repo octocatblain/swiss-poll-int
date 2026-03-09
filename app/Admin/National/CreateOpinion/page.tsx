@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Megaphone } from "lucide-react";
 import { baseURL } from "@/app/config/baseUrl";
@@ -30,8 +30,6 @@ interface NationalPollFormProps {
 
 export default function NationalPoll({ pollId }: NationalPollFormProps) {
   const router = useRouter();
-  // const searchParams = useSearchParams();
-  // const pollId = searchParams.get("pollId");
   const { token} = useAuth();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -190,9 +188,10 @@ export default function NationalPoll({ pollId }: NationalPollFormProps) {
     formData.append("region", region);
     formData.append("county", county);
 
-    if (expiryHours) {
-      formData.append("expiryHours", expiryHours);
-    }
+  if (expiryHours) {
+  const expiryDate = new Date(Date.now() + Number(expiryHours) * 60 * 60 * 1000);
+  formData.append("voting_expires_at", expiryDate.toISOString());
+}
 
     formData.append(
       "questions",
