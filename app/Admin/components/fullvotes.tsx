@@ -1,493 +1,362 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import {
   ResponsiveContainer,
   PieChart,
   Pie,
   Cell,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   Bar,
   BarChart,
   XAxis,
   YAxis,
+  CartesianGrid,
 } from "recharts";
-import PollResults from "./pollResults";
 import {
   BarChart2,
   PieChart as PieChartIcon,
-  Info,
   Users,
   Clock,
   MapPin,
-  Map,
   Building2,
-  X,
   Printer,
   UserCircle2,
-  ListChecks,
-  Calendar,
+  ShieldCheck,
+  AlertCircle,
+  ChevronRight,
+  RefreshCcw,
 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { baseURL } from "@/app/config/baseUrl";
 import { useAuth } from "../AuthContext";
-
-export interface Candidate {
-  id: number;
-  profile?: string;
-  name: string;
-  party?: string;
-  voteCount: number;
-  percentage: string;
-}
-
-export interface PollData {
-  id: number;
-  title: string;
-  category?: string;
-  region: string;
-  county?: string;
-  constituency?: string;
-  ward?: string;
-  party?: string;
-  spoiled_votes?: number;
-  voting_expires_at: string;
-   published: boolean;
-  totalVotes: number;
-  results: Candidate[];
-  created_at: Date | string;
-}
-
-interface PollSummary {
-  id: number;
-  title: string;
-  category?: string;
-  region: string;
-  totalVotes: number;
-}
 
 interface PollFullDetailsProps {
   category?: string;
   id?: string;
 }
 
-const COLORS = [
-  "#ca8a04",
-  "#be123c",
-  "#6d28d9",
-  "#16a34a",
-  "#1e40af",
-  "#9333ea",
-  "#059669",
-  "#f59e0b",
-  "#ef4444",
-  "#3b82f6",
-];
+export interface PollCandidate {
+  name: string;
+  voteCount: number;
+  percentage: string;
+  profile?: string;
+  party?: string;
+}
+
+export interface PollData {
+  id: number;
+  title: string;
+  category: string;
+  voting_expires_at: string | null;
+  totalVotes: number;
+  spoiled_votes: number;
+  region?: string;
+  county?: string;
+  constituency?: string;
+  ward?: string;
+  results: PollCandidate[]; 
+}
+
+interface PollSummary {
+  id: number;
+  title: string;
+  category: string;
+}
+
+const MODERN_COLORS = ["#6366f1", "#0ea5e9", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
 const PollFullDetails = ({ category, id }: PollFullDetailsProps) => {
   const [data, setData] = useState<PollData | null>(null);
   const [polls, setPolls] = useState<PollSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-const { isAdmin} = useAuth();
-    const [countdown, setCountdown] = useState<string>("");
+  const [countdown, setCountdown] = useState<string>("");
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        if (id) {
-          const res = await axios.get<PollData>(`${baseURL}/api/polls/${id}`);
-          setData(res.data);
-        } else if (category) {
-          const res = await axios.get<PollSummary[]>(
-            `${baseURL}/api/polls?category=${category}`
-          );
-          setPolls(res.data);
-          if (res.data.length > 0) {
-            const firstPoll = res.data[0];
-            const detailsRes = await axios.get<PollData>(
-              `${baseURL}/api/polls/${firstPoll.id}`
-            );
-            setData(detailsRes.data);
+        let activePollId = id;
+
+        if (!id && category) {
+          const listRes = await axios.get<PollSummary[]>(`${baseURL}/api/polls?category=${category}`);
+          if (isMounted) setPolls(listRes.data);
+          
+          if (listRes.data.length > 0) {
+            activePollId = listRes.data[0].id.toString();
           } else {
-            setData(null);
+            if (isMounted) {
+              setData(null);
+              setLoading(false);
+            }
+            return;
           }
         }
+
+        if (activePollId) {
+          const detailsRes = await axios.get<PollData>(`${baseURL}/api/polls/${activePollId}`);
+          if (isMounted) setData(detailsRes.data);
+        }
       } catch (err) {
-        console.error("❌ Failed to load poll data:", err);
-        setError("Failed to load poll data. Please try again later.");
-        setData(null);
+        if (isMounted) setError("Unable to synchronize with election server.");
+        console.error(err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchData();
+    return () => { isMounted = false; };
   }, [category, id]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (!data?.voting_expires_at) return;
     const interval = setInterval(() => {
       const now = new Date();
-      const expires = new Date(data.voting_expires_at);
+      const expires = new Date(data.voting_expires_at as string); 
       const diff = expires.getTime() - now.getTime();
 
       if (diff <= 0) {
         setCountdown("Voting closed");
         clearInterval(interval);
       } else {
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        setCountdown(`${hours}h ${minutes}m ${seconds}s`);
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        setCountdown(`${h}h ${m}m ${s}s`);
       }
     }, 1000);
-
     return () => clearInterval(interval);
   }, [data?.voting_expires_at]);
- 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="flex flex-col items-center p-8 bg-white rounded-xl shadow-lg">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-lg text-gray-700 font-medium">
-            Loading poll details...
-          </p>
-        </div>
-      </div>
-    );
-  }
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="flex flex-col items-center p-8 bg-white rounded-xl shadow-lg text-red-600">
-          <X className="w-12 h-12 mb-4" />
-          <p className="text-lg font-medium">{error}</p>
-        </div>
-      </div>
-    );
-  }
+  const stats = useMemo(() => {
+    if (!data || !data.results) return null;
+    const chartData = data.results.map(c => ({
+      ...c,
+      displayName: c.name.length > 10 ? c.name.substring(0, 10) + "..." : c.name,
+      votes: c.voteCount,
+      percentage: parseFloat(c.percentage) || 0,
+    }));
+    const valid = chartData.reduce((sum, c) => sum + c.votes, 0);
+    const spoiled = data.spoiled_votes || 0;
+    const turnout = data.totalVotes > 0 ? (((valid + spoiled) / data.totalVotes) * 100).toFixed(2) : "0.00";
+    return { chartData, valid, spoiled, turnout };
+  }, [data]);
 
-  if (!data || data.results.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="flex flex-col items-center p-8 bg-white rounded-xl shadow-lg text-gray-600">
-          <Info className="w-12 h-12 mb-4" />
-          <p className="text-lg font-medium">
-            No poll results found for this selection.
-          </p>
-        </div>
-      </div>
-    );
-  }
-  const chartData = data.results.map((candidate) => ({
-    id: candidate.id,
-    name: candidate.name,
-    votes: candidate.voteCount,
-    percentage: parseFloat(candidate.percentage),
-    profile: candidate.profile,
-    party: candidate.party,
-  }));
+  if (loading) return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
+      <RefreshCcw className="w-10 h-10 text-blue-500 animate-spin mb-4" />
+      <p className="text-slate-500 font-medium">Fetching Live Election Data...</p>
+    </div>
+  );
 
-  const totalValidVotes = chartData.reduce((sum, c) => sum + c.votes, 0);
-  const totalSpoiledVotes = data.spoiled_votes || 0;
-  const totalAllVotes = totalValidVotes + totalSpoiledVotes;
-  const turnoutPercentage =
-    data.totalVotes > 0
-      ? ((totalAllVotes / data.totalVotes) * 100).toFixed(2)
-      : "0.00";
+  if (error || !data || !stats) return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
+      <Card className="max-w-md w-full text-center p-8">
+        <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-slate-900 mb-2">Data Unavailable</h2>
+        <p className="text-slate-500 mb-6">{error || "No active poll found for this selection."}</p>
+        <button onClick={() => window.location.reload()} className="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors">Retry Connection</button>
+      </Card>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-8xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-8 border border-gray-200">
-        {/* Header Section */}
-        <div className="text-center mb-8 pb-4 border-b border-gray-200">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3 flex items-center justify-center">
-            <BarChart2 className="mr-3 text-blue-600 w-8 h-8 sm:w-10 sm:h-10" />{" "}
-            {data.title || "Poll Details"}
-          </h1>
-         <span
-            className={`px-2 py-1 rounded-full text-xs font-semibold ${
-              countdown !== "Voting closed"
-                ? "bg-green-100 text-green-800 border border-green-200"
-                : "bg-gray-100 text-gray-800 border border-gray-200"
-            }`}
-          >
-            {countdown || "Loading..."}
-          </span>
-
-          <p className="text-gray-600 text-base sm:text-lg font-medium mb-1 flex items-center justify-center">
-            <Info className="w-4 h-4 mr-2 text-gray-500" /> Category:{" "}
-            <span className="font-semibold ml-1">{data.category || "N/A"}</span>
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mt-2">
-            <p className="text-gray-600 text-sm sm:text-base flex items-center justify-center">
-              <MapPin className="w-4 h-4 mr-1 text-gray-500" /> Region:{" "}
-              <span className="font-semibold ml-1">{data.region}</span>
-            </p>
-            <p className="text-gray-600 text-sm sm:text-base flex items-center justify-center">
-              <Map className="w-4 h-4 mr-1 text-gray-500" /> County:{" "}
-              <span className="font-semibold ml-1">{data.county || "N/A"}</span>
-            </p>
-            <p className="text-gray-600 text-sm sm:text-base flex items-center justify-center">
-              <Building2 className="w-4 h-4 mr-1 text-gray-500" /> Constituency:{" "}
-              <span className="font-semibold ml-1">
-                {data.constituency || "N/A"}
-              </span>
-            </p>
-            <p className="text-gray-600 text-sm sm:text-base flex items-center justify-center">
-              <Building2 className="w-4 h-4 mr-1 text-gray-500" /> Ward:{" "}
-              <span className="font-semibold ml-1">{data.ward || "N/A"}</span>
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
-            <p className="text-gray-700 text-base sm:text-lg font-semibold flex items-center justify-center">
-              <Users className="w-5 h-5 mr-2 text-blue-600" /> Registered
-              Voters:{" "}
-              <span className="ml-1">{data.totalVotes.toLocaleString()}</span>
-            </p>
-            <p className="text-gray-700 text-base sm:text-lg font-semibold flex items-center justify-center">
-              <ListChecks className="w-5 h-5 mr-2 text-green-600" /> Total Valid
-              Votes:{" "}
-              <span className="ml-1">{totalValidVotes.toLocaleString()}</span>
-            </p>
-            <p className="text-gray-700 text-base sm:text-lg font-semibold flex items-center justify-center">
-              <X className="w-5 h-5 mr-2 text-red-600" /> Spoiled Votes:{" "}
-              <span className="ml-1">{totalSpoiledVotes.toLocaleString()}</span>
-            </p>
-            <p className="text-gray-700 text-base sm:text-lg font-semibold flex items-center justify-center">
-              <Clock className="w-5 h-5 mr-2 text-purple-600" /> Turnout:{" "}
-              <span className="ml-1">{turnoutPercentage}%</span>
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-8">
-          <div className="bg-gray-50 p-2 rounded-xl shadow-md border border-gray-100 flex flex-col items-center">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-              <PieChartIcon className="w-5 h-5 mr-2 text-purple-600" /> Vote
-              Distribution
-            </h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  dataKey="votes"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  label={({ name, percent }) =>
-                    `${name}: ${((percent??0) * 100).toFixed(1)}%`
-                  }
-                labelLine={false}
-                >
-                  {chartData.map((_, index) => (
-                    <Cell
-                      key={`pie-cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-<Tooltip
-  formatter={(value, name, props) => {
-    if (typeof value !== "number") return ["0 votes", name];
-    return [`${value.toLocaleString()} votes`, name];
-  }}
-/>
-
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-100 flex flex-col items-center">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-              <BarChart2 className="w-5 h-5 mr-2 text-green-600" /> Votes by
-              Candidate
-            </h2>
-<ResponsiveContainer width="100%" height={300}>
-  <BarChart
-    data={[...chartData]}
-    margin={{ top: 20, right: 50, left: 20, bottom: 5 }}
-  >
-    {/* X-Axis — candidate names */}
-    <XAxis
-      dataKey="name"
-      tickLine={false}
-      axisLine={false}
-      tick={{ fill: "#374151", fontSize: 12 }}
-    />
-    <YAxis
-      type="number"
-      tickFormatter={(value) => value.toLocaleString()}
-      tick={{ fill: "#374151", fontSize: 12 }}
-    />
-<Tooltip
-  formatter={(value) => {
-    if (typeof value !== "number") return "0 votes";
-    return `${value.toLocaleString()} votes`;
-  }}
-/>
-
-
-    {/* Bar series */}
-    <Bar dataKey="votes" barSize={24} radius={[10, 10, 0, 0]}>
-      {chartData.map((entry, index) => (
-        <Cell
-          key={`bar-cell-${index}`}
-          fill={`url(#colorUv${index})`}
-        />
-      ))}
-    </Bar>
-
-    {/* Gradients */}
-    <defs>
-      {chartData.map((_, index) => (
-        <linearGradient
-          id={`colorUv${index}`}
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-          key={`grad-${index}`}
-        >
-          <stop
-            offset="0%"
-            stopColor={COLORS[index % COLORS.length]}
-            stopOpacity={0.6}
-          />
-          <stop
-            offset="100%"
-            stopColor={COLORS[index % COLORS.length]}
-            stopOpacity={1}
-          />
-        </linearGradient>
-      ))}
-    </defs>
-  </BarChart>
-</ResponsiveContainer>
-
-          </div>
-        </div>
-
-<h3 className="text-2xl font-bold text-gray-800 mb-4 text-center flex items-center justify-center">
-  <ListChecks className="w-6 h-6 mr-2 text-blue-600" /> Candidate
-  Performance
-</h3>
-
-<div className="overflow-x-auto rounded-xl shadow-md border border-gray-200 mb-8">
-  <table className="min-w-full bg-white text-sm">
-    <tbody>
-      <tr>
-        <td className="bg-gray-100 font-semibold text-gray-700 p-3 text-left">
-        Candiate Name
-        </td>
-        {chartData.map((candidate, index) => (
-          <td key={`header-${index}`} className="p-3 text-center font-bold text-gray-900">
-            {candidate.name}
-          </td>
-        ))}
-      </tr>
-
-      {/* Profile Row */}
-      <tr>
-        <td className="bg-gray-100 font-semibold text-gray-700 p-3 text-left">
-          Profile
-        </td>
-        {chartData.map((candidate, index) => (
-          <td key={`profile-${index}`} className="p-3 text-center">
-            <div className="relative inline-block">
-              <svg className="h-16 w-16 transform -rotate-90">
-                <circle
-                  cx="32"
-                  cy="32"
-                  r="28"
-                  stroke={COLORS[index % COLORS.length]}
-                  strokeWidth="5"
-                  fill="none"
-                  strokeDasharray={`${(2 * Math.PI * 28 * candidate.percentage) / 100} ${
-                    2 * Math.PI * 28
-                  }`}
-                  strokeLinecap="round"
-                />
-              </svg>
-              {candidate.profile && candidate.profile !== "" ? (
-                <img
-                  src={candidate.profile}
-                  alt={candidate.name}
-                  className="absolute inset-0 h-12 w-12 m-auto rounded-full object-cover border-2 border-white shadow-sm"
-                />
-              ) : (
-                <UserCircle2 className="absolute inset-0 m-auto text-gray-400 h-12 w-12" />
-              )}
+    <div className="min-h-screen bg-[#F8FAFC] pb-12">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 py-4 sm:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 text-blue-600 text-xs font-bold uppercase tracking-widest mb-1">
+              <span className="bg-blue-50 px-2 py-0.5 rounded">{data.category || "General"}</span>
+              <ChevronRight className="w-3 h-3" />
+              <span>Live Results</span>
             </div>
-            <p className="mt-2 text-sm text-gray-700 font-semibold">
-              {candidate.percentage.toFixed(1)}%
-            </p>
-          </td>
-        ))}
-      </tr>
-
-      {/* Party Row */}
-      <tr>
-        <td className="bg-gray-100 font-semibold text-gray-700 p-3 text-left">
-          Party
-        </td>
-        {chartData.map((candidate, index) => (
-          <td key={`party-${index}`} className="p-3 text-center text-gray-700">
-            {candidate.party || "Independent"}
-          </td>
-        ))}
-      </tr>
-
-      {/* Votes Row */}
-      <tr>
-        <td className="bg-gray-100 font-semibold text-gray-700 p-3 text-left">
-          Votes
-        </td>
-        {chartData.map((candidate, index) => (
-          <td key={`votes-${index}`} className="p-3 text-center font-medium text-gray-800">
-            {candidate.votes.toLocaleString()}
-          </td>
-        ))}
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-        {/* Footer Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-500 mb-4 sm:mb-0 flex items-center">
-            <Clock className="w-4 h-4 mr-2" /> Last Updated:
-            <span className="font-semibold ml-1">
-              {new Date(data.created_at).toLocaleString("en-KE")}
-            </span>
-          </p> {isAdmin && (
-          <button
-            onClick={() => window.print()}
-            className="flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
-          >
-            <Printer className="w-5 h-5 mr-2" /> Print Report
-          </button>)}
-        </div>
-      </div>
-      {polls.length > 0 && category && (
-        <div className="mx-auto mt-8 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            Other Polls in {category} Category
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-            {polls
-              .filter((poll) => poll.category === category)
-              .map((poll) => (
-                <PollResults key={poll.id} pollId={poll.id} />
-              ))}
+            <h1 className="text-2xl font-black text-slate-900">{data.title}</h1>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <Badge className={`px-3 py-1.5 text-sm ${countdown === "Voting closed" ? "bg-slate-100 text-slate-600" : "bg-emerald-50 text-emerald-700 border border-emerald-100 animate-pulse"}`}>
+              <Clock className="w-4 h-4 mr-2" /> {countdown}
+            </Badge>
+            {isAdmin && (
+              <button onClick={() => window.print()} className="p-2 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 text-slate-600">
+                <Printer className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
-      )}
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <MetricCard icon={Users} label="Registered" value={data.totalVotes.toLocaleString()} sub="Total Voters" />
+          <MetricCard icon={ShieldCheck} label="Valid" value={stats.valid.toLocaleString()} sub="Verified Ballots" color="emerald" />
+          <MetricCard icon={AlertCircle} label="Spoiled" value={stats.spoiled.toLocaleString()} sub="Rejected Ballots" color="rose" />
+          <MetricCard icon={BarChart2} label="Turnout" value={`${stats.turnout}%`} sub="Participation Rate" color="indigo" />
+        </div>
+
+        <div className="flex flex-wrap gap-6 bg-white p-4 rounded-xl border border-slate-200 text-sm">
+          <GeoTag icon={MapPin} label="Region" value={data.region} />
+          <GeoTag icon={Building2} label="County" value={data.county} />
+          <GeoTag icon={Building2} label="Constituency" value={data.constituency} />
+          <GeoTag icon={Building2} label="Ward" value={data.ward} />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+            <CardHeader className="border-b border-slate-50 bg-slate-50/30">
+              <CardTitle className="text-sm font-bold flex items-center gap-2"><PieChartIcon className="w-4 h-4 text-indigo-500" /> Vote Distribution</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="h-75">
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie data={stats.chartData} dataKey="votes" cx="50%" cy="50%" innerRadius={70} outerRadius={100} paddingAngle={5}>
+                      {stats.chartData.map((_, i) => <Cell key={i} fill={MODERN_COLORS[i % MODERN_COLORS.length]} strokeWidth={0} />)}
+                    </Pie>
+                    <RechartsTooltip content={<CustomTooltip />} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+            <CardHeader className="border-b border-slate-50 bg-slate-50/30">
+              <CardTitle className="text-sm font-bold flex items-center gap-2"><BarChart2 className="w-4 h-4 text-emerald-500" /> Votes by Candidate</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="h-75">
+                <ResponsiveContainer>
+                  <BarChart data={stats.chartData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    {/* Use displayName for XAxis to keep it tidy */}
+                    <XAxis dataKey="displayName" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} />
+                    <RechartsTooltip cursor={{ fill: '#f8fafc' }} content={<CustomTooltip />} />
+                    <Bar dataKey="votes" barSize={30} radius={[4, 4, 0, 0]}>
+                      {stats.chartData.map((_, i) => <Cell key={i} fill={MODERN_COLORS[i % MODERN_COLORS.length]} />)}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Performance Table */}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
+            <div className="p-6 border-b border-slate-100 flex items-center gap-3">
+                <div className="w-2 h-6 bg-blue-600 rounded-full"/>
+                <h3 className="text-lg font-bold text-slate-800">Candidate Performance Matrix</h3>
+            </div>
+            <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                    <tbody>
+                        <tr className="bg-slate-50/50">
+                            <td className="p-4 font-bold text-slate-400 text-[10px] uppercase bg-slate-50 border-b border-slate-100">Candidate Name</td>
+                            {stats.chartData.map((c, i) => (
+                                <td key={i} className="p-4 font-bold text-slate-900 border-b border-slate-100 text-center">{c.name}</td>
+                            ))}
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold text-slate-400 text-[10px] uppercase bg-slate-50 border-b border-slate-100">Performance</td>
+                            {stats.chartData.map((candidate, index) => (
+                                <td key={index} className="p-6 text-center border-b border-slate-100">
+                                    <div className="relative inline-block group">
+                                        <svg className="h-20 w-20 transform -rotate-90">
+                                            <circle cx="40" cy="40" r="34" stroke="#f1f5f9" strokeWidth="6" fill="none" />
+                                            <circle cx="40" cy="40" r="34" stroke={MODERN_COLORS[index % MODERN_COLORS.length]} strokeWidth="6" fill="none"
+                                                strokeDasharray={`${(2 * Math.PI * 34 * candidate.percentage) / 100} ${2 * Math.PI * 34}`}
+                                                strokeLinecap="round" className="transition-all duration-1000" />
+                                        </svg>
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            {candidate.profile ? (
+                                                <img src={candidate.profile} alt="" className="h-12 w-12 rounded-full object-cover ring-4 ring-white shadow-sm" />
+                                            ) : (
+                                                <UserCircle2 className="h-12 w-12 text-slate-200" />
+                                            )}
+                                        </div>
+                                    </div>
+                                    <p className="mt-2 text-sm font-black text-slate-800">{candidate.percentage.toFixed(1)}%</p>
+                                </td>
+                            ))}
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold text-slate-400 text-[10px] uppercase bg-slate-50 border-b border-slate-100">Party Affiliation</td>
+                            {stats.chartData.map((c, i) => (
+                                <td key={i} className="p-4 text-center border-b border-slate-100 text-slate-600 font-medium text-sm">{c.party || "Independent"}</td>
+                            ))}
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold text-slate-400 text-[10px] uppercase bg-slate-50">Total Votes</td>
+                            {stats.chartData.map((c, i) => (
+                                <td key={i} className="p-4 text-center font-bold text-blue-600">{c.votes.toLocaleString()}</td>
+                            ))}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </main>
     </div>
   );
 };
+
+const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+        const candidate = payload[0].payload;
+        return (
+            <div className="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl text-xs border border-slate-700">
+                <p className="font-bold text-sm mb-1 border-b border-slate-700 pb-2">{candidate.name}</p>
+                <div className="space-y-1 mt-2">
+                    <p className="flex justify-between gap-4">
+                        <span className="text-slate-400">Votes:</span>
+                        <span className="text-blue-400 font-black">{candidate.votes.toLocaleString()}</span>
+                    </p>
+                    <p className="flex justify-between gap-4">
+                        <span className="text-slate-400">Share:</span>
+                        <span className="text-emerald-400 font-black">{candidate.percentage.toFixed(1)}%</span>
+                    </p>
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
+const MetricCard = ({ icon: Icon, label, value, sub, color = "blue" }: any) => {
+    const theme: any = {
+        blue: "text-blue-600 bg-blue-50",
+        emerald: "text-emerald-600 bg-emerald-50",
+        rose: "text-rose-600 bg-rose-50",
+        indigo: "text-indigo-600 bg-indigo-50"
+    };
+    return (
+        <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-5 flex items-center gap-4">
+                <div className={`p-3 rounded-xl ${theme[color]}`}><Icon className="w-5 h-5" /></div>
+                <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</p>
+                    <p className="text-xl font-black text-slate-900 leading-none my-1">{value}</p>
+                    <p className="text-[10px] text-slate-500 font-medium">{sub}</p>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
+const GeoTag = ({ icon: Icon, label, value }: any) => (
+    <div className="flex items-center gap-2">
+        <Icon className="w-4 h-4 text-slate-300" />
+        <span className="text-slate-400 font-medium">{label}:</span>
+        <span className="font-bold text-slate-700">{value || "—"}</span>
+    </div>
+);
 
 export default PollFullDetails;
